@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 $rootPath = __DIR__ . '/../../../..';
-$dotFilesPath = __DIR__ . '../dotfiles';
+$dotFilesPath = __DIR__ . '/../dotfiles';
 
-foreach (scandir($dirFilesPath) as $filename) {
+foreach (scandir($dotFilesPath) as $filename) {
     $sourcePath = $dotFilesPath . '/' . $filename;
     $targetPath = $rootPath . '/.' . $filename;
     if (is_file($sourcePath)) {
