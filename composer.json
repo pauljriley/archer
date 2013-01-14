@@ -12,11 +12,11 @@
         }
     ],
     "require": {
-        "phake/phake": "1.*",
-        "eloquent/asplode": "1.*",
-        "eloquent/liberator": "1.*"
+        "phake/phake": "1.*"
     },
-    "require-dev": {
+    "suggest": {
+        "eloquent/asplode": "Use the asplode error handler instead of PHPUnit's internal error handler.",
+        "eloquent/liberator": "Use liberator for circumventing PHP access modifier restrictions inside tests."
     },
     "bin": [
         "bin/phpunit",

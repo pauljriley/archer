@@ -1,15 +1,14 @@
 <?php
-use Composer\Autoload\ClassLoader;
-use Eloquent\Asplode\Asplode;
+// Install the composer autoloader ...
+$autoloader = require_once $rootPath . '/vendor/autoload.php';
 
 // Find the root path of the project being tested ...
 $rootPath = __DIR__ . '/../../..';
 
-// Install the composer autoloader ...
-require_once $rootPath . '/vendor/autoload.php';
-
 // Setup asplode for strict error reporting ...
-Asplode::instance()->install();
+if (class_exists('Eloquent\Asplode\Asplode')) {
+    Eloquent\Asplode\Asplode\Asplode::instance()->install();
+}
 
 // Setup Phake/PHPUnit integration ...
 Phake::setClient(Phake::CLIENT_PHPUNIT);
@@ -18,9 +17,7 @@ Phake::setClient(Phake::CLIENT_PHPUNIT);
 foreach (array('lib', 'src') as $path) {
     $projectTestFixturePath = $rootPath . '/test/' . $path;
     if (is_dir($projectTestFixturePath)) {
-        $loader = new ClassLoader;
-        $loader->add('Icecave', array($projectTestFixturePath));
-        $loader->register();
+        $autoloader->add('Icecave', array($projectTestFixturePath));
     }
 }
 
