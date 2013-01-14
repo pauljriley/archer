@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 PHPUNIT_PATH=`which phpunit`
+
+echo "Using PHPUnit: $PHPUNIT_PATH"
+
 /usr/bin/env php \
     --define memory_limit=512M \
     --define apc.enabled=1 \
