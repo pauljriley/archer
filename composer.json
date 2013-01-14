@@ -21,7 +21,6 @@
     "bin": [
         "bin/phpunit",
         "bin/phpunit-coverage",
-        "bin/phpunit-travis",
         "bin/update-dotfiles"
     ]
 }
