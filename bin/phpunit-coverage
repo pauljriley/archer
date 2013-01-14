@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-if [ $TRAVIS="true" ]
-then
+if [[ "$TRAVIS" == "true" ]]; then
   export RBENV_ROOT="/home/travis/.phpenv"
   PHPUNIT_PATH=`rbenv which phpunit`
 else
