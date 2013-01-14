@@ -7,7 +7,7 @@ $autoloader = require_once $rootPath . '/vendor/autoload.php';
 
 // Setup asplode for strict error reporting ...
 if (class_exists('Eloquent\Asplode\Asplode')) {
-    Eloquent\Asplode\Asplode\Asplode::instance()->install();
+    Eloquent\Asplode\Asplode::instance()->install();
 }
 
 // Setup Phake/PHPUnit integration ...
