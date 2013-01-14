@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+set -e
+export RBENV_ROOT="/home/travis/.phpenv"
+
+PHPUNIT_PATH=`exec rbenv which phpunit`
+
+echo "Using PHPUnit: $PHPUNIT_PATH"
+
+/usr/bin/env php \
+    --define memory_limit=512M \
+    --define apc.enabled=1 \
+    --define apc.enable_cli=1 \
+    --define apc.cache_by_default=0 \
+    $PHPUNIT_PATH \
+    --configuration vendor/icecave/testing/phpunit-config/phpunit.xml \
+    "$@"
