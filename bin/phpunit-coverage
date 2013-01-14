@@ -6,5 +6,5 @@ PHPUNIT_PATH=`which phpunit`
     --define apc.enable_cli=1 \
     --define apc.cache_by_default=0 \
     $PHPUNIT_PATH \
-    --configuration vendor/icecave/testing/config/phpunit.coverage.xml \
+    --configuration vendor/icecave/testing/phpunit-config/phpunit.coverage.xml \
     "$@"
