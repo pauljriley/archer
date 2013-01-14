@@ -15,11 +15,13 @@ Asplode::instance()->install();
 Phake::setClient(Phake::CLIENT_PHPUNIT);
 
 // Add an autoloader for test fixtures, if required ...
-$projectTestLibPath = $rootPath . '/test/lib';
-if (is_dir($projectTestLibPath)) {
-    $loader = new ClassLoader;
-    $loader->add('Icecave', array($projectTestLibPath));
-    $loader->register();
+foreach (array('lib', 'src') as $path) {
+    $projectTestFixturePath = $rootPath . '/test/' . $path;
+    if (is_dir($projectTestFixturePath)) {
+        $loader = new ClassLoader;
+        $loader->add('Icecave', array($projectTestFixturePath));
+        $loader->register();
+    }
 }
 
 // Include a project-specific bootstrap file, if present ...
