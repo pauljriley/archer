@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
-PHPUNIT_PATH=`which phpunit`
+set -e
+
+if [ $TRAVIS="true" ]
+then
+  export RBENV_ROOT="/home/travis/.phpenv"
+  PHPUNIT_PATH=`rbenv which phpunit`
+else
+  PHPUNIT_PATH=`which phpunit`
+fi
 
 echo "Using PHPUnit: $PHPUNIT_PATH"
 
