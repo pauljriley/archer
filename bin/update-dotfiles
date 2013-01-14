@@ -1,0 +1,15 @@
+#!/usr/bin/env/php
+<?php
+$rootPath = __DIR__ . '/../../../..';
+$dotFilesPath = __DIR__ . '../dotfiles';
+
+foreach (scandir($dirFilesPath) as $filename) {
+    $sourcePath = $dotFilesPath . '/' . $filename;
+    $targetPath = $rootPath . '/.' . $filename;
+    if (is_file($sourcePath)) {
+        echo 'Creating .' . $filename . PHP_EOL;
+        copy($sourcePath, $targetPath);
+    }
+}
+
+echo PHP_EOL;
