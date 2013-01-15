@@ -9,10 +9,10 @@ php:
 matrix:
   allow_failures:
     - php: 5.5
-
-env:
-  global:
-    - secret: "<TOKEN_SECRET>"
+  include:
+    - php: 5.4
+      env:
+        secret: "encrypted ICECAVE_TOKEN=..."
 
 before_script:
   - ./vendor/bin/travis-before
