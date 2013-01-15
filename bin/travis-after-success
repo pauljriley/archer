@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+if [[ "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
+    REPO="$(pwd | sed s,^$HOME/builds/,,g)"
+
+    # Set git user ...
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "Travis CI"
+
+    # Set upstream remote ...
+    git remote add upstream https://${ICECAVE_TOKEN}@github.com/${REPO}.git
+
+    # Copy reports ...
+    cp -r test/report/coverage $HOME/coverage-report
+
+    # Switch to gh-pages branch and publish ...
+    git checkout gh-pages
+    git rm -r coverage-report
+    mv $HOME/coverage-report .
+    git add -f coverage-report
+    git commit -m "Publishing coverage reports from build $TRAVIS_BUILD_NUMBER."
+    git push -fq upstream gh-pages
+fi
