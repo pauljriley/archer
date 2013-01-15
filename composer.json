@@ -21,10 +21,7 @@
     "bin": [
         "bin/phpunit",
         "bin/phpunit-coverage",
-        "bin/travis-after-failure",
-        "bin/travis-after-success",
-        "bin/travis-before",
-        "bin/travis-build",
+        "bin/publish-coverage-reports",
         "bin/update-dotfiles"
     ]
 }

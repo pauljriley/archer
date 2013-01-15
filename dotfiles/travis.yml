@@ -12,16 +12,10 @@ matrix:
   include:
     - php: 5.4
       env:
-        secret: "encrypted ICECAVE_TOKEN=..."
+        - secret: "encrypted ICECAVE_TOKEN=..."
 
-before_script:
-  - ./vendor/bin/travis-before
+before_script: composer install --dev
 
-script:
-  - ./vendor/bin/travis-build
+script: ./vendor/bin/phpunit-coverage
 
-after_success:
-  - ./vendor/bin/travis-after-success
-
-after_failure:
-  - ./vendor/bin/travis-after-failure
+after_success: ./vendor/bin/publish-coverage-reports
