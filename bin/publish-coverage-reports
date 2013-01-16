@@ -3,6 +3,8 @@ set -e
 
 if [[ "$ICECAVE_TOKEN" != "" && "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
     REPO="$(pwd | sed s,^$HOME/builds/,,g)"
+    PHP_VERSION=`php -r "echo substr(phpversion(), 0, strrpos(phpversion(), '.'));"`
+    COVERAGE_PATH="coverage-report/php-$PHP_VERSION"
 
     # Set git user ...
     git config --global user.email "travis@travis-ci.org"
@@ -12,13 +14,13 @@ if [[ "$ICECAVE_TOKEN" != "" && "$TRAVIS_BRANCH" == "master" && `git branch -r` 
     git remote add upstream https://${ICECAVE_TOKEN}@github.com/${REPO}.git
 
     # Copy reports ...
-    cp -r test/report/coverage $HOME/coverage-report
+    cp -r test/report/coverage $HOME/$COVERAGE_PATH
 
     # Switch to gh-pages branch and publish ...
     git checkout gh-pages
-    git rm -r coverage-report
-    mv $HOME/coverage-report .
-    git add -f coverage-report
+    git rm -rf $COVERAGE_PATH
+    mv $HOME/$COVERAGE_PATH coverage-report
+    git add -f $COVERAGE_PATH
     git commit -m "Publishing coverage reports from build $TRAVIS_BUILD_NUMBER."
     git push -fq upstream gh-pages
 fi

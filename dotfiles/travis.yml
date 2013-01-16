@@ -3,18 +3,17 @@ language: php
 php:
   - 5.3.3
   - 5.3
+  - 5.4
   - 5.5
 
+env:
+  global:
+    - secure: "ICECAVE_TOKEN=<token>"
+
 matrix:
-  include:
-    - php: 5.4
-      env:
-        - secure: "ICECAVE_TOKEN=<token>"
   allow_failures:
     - php: 5.5
 
-before_script: composer install --dev
-
-script: ./vendor/bin/phpunit-coverage
-
-after_success: ./vendor/bin/publish-coverage-reports
+install:        composer install --dev
+script:         ./vendor/bin/phpunit-coverage
+after_success:  ./vendor/bin/publish-coverage-reports
