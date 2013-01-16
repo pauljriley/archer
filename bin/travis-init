@@ -13,7 +13,7 @@ $token = $_SERVER['argc'] > 1 ? $_SERVER['argv'][1] : null;
 if ($token) {
     echo 'Encrypting token ...' . PHP_EOL;
     $exitCode = 0;
-    $env = '- secure: ' . exec('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"', $output, $exitCode);
+    $env = 'secure: ' . exec('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"', $output, $exitCode);
     if ($exitCode != 0) {
         echo 'Unable to encrypt token...' . PHP_EOL;
         echo $output;
