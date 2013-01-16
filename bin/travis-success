@@ -23,7 +23,8 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
     cp -r test/report/coverage ${HOME}
 
     # Switch to gh-pages branch ...
-    git checkout -b gh-pages upstream/gh-pages
+    git checkout gh-pages
+    git pull
 
     # Remove existing coverage report if it exists ...
     git rm -r --ignore-unmatch ${COVERAGE_PATH}
