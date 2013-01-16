@@ -4,6 +4,7 @@ set -e
 if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
   ./vendor/bin/phpunit-coverage
   ./vendor/icecave/testing/bin/coverage-image
+  ./vendor/icecave/testing/bin/coverage-publish
 else
   ./vendor/bin/phpunit
 fi

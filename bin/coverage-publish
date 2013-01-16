@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
+if [[ "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
 
     # Get the repo name ...
     REPO="$(pwd | sed s,^${HOME}/builds/,,g)"

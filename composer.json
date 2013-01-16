@@ -22,7 +22,6 @@
         "bin/phpunit",
         "bin/phpunit-coverage",
         "bin/travis-init",
-        "bin/travis-build",
-        "bin/travis-success"
+        "bin/travis-build"
     ]
 }
