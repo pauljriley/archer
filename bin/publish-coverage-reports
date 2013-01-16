@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-if [[ "$ICECAVE_PUBLISH" == "true" && "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
+if [[ "$ICECAVE_TOKEN" != "" && "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
     REPO="$(pwd | sed s,^$HOME/builds/,,g)"
 
     # Set git user ...

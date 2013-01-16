@@ -5,14 +5,11 @@ php:
   - 5.3
   - 5.5
 
-env:
-  global:
-    - secret: "ICECAVE_TOKEN=<token>"
-
 matrix:
   include:
     - php: 5.4
-      env: ICECAVE_PUBLISH=true
+      env:
+        - secure: "ICECAVE_TOKEN=<token>"
   allow_failures:
     - php: 5.5
 
