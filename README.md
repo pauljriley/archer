@@ -11,7 +11,9 @@ The steps outlined below only need to be completed once.
 In order to publish code coverage reports you need to authorize icecave/testing for API access by creating an OAuth token.
 The following command creates the authorization and outputs a JSON packet containing the token. Record this token for later use.
 ```sh
-curl -u <github-username> -d '{"scopes":["repo"],"note":"icecave/testing"}' https://api.github.com/authorizations
+curl -u <github-username> \
+     -d '{"scopes":["repo"],"note":"icecave/testing"}' \
+     https://api.github.com/authorizations
 ```
 
 If you forget your token you can retrieve a full list of authorized applications and their tokens with the following command:
