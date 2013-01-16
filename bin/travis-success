@@ -22,27 +22,34 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
     # Copy reports ...
     cp -r test/report/coverage ${HOME}
 
-    # Switch to gh-pages branch ...
+    echo "Checking out gh-pages branch ..."
     git checkout gh-pages
+    echo
 
-    # Remove existing coverage report if it exists ...
+    echo "Removing existing coverage report ..."
     git rm -r --ignore-unmatch ${COVERAGE_PATH}
+    echo
 
-    # Copy in the new coverage report ...
+    echo "Copying new coverage report ..."
     mkdir -p coverage-report
     mv ${HOME}/coverage ${COVERAGE_PATH}
     git add -f ${COVERAGE_PATH}
+    echo
 
     # Publish!
+    echo "Comitting ..."
     git commit -m "Publishing coverage reports from build ${TRAVIS_BUILD_NUMBER} (php ${PHP_VERSION})."
+    echo
 
+    for ATTEMPT in 1 2 3; do
+        echo "Push attempt #${ATTEMPT} ..."
+        git pull
+        if git push upstream gh-pages; [ $? = 0 ]; then
+            exit 0
+        fi
+        sleep 2
+        echo
+    done
 
-    # HACK
-    # Attempt to prevent concurrent git pushes ...
-    sleep $((3 * `echo $TRAVIS_JOB_NUMBER | cut -d. -f2`))
-    # HACK
-
-    git pull
-    git push upstream gh-pages
-
+    exit 1
 fi
