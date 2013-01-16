@@ -35,6 +35,12 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
 
     # Publish!
     git commit -m "Publishing coverage reports from build ${TRAVIS_BUILD_NUMBER} (php ${PHP_VERSION})."
+
+    # HACK
+    # Attempt to prevent concurrent git pushes ...
+    sleep `echo $TRAVIS_JOB_NUMBER | cut -d. -f2`
+    # HACK
+
     git push upstream gh-pages
 
 fi
