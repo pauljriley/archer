@@ -6,10 +6,10 @@ This package provides a set of default PHPUnit, Travis CI and Git configurations
 
 The following commands are available for test execution:
 
-* ```vendor/bin/phpunit``` - execute all tests
-* ```vendor/bin/phpunit-coverage``` - execute all tests, and produce coverage reports
+* `vendor/bin/phpunit` - execute all tests
+* `vendor/bin/phpunit-coverage` - execute all tests, and produce coverage reports
 
-Coverage reports are available in HTML format in the ```test/report/coverage``` folder.
+Coverage reports are available in HTML format in the `test/report/coverage` folder.
 
 ## Configuration
 
@@ -32,7 +32,7 @@ curl -u <github-username> https://api.github.com/authorizations
 
 ### Initializing Projects
 
-To setup a new project, add ```icecave/testing``` to your composer.json configuration as a development dependency, then run:
+To setup a new project, add `icecave/testing` to your composer.json configuration as a development dependency, then run:
 
 ```sh
 # Pull down the icecave/testing package.
@@ -41,3 +41,5 @@ composer update --dev
 # Initialize .travis.yml and other dot files, the [oauth-token] is only required if you intent to use the coverage report publishing feature.
 ./vendor/bin/travis-init [oauth-token]
 ```
+
+Please note that the `gh-pages` branch must already exist for coverage reporting to be published. To create a new empty `gh-pages` branch follow [these instructions](https://help.github.com/articles/creating-project-pages-manually).
