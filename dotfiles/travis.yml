@@ -9,8 +9,8 @@ php:
 matrix:
   # Use PHP 5.4 for coverage reporting.
   include:
-      php: 5.4
-      env: {coverage-env}
+      - php: 5.4
+      - env: {coverage-env}
 
   # PHP 5.5 is still in alpha, so ignore build failures.
   allow_failures:
