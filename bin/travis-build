@@ -3,6 +3,7 @@ set -e
 
 if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
   ./vendor/bin/phpunit-coverage
+  ./vendor/bin/coverage-image
 else
   ./vendor/bin/phpunit
 fi
