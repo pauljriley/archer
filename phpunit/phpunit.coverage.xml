@@ -17,8 +17,8 @@
 
     <logging>
         <log
-            type="junit"
-            target="../../../../test/report/logfile.xml"
+            type="coverage-text"
+            target="../../../../test/report/logfile.txt"
         />
 
         <log
