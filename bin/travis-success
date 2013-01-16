@@ -22,6 +22,11 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
     # Copy reports ...
     cp -r test/report/coverage ${HOME}
 
+    # HACK
+    # Attempt to prevent concurrent git pushes ...
+    sleep `echo $TRAVIS_JOB_NUMBER | cut -d. -f2`
+    # HACK
+
     # Switch to gh-pages branch ...
     git checkout gh-pages
     git pull
@@ -30,6 +35,7 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
     git rm -r --ignore-unmatch ${COVERAGE_PATH}
 
     # Copy in the new coverage report ...
+    mkdir -p coverage-report
     mv ${HOME}/coverage ${COVERAGE_PATH}
     git add -f ${COVERAGE_PATH}
 
