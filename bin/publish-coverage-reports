@@ -14,13 +14,14 @@ if [[ "$ICECAVE_TOKEN" != "" && "$TRAVIS_BRANCH" == "master" && `git branch -r` 
     git remote add upstream https://${ICECAVE_TOKEN}@github.com/${REPO}.git
 
     # Copy reports ...
-    cp -r test/report/coverage $HOME/$COVERAGE_PATH
+    cp -r test/report/coverage $HOME
 
     # Switch to gh-pages branch and publish ...
     git checkout gh-pages
     git rm -rf $COVERAGE_PATH
-    mv $HOME/$COVERAGE_PATH coverage-report
+    mkdir -p coverage-report
+    mv $HOME/coverage $COVERAGE_PATH
     git add -f $COVERAGE_PATH
-    git commit -m "Publishing coverage reports from build $TRAVIS_BUILD_NUMBER."
+    git commit -m "Publishing coverage reports from build $TRAVIS_BUILD_NUMBER (php $PHP_VERSION)."
     git push -fq upstream gh-pages
 fi
