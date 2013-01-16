@@ -6,8 +6,6 @@ if [[ "$ICECAVE_TOKEN" != "" && "$TRAVIS_BRANCH" == "master" && `git branch -r` 
     PHP_VERSION=`php -r "echo substr(phpversion(), 0, strrpos(phpversion(), '.'));"`
     COVERAGE_PATH="coverage-report/php-$PHP_VERSION"
 
-    set -x
-
     # Set git user ...
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis CI"
@@ -20,7 +18,7 @@ if [[ "$ICECAVE_TOKEN" != "" && "$TRAVIS_BRANCH" == "master" && `git branch -r` 
 
     # Switch to gh-pages branch and publish ...
     git checkout gh-pages
-    git rm -rf $COVERAGE_PATH
+    git rm -r --ignore-unmatch $COVERAGE_PATH
     mkdir -p coverage-report
     mv $HOME/coverage $COVERAGE_PATH
     ls -la
