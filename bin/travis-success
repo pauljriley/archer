@@ -23,16 +23,16 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
     cp -r test/report/coverage ${HOME}
 
     # Switch to gh-pages branch ...
-    git checkout gh-pages
-    
+    git checkout -b gh-pages upstream/gh-pages
+
     # Remove existing coverage report if it exists ...
     git rm -r --ignore-unmatch ${COVERAGE_PATH}
-    
+
     # Copy in the new coverage report ...
     mkdir -p coverage-report
     mv ${HOME}/coverage ${COVERAGE_PATH}
     git add -f ${COVERAGE_PATH}
-    
+
     # Publish!
     git commit -m "Publishing coverage reports from build ${TRAVIS_BUILD_NUMBER} (php ${PHP_VERSION})."
     git push -fq upstream gh-pages
