@@ -38,7 +38,7 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
 
 
     # HACK
-    Attempt to prevent concurrent git pushes ...
+    # Attempt to prevent concurrent git pushes ...
     sleep $((3 * `echo $TRAVIS_JOB_NUMBER | cut -d. -f2`))
     # HACK
 
