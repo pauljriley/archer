@@ -24,7 +24,6 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
 
     # Switch to gh-pages branch ...
     git checkout gh-pages
-		git rebase --committer-date-is-author-date master
 
     # Remove existing coverage report if it exists ...
     git rm -r --ignore-unmatch ${COVERAGE_PATH}
@@ -36,6 +35,14 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `
 
     # Publish!
     git commit -m "Publishing coverage reports from build ${TRAVIS_BUILD_NUMBER} (php ${PHP_VERSION})."
+
+
+    # HACK
+    Attempt to prevent concurrent git pushes ...
+    sleep $((3 * `echo $TRAVIS_JOB_NUMBER | cut -d. -f2`))
+    # HACK
+
+    git pull
     git push upstream gh-pages
 
 fi
