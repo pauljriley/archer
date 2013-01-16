@@ -3,16 +3,18 @@ language: php
 php:
   - 5.3.3
   - 5.3
-  - 5.4
   - 5.5
 
+env:
+  global:
+    - secret: "ICECAVE_TOKEN=<token>"
+
 matrix:
-  allow_failures:
-    - php: 5.5
   include:
     - php: 5.4
-      env:
-        - secret: "encrypted ICECAVE_TOKEN=..."
+      env: ICECAVE_PUBLISH=true
+  allow_failures:
+    - php: 5.5
 
 before_script: composer install --dev
 
