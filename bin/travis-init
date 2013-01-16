@@ -33,7 +33,7 @@ foreach (scandir($dotFilesPath) as $filename) {
         echo 'Creating .' . $filename . ' ...' . PHP_EOL;
         $content = file_get_contents($sourcePath);
         if ('travis.yml' === $filename) {
-            $content = str_replace('{env}', $env, $content);
+            $content = str_replace('{coverage-env}', $env, $content);
         }
         file_put_contents($targetPath, $content);
     }
