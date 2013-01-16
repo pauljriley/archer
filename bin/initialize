@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+set_error_handler(E_ALL | E_STRICT);
+
+// Set some path constants ...
+$rootPath = __DIR__ . '/../../../..';
+$dotFilesPath = __DIR__ . '/../dotfiles';
+
+// See if a github token was provided ...
+$token = $_SERVER['argc'] > 1 ? $_SERVER['argv'][1] : null;
+
+// We want to publish coverage reports ...
+if ($token) {
+    echo 'Encrypting token ...' . PHP_EOL;
+    $env = '- secure: ' . system('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"');
+} else {
+    $env = 'ICECAVE_PUBLISH_COVERAGE="false"';
+}
+
+// Copy the dot files ...
+foreach (scandir($dotFilesPath) as $filename) {
+    $sourcePath = $dotFilesPath . '/' . $filename;
+    $targetPath = $rootPath . '/.' . $filename;
+
+    if (is_file($sourcePath)) {
+        echo 'Creating .' . $filename . ' ...' . PHP_EOL;
+        $content = file_get_contents($sourcePath);
+        if ('travis.yml' === $filename) {
+            $content = str_replace('{env}', $env, $content);
+        }
+        file_put_contents($targetPath, $content);
+    }
+}
+
+echo PHP_EOL;

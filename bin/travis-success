@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -e
+
+if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" && "$TRAVIS_BRANCH" == "master" && `git branch -r` == *"gh-pages"* ]]; then
+
+    # Get the repo name ...
+    REPO="$(pwd | sed s,^${HOME}/builds/,,g)"
+    
+    # Get the PHP version without the patch number ...
+    PHP_VERSION=`php -r "echo substr(phpversion(), 0, strrpos(phpversion(), '.'));"`
+
+    # Get the target path for coverage files ...
+    COVERAGE_PATH="coverage-report/php-${PHP_VERSION}"
+
+    # Set git user ...
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "Travis CI"
+
+    # Set upstream remote ...
+    git remote add upstream https://${ICECAVE_GITHUB_TOKEN}@github.com/${REPO}.git
+
+    # Copy reports ...
+    cp -r test/report/coverage ${HOME}
+
+    # Switch to gh-pages branch ...
+    git checkout gh-pages
+    
+    # Remove existing coverage report if it exists ...
+    git rm -r --ignore-unmatch ${COVERAGE_PATH}
+    
+    # Copy in the new coverage report ...
+    mkdir -p coverage-report
+    mv ${HOME}/coverage ${COVERAGE_PATH}
+    git add -f ${COVERAGE_PATH}
+    
+    # Publish!
+    git commit -m "Publishing coverage reports from build ${TRAVIS_BUILD_NUMBER} (php ${PHP_VERSION})."
+    git push -fq upstream gh-pages
+
+fi

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
+  ./vendor/bin/phpunit-coverage
+else
+  ./vendor/bin/phpunit
+fi

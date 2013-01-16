@@ -1,5 +1,5 @@
 <phpunit
-    bootstrap="../phpunit-bootstrap.php"
+    bootstrap="../phpunit/bootstrap.php"
     strict="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
@@ -20,20 +20,5 @@
             type="junit"
             target="../../../../test/report/logfile.xml"
         />
-
-        <log
-            type="coverage-html"
-            target="../../../../test/report/coverage"
-            charset="UTF-8"
-            yui="true"
-            highlight="true"
-        />
     </logging>
-
-    <filter>
-        <whitelist>
-            <directory>../../../../lib</directory>
-            <directory>../../../../src</directory>
-        </whitelist>
-    </filter>
 </phpunit>

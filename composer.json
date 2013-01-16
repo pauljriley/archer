@@ -19,9 +19,10 @@
         "eloquent/liberator": "Use liberator for circumventing PHP access modifier restrictions inside tests."
     },
     "bin": [
+        "bin/initialize",
         "bin/phpunit",
         "bin/phpunit-coverage",
-        "bin/publish-coverage-reports",
-        "bin/update-dotfiles"
+        "bin/travis-build",
+        "bin/travis-success"
     ]
 }
