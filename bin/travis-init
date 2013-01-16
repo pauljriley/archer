@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-set_error_handler(E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 
 // Set some path constants ...
 $rootPath = __DIR__ . '/../../../..';
@@ -12,7 +12,14 @@ $token = $_SERVER['argc'] > 1 ? $_SERVER['argv'][1] : null;
 // We want to publish coverage reports ...
 if ($token) {
     echo 'Encrypting token ...' . PHP_EOL;
-    $env = '- secure: ' . system('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"');
+    $exitCode = 0;
+    $env = '- secure: ' . exec('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"', $output, $exitCode);
+    if ($exitCode != 0) {
+        echo 'Unable to encrypt token...' . PHP_EOL;
+        echo $output;
+        echo PHP_EOL;
+        exit(1);
+    }
 } else {
     $env = 'ICECAVE_PUBLISH_COVERAGE="false"';
 }

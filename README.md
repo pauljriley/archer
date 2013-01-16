@@ -13,26 +13,31 @@ Coverage reports are available in HTML format in the ```test/report/coverage``` 
 
 ## Configuration
 
-1. Install the Travis binary.
+### Initial Setup
+
+The steps outlined below only need to be completed once.
 
 ```sh
-sudo gem install travis
+# Install the travis command-line utility.
+sudo gem install travis json system_timer
+
+# Create a GitHub OAuth token for API access.
+# This is used to publish coverage reports to your gh-pages branch.
+# This only needs to be done once per GitHub account.
+curl -u <github-username> -d '{"scopes":["repo"],"note":"icecave/testing"}' https://api.github.com/authorizations
+
+# You can retrieve a list of existing OAuth tokens with the following command.
+curl -u <github-username> https://api.github.com/authorizations
 ```
 
-2. Create a GitHub OAuth token.
+### Initializing Projects
 
-This only needs to be done once per GitHub account/organisation.
-
-```sh
-curl -u '<github-username>' \
-     -d '{"scopes":["repo"],"note":"icecave/testing"}' \
-     https://api.github.com/authorizations
-```
-
-This will produce a JSON object containing a token.
-
-3. Update your ```.travis.yml``` file.
+To setup a new project, add ```icecave/testing``` to your composer.json configuration as a development dependency, then run:
 
 ```sh
-./vendor/bin/update-dotfiles <token>
+# Pull down the icecave/testing package.
+composer update --dev
+
+# Initialize .travis.yml and other dot files, the [oauth-token] is only required if you intent to use the coverage report publishing feature.
+./vendor/bin/travis-init [oauth-token]
 ```
