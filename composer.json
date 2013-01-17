@@ -22,6 +22,8 @@
         "bin/phpunit",
         "bin/phpunit-coverage",
         "bin/travis-init",
-        "bin/travis-build"
+        "bin/travis-build",
+        "bin/coverage-image",
+        "bin/coverage-publish"
     ]
 }
