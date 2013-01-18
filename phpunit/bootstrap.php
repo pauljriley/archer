@@ -17,7 +17,7 @@ Phake::setClient(Phake::CLIENT_PHPUNIT);
 foreach (array('lib', 'src') as $path) {
     $projectTestFixturePath = $rootPath . '/test/' . $path;
     if (is_dir($projectTestFixturePath)) {
-        $autoloader->add('Icecave', array($projectTestFixturePath));
+        $autoloader->add('', array($projectTestFixturePath));
     }
 }
 
