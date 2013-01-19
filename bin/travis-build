@@ -2,9 +2,14 @@
 set -e
 
 if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
-  ./vendor/bin/phpunit-coverage
-  /usr/bin/env php ./vendor/icecave/testing/coverage/coverage-image
-  /usr/bin/env bash ./vendor/icecave/testing/coverage/coverage-publish
+    REPO="$(pwd | sed s,^${HOME}/builds/,,g)"
+    ./vendor/bin/phpunit-coverage
+    ./vendor/bin/woodhouse github:publish \
+        $REPO \
+        test/report/coverage:coverage-report \
+        --coverage-image coverage-report/coverage.png \
+        --coverage-phpunit test/report/coverage.txt \
+        --auth-token-env ICECAVE_GITHUB_TOKEN
 else
-  ./vendor/bin/phpunit
+    ./vendor/bin/phpunit
 fi
