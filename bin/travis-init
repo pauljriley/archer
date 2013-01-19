@@ -11,6 +11,8 @@ $token = $_SERVER['argc'] > 1 ? $_SERVER['argv'][1] : null;
 
 // We want to publish coverage reports ...
 if ($token) {
+    echo 'Coverage reporting enabled, remember to add icecave/woodhouse to your dev dependencies!' . PHP_EOL;
+    echo PHP_EOL;
     echo 'Encrypting token ...' . PHP_EOL;
     $exitCode = 0;
     $env = 'secure: ' . exec('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"', $output, $exitCode);
