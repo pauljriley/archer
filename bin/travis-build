@@ -3,13 +3,19 @@ set -e
 
 if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
     REPO="$(pwd | sed s,^${HOME}/builds/,,g)"
+    PHP_VERSION="$(php -r 'echo phpversion();')"
+
     ./vendor/bin/phpunit-coverage
+
     ./vendor/bin/woodhouse github:publish \
         $REPO \
         test/report/coverage:coverage-report \
+        --message "Publishing coverage reports from build ${TRAVIS_BUILD_NUMBER} (php ${PHP_VERSION})." \
         --coverage-image coverage-report/coverage.png \
         --coverage-phpunit test/report/coverage.txt \
-        --auth-token-env ICECAVE_GITHUB_TOKEN
+        --auth-token-env ICECAVE_GITHUB_TOKEN \
+        --no-interaction \
+        --verbose
 else
     ./vendor/bin/phpunit
 fi

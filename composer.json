@@ -17,7 +17,7 @@
     "suggest": {
         "eloquent/asplode": "Use the asplode error handler instead of PHPUnit's internal error handler.",
         "eloquent/liberator": "Use liberator for circumventing PHP access modifier restrictions inside tests.",
-        "icecave/woodhouse": "Publish your cde coverage information to GitHub pages."
+        "icecave/woodhouse": "Publish your code coverage information to GitHub pages."
     },
     "bin": [
         "bin/phpunit",
