@@ -16,13 +16,18 @@ if ($token) {
     $env = 'secure: ' . exec('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"', $output, $exitCode);
     if ($exitCode != 0) {
         echo 'Unable to encrypt token...' . PHP_EOL;
-        echo $output;
+        echo implode(PHP_EOL, $output);
         echo PHP_EOL;
         exit(1);
     }
+    $travisConfig = file_get_contents($rootPath . '/travis/travis.coverage.yml');
+    $travisConfig = str_replace('<coverage-env>', $env, $travisConfig);
 } else {
-    $env = 'ICECAVE_PUBLISH_COVERAGE="false"';
+    $travisConfig = file_get_contents($rootPath . '/travis/travis.yml');
 }
+
+echo 'Creating .travis.yml ...' . PHP_EOL;
+file_put_contents($rootPath . '/.travis.yml', $travisConfig);
 
 // Copy the dot files ...
 foreach (scandir($dotFilesPath) as $filename) {
@@ -32,9 +37,6 @@ foreach (scandir($dotFilesPath) as $filename) {
     if (is_file($sourcePath)) {
         echo 'Creating .' . $filename . ' ...' . PHP_EOL;
         $content = file_get_contents($sourcePath);
-        if ('travis.yml' === $filename) {
-            $content = str_replace('<coverage-env>', $env, $content);
-        }
         file_put_contents($targetPath, $content);
     }
 }
