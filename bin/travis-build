@@ -5,7 +5,10 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
     REPO="$(pwd | sed s,^${HOME}/builds/,,g)"
     PHP_VERSION="$(php -r 'echo phpversion();')"
 
+    set +e
     ./vendor/bin/phpunit-coverage
+    TEST_RESULT=$?
+    set -e
 
     ./vendor/bin/woodhouse github:publish \
         $REPO \
@@ -16,6 +19,8 @@ if [[ "$ICECAVE_PUBLISH_COVERAGE" == "true" ]]; then
         --auth-token-env ICECAVE_GITHUB_TOKEN \
         --no-interaction \
         --verbose
+
+    exit $TEST_RESULT
 else
     ./vendor/bin/phpunit
 fi
