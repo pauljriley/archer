@@ -2,6 +2,25 @@
 <?php
 error_reporting(E_ALL | E_STRICT);
 
+function executeCommand($message, $command)
+{
+    $exitCode = null;
+    $output = array();
+    
+    echo $message . ' ...';
+    exec($command, $output, $exitCode);
+    $output = implode(PHP_EOL, $output);
+    
+    if ($exitCode === 0) {
+        echo ' Done.' . PHP_EOL;
+        return $output;
+    } else {
+        echo ' Failed.' . PHP_EOL;
+        echo rtrim($output) . PHP_EOL . PHP_EOL;
+        exit(1);
+    }
+}
+
 // Set some path constants ...
 $rootPath = __DIR__ . '/../../../..';
 $dotFilesPath = __DIR__ . '/../dotfiles';
@@ -12,35 +31,26 @@ $token = $_SERVER['argc'] > 1 ? $_SERVER['argv'][1] : null;
 
 // We want to publish coverage reports ...
 if ($token) {
-    echo 'Coverage reporting enabled, remember to add icecave/woodhouse to your dev dependencies!' . PHP_EOL;
-    echo PHP_EOL;
-    echo 'Encrypting token ...' . PHP_EOL;
-    $exitCode = 0;
-    $env = 'secure: ' . exec('travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"', $output, $exitCode);
-    if ($exitCode != 0) {
-        echo 'Unable to encrypt token...' . PHP_EOL;
-        echo implode(PHP_EOL, $output);
-        echo PHP_EOL;
-        exit(1);
-    }
+    executeCommand('Adding icecave/woodhouse to composer.json', '/usr/bin/env composer require --no-interaction --dev "icecave/woodhouse:*" --no-update -d ' . escapeshellarg($rootPath));
+    $packet = executeCommand('Encrypting GitHub OAuth token', '/usr/bin/env travis encrypt --no-interactive ICECAVE_PUBLISH_COVERAGE="true" ICECAVE_GITHUB_TOKEN="' . $token . '"');
     $travisConfig = file_get_contents($travisFilesPath . '/travis.coverage.yml');
-    $travisConfig = str_replace('<coverage-env>', $env, $travisConfig);
+    $travisConfig = str_replace('<coverage-env>', 'secure: ' . $packet, $travisConfig);
 } else {
     $travisConfig = file_get_contents($travisFilesPath . '/travis.yml');
 }
 
-echo 'Creating .travis.yml ...' . PHP_EOL;
+echo 'Creating .travis.yml ...';
 file_put_contents($rootPath . '/.travis.yml', $travisConfig);
+echo ' Done.' . PHP_EOL;
 
 // Copy the dot files ...
 foreach (scandir($dotFilesPath) as $filename) {
     $sourcePath = $dotFilesPath . '/' . $filename;
     $targetPath = $rootPath . '/.' . $filename;
-
     if (is_file($sourcePath)) {
-        echo 'Creating .' . $filename . ' ...' . PHP_EOL;
-        $content = file_get_contents($sourcePath);
-        file_put_contents($targetPath, $content);
+        echo 'Creating .' . $filename . ' ...';
+        copy($sourcePath, $targetPath);
+        echo ' Done.' . PHP_EOL;
     }
 }
 
