@@ -1,7 +1,6 @@
 {
     "name": "icecave/testing",
-    "type": "library",
-    "description": "Helper package for testing Icecave projects in a uniform way.",
+    "description": "Test projects in a uniform way.",
     "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage"],
     "homepage": "https://github.com/IcecaveStudios/testing",
     "license": "MIT",
@@ -12,17 +11,34 @@
         }
     ],
     "require": {
-        "phake/phake": "1.*"
+        "phake/phake": "~1",
+        "symfony/console": "~2"
+    },
+    "provide": {
+        "icecave/woodhouse": "0.2.0" 
     },
     "suggest": {
         "eloquent/asplode": "Use the asplode error handler instead of PHPUnit's internal error handler.",
-        "eloquent/liberator": "Use liberator for circumventing PHP access modifier restrictions inside tests.",
-        "icecave/woodhouse": "Publish your code coverage information to GitHub pages."
+        "eloquent/liberator": "Use liberator for circumventing PHP access modifier restrictions inside tests."
     },
     "bin": [
+        "bin/ict",
         "bin/phpunit",
-        "bin/phpunit-coverage",
-        "bin/travis-init",
-        "bin/travis-build"
-    ]
+        "bin/phpunit-coverage"
+    ],
+    "autoload": {
+        "psr-0": {
+            "Icecave\\Testing": "lib",
+            "Icecave\\Testing\\TypeCheck": "lib-typhoon",
+            "Icecave\\Woodhouse": "vendor-provide/icecave/woodhouse/lib",
+            "Icecave\\Woodhouse\\TypeCheck": "vendor-provide/icecave/woodhouse/lib-typhoon"
+        }
+    },
+    "extra": {
+        "typhoon": {
+            "output-path": "lib-typhoon",
+            "validator-namespace": "Icecave\\Testing\\TypeCheck",
+            "use-native-callable": false
+        }
+    }
 }

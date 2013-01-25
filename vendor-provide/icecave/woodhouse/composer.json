@@ -1,0 +1,41 @@
+{
+    "name": "icecave/woodhouse",
+    "description": "Publish your PHPUnit code coverage reports on your GitHub pages.",
+    "keywords": ["publish", "github", "pages", "phpunit", "code", "coverage", "xdebug"],
+    "homepage": "https://github.com/IcecaveStudios/collections",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Harris",
+            "email": "james.harris@icecave.com.au"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "eloquent/asplode": "1.*",
+        "ezzatron/ci-status-images": "1.*",
+        "icecave/isolator": "2.*",
+        "symfony/console": "2.*"
+    },
+    "require-dev": {
+        "eloquent/typhoon": "0.6.*",
+        "eloquent/liberator": "1.*",
+        "icecave/testing": "1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Icecave\\Woodhouse": "lib",
+            "Icecave\\Woodhouse\\TypeCheck": "lib-typhoon"
+        }
+    },
+    "bin": [
+        "bin/woodhouse"
+    ],
+    "extra": {
+        "typhoon": {
+            "output-path": "lib-typhoon",
+            "validator-namespace": "Icecave\\Woodhouse\\TypeCheck",
+            "use-native-callable": false
+        }
+    }
+}
