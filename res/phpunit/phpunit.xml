@@ -1,5 +1,5 @@
 <phpunit
-    bootstrap="../phpunit/bootstrap.php"
+    bootstrap="bootstrap.php"
     strict="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"

@@ -24,7 +24,7 @@ foreach (array('lib', 'src') as $path) {
 }
 
 // Include a project-specific bootstrap file, if present ...
-$projectBootstrapPath = $rootPath . '/test/bootstrap.php';
+$projectBootstrapPath = $rootPath . 'test/bootstrap.php';
 if (is_file($projectBootstrapPath)) {
     require_once $projectBootstrapPath;
 }

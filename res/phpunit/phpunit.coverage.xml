@@ -1,5 +1,5 @@
 <phpunit
-    bootstrap="../phpunit/bootstrap.php"
+    bootstrap="bootstrap.php"
     strict="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
@@ -18,7 +18,7 @@
     <logging>
         <log
             type="coverage-text"
-            target="../../../../test/report/coverage.txt"
+            target="../../../../test/report/coverage/coverage.txt"
         />
 
         <log
@@ -33,7 +33,9 @@
     <filter>
         <whitelist>
             <directory>../../../../lib</directory>
+            <directory>../../../../lib-internal</directory>
             <directory>../../../../src</directory>
+            <directory>../../../../src-internal</directory>
         </whitelist>
     </filter>
 </phpunit>
