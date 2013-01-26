@@ -12,33 +12,27 @@
     ],
     "require": {
         "phake/phake": "~1",
-        "symfony/console": "~2"
-    },
-    "provide": {
-        "icecave/woodhouse": "0.2.0" 
-    },
-    "suggest": {
-        "eloquent/asplode": "Use the asplode error handler instead of PHPUnit's internal error handler.",
-        "eloquent/liberator": "Use liberator for circumventing PHP access modifier restrictions inside tests."
+        "symfony/console": "~2",
+        "symfony/yaml": "~2"
     },
     "bin": [
-        "bin/ict",
-        "bin/phpunit",
-        "bin/phpunit-coverage"
+        "bin/ict"
     ],
     "autoload": {
         "psr-0": {
-            "Icecave\\Testing": "lib",
-            "Icecave\\Testing\\TypeCheck": "lib-typhoon",
-            "Icecave\\Woodhouse": "vendor-provide/icecave/woodhouse/lib",
-            "Icecave\\Woodhouse\\TypeCheck": "vendor-provide/icecave/woodhouse/lib-typhoon"
+            "Icecave\\Testing": "lib"
         }
     },
     "extra": {
-        "typhoon": {
-            "output-path": "lib-typhoon",
-            "validator-namespace": "Icecave\\Testing\\TypeCheck",
-            "use-native-callable": false
-        }
+        "bundled-packages": [
+            "icecave/woodhouse",
+            "icecave/chassis",
+            "icecave/near"
+        ]
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "bin/ict internal:update-bundled-packages"
+        ]
     }
 }

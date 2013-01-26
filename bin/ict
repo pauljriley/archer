@@ -1,15 +1,14 @@
 #!/usr/bin/env php
 <?php
-
 $standaloneAutoloadPath = __DIR__ . '/../vendor/autoload.php';
 $dependencyAutoloadPath = __DIR__ . '/../../../autoload.php';
 
 if (is_file($standaloneAutoloadPath)) {
     require $standaloneAutoloadPath;
-    $vendorPath = dirname($standaloneAutoloadPath);
+    $packageRoot = dirname(dirname($standaloneAutoloadPath));
 } elseif (is_file($dependencyAutoloadPath)) {
     require $dependencyAutoloadPath;
-    $vendorPath = dirname($dependencyAutoloadPath);
+    $packageRoot = dirname(dirname($dependencyAutoloadPath));
 } else {
     throw new LogicException(
         sprintf(
@@ -19,7 +18,12 @@ if (is_file($standaloneAutoloadPath)) {
     );
 }
 
-// Eloquent\Asplode\Asplode::instance()->install();
+// Implement our own error handler, because we can't use Asplode ...
+set_error_handler(
+    function ($severity, $message, $filename, $lineno) {
+        throw new ErrorException($message, 0, $severity, $filename, $lineno);
+    }
+);
 
-$application = new Icecave\Testing\Console\Application($vendorPath);
+$application = new Icecave\Testing\Console\Application($packageRoot);
 $application->run();
