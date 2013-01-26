@@ -4,4 +4,4 @@ matrix:
   include:
     - php: 5.4
       env:
-        - secure: %coverage-env%
+        - secure: {environment}

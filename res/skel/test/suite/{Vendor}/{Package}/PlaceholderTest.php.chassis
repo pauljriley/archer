@@ -1,5 +1,5 @@
 <?php
-namespace %Vendor%\%Package%;
+namespace {Vendor}\{Package};
 
 use PHPUnit_Framework_TestCase;
 

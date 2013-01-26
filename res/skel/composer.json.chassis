@@ -1,0 +1,32 @@
+{
+    "name": "{vendor}/{package}",
+    "description": "{package} by {vendor}.",
+    "keywords": ["keywords", "go", "here"],
+    "homepage": "{github-url}",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "{name}",
+            "email": "{email}"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "icecave/testing": "~2"
+    },
+    "autoload": {
+        "psr-0": {
+            "{Vendor}\\{Package}": "{source-dir}",
+            "{Vendor}\\{Package}\\TypeCheck": "{source-dir}-typhoon",
+        }
+    },
+    "extra": {
+        "typhoon": {
+            "output-path": "{source-dir}-typhoon",
+            "validator-namespace": "{Vendor}\\{Package}\\TypeCheck",
+            "use-native-callable": false
+        }
+    }
+}

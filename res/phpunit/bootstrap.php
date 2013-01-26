@@ -11,7 +11,9 @@ if (class_exists('Eloquent\Asplode\Asplode')) {
 }
 
 // Setup Phake/PHPUnit integration ...
-Phake::setClient(Phake::CLIENT_PHPUNIT);
+if (class_exists('Phake')) {
+    Phake::setClient(Phake::CLIENT_PHPUNIT);
+}
 
 // Add an autoloader for test fixtures, if required ...
 foreach (array('lib', 'src') as $path) {
