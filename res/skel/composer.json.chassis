@@ -1,6 +1,6 @@
 {
     "name": "{vendor}/{package}",
-    "description": "{package} by {vendor}.",
+    "description": "{Package} by {Vendor}.",
     "keywords": ["keywords", "go", "here"],
     "homepage": "{github-url}",
     "license": "MIT",

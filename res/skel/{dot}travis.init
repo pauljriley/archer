@@ -1,1 +1,7 @@
 #!/usr/bin/env bash
+
+# Write the key to the composer global config ...
+echo "{ \"config\": { \"github-oauth\": { \"github.com\": \"${ICT_GITHUB_TOKEN}\" } } }" > ${HOME}/.composer/config.json
+
+# Install dependencies ...
+composer install --dev --prefer-dist --no-interaction

@@ -1,0 +1,10 @@
+<?php
+namespace {Vendor}\{Package};
+
+class Placeholder
+{
+    public function method()
+    {
+        return true;
+    }
+}
