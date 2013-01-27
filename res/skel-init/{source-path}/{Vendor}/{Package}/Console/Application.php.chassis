@@ -1,0 +1,35 @@
+<?php
+namespace {Vendor}\{Package}\Console;
+
+use {Vendor}\{Package}\TypeCheck\TypeCheck;
+use Symfony\Component\Console\Application as SymfonyApplication;
+
+class Application extends SymfonyApplication
+{
+    /**
+     * @param string $packageRoot The path to the root of the package.
+     */
+    public function __construct($packageRoot)
+    {
+        $this->typeCheck = TypeCheck::get(__CLASS__, func_get_args());
+
+        parent::__construct('{Package}', 'DEV');
+
+        $this->packageRoot = $packageRoot;
+
+        $this->add(new Command\ExampleCommand);
+    }
+
+    /**
+     * @return string THe path to the root of the package.
+     */
+    public function packageRoot()
+    {
+        $this->typeCheck->packageRoot(func_get_args());
+
+        return $this->packageRoot;
+    }
+
+    private $typeCheck;
+    private $packageRoot;
+}
