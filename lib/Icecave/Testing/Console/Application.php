@@ -7,11 +7,12 @@ class Application extends SymfonyApplication
 {
     public function __construct($packageRoot)
     {
-        parent::__construct('Icecave Testing', '2.1.0-dev');
+        parent::__construct('Icecave Testing', '3.0.0-dev');
 
         $this->packageRoot = $packageRoot;
 
-        $this->add(new Command\Internal\UpdateBundledPackagesCommand);
+        $this->add(new Command\InitializeCommand);
+        $this->add(new Command\UpdateBundledPackagesCommand);
     }
 
     public function packageRoot()

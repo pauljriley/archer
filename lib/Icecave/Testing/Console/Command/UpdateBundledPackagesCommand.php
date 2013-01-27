@@ -1,16 +1,15 @@
 <?php
-namespace Icecave\Testing\Console\Command\Internal;
+namespace Icecave\Testing\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use RuntimeException;
 
-class UpdateBundledPackagesCommand extends Command
+class UpdateBundledPackagesCommand extends AbstractCommand
 {
     protected function configure()
     {
-        $this->setName('internal:update-bundled-packages');
+        $this->setName('update-bundled-packages');
         $this->setDescription('Update the PHAR packages that are bundled with icecave/testing.');
     }
 
@@ -67,7 +66,7 @@ class UpdateBundledPackagesCommand extends Command
         );
 
         if (!is_dir(dirname($tempPath))) {
-            mkdir(dirname($tempPath), 0777, true);
+            mkdir(dirname($tempPath), 0755, true);
         }
 
         $this->passthru(
@@ -98,17 +97,4 @@ class UpdateBundledPackagesCommand extends Command
         }
     }
 
-    protected function passthru($command)
-    {
-        $arguments = array_slice(func_get_args(), 1);
-        $arguments = array_map('escapeshellarg', $arguments);
-        $command   = vsprintf($command, $arguments);
-
-        $exitCode = null;
-        passthru($command, $exitCode);
-
-        if (0 !== $exitCode) {
-            throw new RuntimeException('Failed executing "' . $command . '".');
-        }
-    }
 }

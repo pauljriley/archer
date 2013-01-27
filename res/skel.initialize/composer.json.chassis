@@ -2,7 +2,7 @@
     "name": "{vendor}/{package}",
     "description": "{Package} by {Vendor}.",
     "keywords": ["keywords", "go", "here"],
-    "homepage": "{github-url}",
+    "homepage": "https://github.com/{github-account}/{package}",
     "license": "MIT",
     "authors": [
         {

@@ -1,5 +1,5 @@
 {
-    "hash": "cf8aeaeffca7c49feafc2d80d78edeae",
+    "hash": "a056e336e4370c733f97f7ab58f42386",
     "packages": [
         {
             "name": "phake/phake",
@@ -130,9 +130,7 @@
             "homepage": "http://symfony.com"
         }
     ],
-    "packages-dev": [
-
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],

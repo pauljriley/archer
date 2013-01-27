@@ -1,8 +1,0 @@
-# This file is merged with the base .travis.yml file to introduce
-# an extra build that runs PHPUnit with coverage reporting and
-# publishes the results to the repo's gh-pages branch.
-matrix:
-  include:
-    - php: 5.4
-      env:
-        - secure: {environment}
