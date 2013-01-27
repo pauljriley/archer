@@ -50,14 +50,14 @@ class InitializeCommand extends AbstractCommand
             throw new RuntimeException('Package already contains a composer.json file.');
         }
 
-        list(, $vendor, $package) = $packageName;
+        list(, $vendor, $package) = $matches;
 
         $variables = array(
             'dot'            => '.',
             'vendor'         => $vendor,
             'package'        => $package,
-            'Vendor'         => ucfirst($vendor),
-            'Package'        => ucfirst($package),
+            'vendor-tc'      => ucfirst($vendor),
+            'package-tc'     => ucfirst($package),
             'source-dir'     => 'src',
             'github-account' => $vendor,
         );
@@ -87,9 +87,9 @@ class InitializeCommand extends AbstractCommand
         }
 
         // Build a temporary composer.json to pull down the latest icecave/testing ...
-        file_put_contents($composerPath, '{ "require-dev": { "icecave/testing": "2.1.0-dev" } }');
+        file_put_contents($composerPath, '{ "require-dev": { "icecave/testing": "2.1.0.x-dev@dev" } }');
         $output->writeln('Installing <info>icecave/testing</info>.');
-        $this->passthru('composer install --quiet --dev --working-dir %s', $projectPath);
+        $this->passthru('composer install --dev --working-dir %s', $projectPath);
         unlink($composerPath);
 
         // Install 

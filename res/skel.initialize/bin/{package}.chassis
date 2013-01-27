@@ -20,5 +20,5 @@ if (is_file($standaloneAutoloadPath)) {
 
 Eloquent\Asplode\Asplode::instance()->install();
 
-$application = new {Vendor}\{Package}\Console\Application($packageRoot);
+$application = new {vendor-tc}\{package-tc}\Console\Application($packageRoot);
 $application->run();

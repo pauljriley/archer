@@ -1,6 +1,6 @@
 {
     "name": "{vendor}/{package}",
-    "description": "{Package} by {Vendor}.",
+    "description": "{package-tc} by {vendor-tc}.",
     "keywords": ["keywords", "go", "here"],
     "homepage": "https://github.com/{github-account}/{package}",
     "license": "MIT",
@@ -18,14 +18,14 @@
     },
     "autoload": {
         "psr-0": {
-            "{Vendor}\\{Package}": "{source-dir}",
-            "{Vendor}\\{Package}\\TypeCheck": "{source-dir}-typhoon",
+            "{vendor-tc}\\{package-tc}": "{source-dir}",
+            "{vendor-tc}\\{package-tc}\\TypeCheck": "{source-dir}-typhoon",
         }
     },
     "extra": {
         "typhoon": {
             "output-path": "{source-dir}-typhoon",
-            "validator-namespace": "{Vendor}\\{Package}\\TypeCheck",
+            "validator-namespace": "{vendor-tc}\\{package-tc}\\TypeCheck",
             "use-native-callable": false
         }
     }

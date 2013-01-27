@@ -1,7 +1,7 @@
 <?php
-namespace {Vendor}\{Package}\Console;
+namespace {vendor-tc}\{package-tc}\Console;
 
-use {Vendor}\{Package}\TypeCheck\TypeCheck;
+use {vendor-tc}\{package-tc}\TypeCheck\TypeCheck;
 use Symfony\Component\Console\Application as SymfonyApplication;
 
 class Application extends SymfonyApplication
@@ -13,7 +13,7 @@ class Application extends SymfonyApplication
     {
         $this->typeCheck = TypeCheck::get(__CLASS__, func_get_args());
 
-        parent::__construct('{Package}', 'DEV');
+        parent::__construct('{package-tc}', 'DEV');
 
         $this->packageRoot = $packageRoot;
 

@@ -13,7 +13,7 @@ abstract class AbstractCommand extends Command
     protected function readGitConfig($key)
     {
         $exitCode = 0;
-        $result = exec('git config --global user.name', $output, $exitCode);
+        $result = exec('git config --global ' . escapeshellarg($key), $output, $exitCode);
         $result = trim($result);
 
         if (0 === $exitCode && '' !== $result) {
@@ -39,7 +39,7 @@ abstract class AbstractCommand extends Command
         }
 
         $this->passthru(
-            '%s/bin/ict-chassis clone %s/res/skel.%s %s ' . $defines,
+            '%s/vendor/bin/ict-chassis clone %s/vendor/icecave/testing/res/skel.%s %s ' . $defines,
             $projectRoot,
             $projectRoot,
             $skeleton,
