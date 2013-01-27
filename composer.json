@@ -15,7 +15,10 @@
         "symfony/console": "~2"
     },
     "bin": [
-        "bin/ict"
+        "bin/ict",
+        "bin/ict-woodhouse",
+        "bin/ict-chassis",
+        "bin/ict-near"
     ],
     "autoload": {
         "psr-0": {
