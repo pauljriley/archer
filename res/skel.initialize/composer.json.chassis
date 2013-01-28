@@ -16,7 +16,8 @@
         "eloquent/asplode": "~1"
     },
     "require-dev": {
-        "icecave/testing": "~2"
+        "icecave/testing": "~2",
+        "eloquent/typhoon": "~0.8"
     },
     "autoload": {
         "psr-0": {
