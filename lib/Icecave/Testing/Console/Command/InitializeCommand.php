@@ -52,6 +52,8 @@ class InitializeCommand extends AbstractCommand
 
         list(, $vendor, $package) = $matches;
 
+        $skeletons = array('initialize', 'update');
+
         $variables = array(
             'dot'            => '.',
             'vendor'         => $vendor,
@@ -72,11 +74,13 @@ class InitializeCommand extends AbstractCommand
         if ($value = $this->readGitConfig('user.name')) {
             $variables['name'] = $value;
         }
+
         if ($value = $this->readGitConfig('user.email')) {
             $variables['email'] = $value;
         }
 
         if ($token = $input->getOption('oauth-token')) {
+            $skeletons[] = 'coverage';
             $variables['travis-public-key'] = $key = $this->travisKey($packageName);
             $variables['oauth-secure-environment'] = $this->encryptToken($key, $token);
         }
@@ -92,16 +96,13 @@ class InitializeCommand extends AbstractCommand
         $this->passthru('composer install --dev --working-dir %s', $projectPath);
         unlink($composerPath);
 
-        // Install 
-        $output->writeln('Cloning <info>initialize</info> skeleton.');
-        $this->cloneSkeleton($projectPath, 'initialize', $variables);
+        $output->writeln('Cloning project skeleton.');
+        $this->cloneSkeletons($projectPath, $skeletons, $variables);
 
-        $output->writeln('Cloning <info>update</info> skeleton.');
-        $this->cloneSkeleton($projectPath, 'update', $variables);
+        $output->writeln('Updating composer dependencies.');
+        $this->passthru('composer update --dev --working-dir %s', $projectPath);
 
-        if ($token) {
-            $output->writeln('Cloning <info>coverage</info> skeleton.');
-            $this->cloneSkeleton($projectPath, 'coverage', $variables);
-        }
+        chdir($projectPath);
+        $this->passthru('vendor/bin/typhoon generate');
     }
 }

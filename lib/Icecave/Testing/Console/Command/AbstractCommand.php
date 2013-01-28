@@ -31,20 +31,21 @@ abstract class AbstractCommand extends Command
         return '<todo:encrypt-key>';
     }
 
-    protected function cloneSkeleton($projectRoot, $skeleton, array $variables)
+    protected function cloneSkeletons($projectRoot, array $skeletons, array $variables)
     {
-        $defines = '';
-        foreach ($variables as $key => $value) {
-            $defines .= ' --define ' . escapeshellarg($key . '=' . $value);
+        $command = $projectRoot . '/vendor/bin/ict-chassis clone ';
+
+        foreach ($skeletons as $skel) {
+            $command .= ' ' . escapeshellarg($projectRoot . '/vendor/icecave/testing/res/skel.' . $skel);
         }
 
-        $this->passthru(
-            '%s/vendor/bin/ict-chassis clone %s/vendor/icecave/testing/res/skel.%s %s ' . $defines,
-            $projectRoot,
-            $projectRoot,
-            $skeleton,
-            $projectRoot
-        );
+        foreach ($variables as $key => $value) {
+            $command .= ' --define ' . escapeshellarg($key . '=' . $value);
+        }
+
+        $command .= ' --output-path ' . escapeshellarg($projectRoot);
+
+        $this->passthru($command);
     }
 
     protected function passthru($command)
