@@ -18,12 +18,7 @@ if (is_file($standaloneAutoloadPath)) {
     );
 }
 
-// Implement our own error handler, because we can't use Asplode ...
-set_error_handler(
-    function ($severity, $message, $filename, $lineno) {
-        throw new ErrorException($message, 0, $severity, $filename, $lineno);
-    }
-);
+Icecave\Testing\Support\Asplode::instance()->install();
 
 $application = new Icecave\Testing\Console\Application($packageRoot);
 $application->run();
