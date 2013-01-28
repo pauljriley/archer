@@ -81,7 +81,7 @@ class InitializeCommand extends AbstractCommand
 
         if ($token = $input->getOption('oauth-token')) {
             $skeletons[] = 'coverage';
-            $variables['travis-public-key'] = $key = $this->travisKey($packageName);
+            $variables['travis-public-key'] = $key = $this->travisKey($variables['github-account'], $package);
             $variables['oauth-secure-environment'] = $this->encryptToken($key, $token);
         }
 

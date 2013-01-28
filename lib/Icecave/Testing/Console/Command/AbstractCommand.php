@@ -23,12 +23,31 @@ abstract class AbstractCommand extends Command
         return null;
     }
 
-    protected function travisKey($packageName) {
-        return file_get_contents('https://api.travis-ci.org/repos/' . $packageName . '/key');
+    protected function travisKey($githubAccount, $package) {
+        $json = file_get_contents('https://api.travis-ci.org/repos/' . $githubAccount . '/' . $package . '/key');
+
+        $key = json_decode($json)->key;
+        $key = str_replace('-----BEGIN RSA PUBLIC KEY-----', '', $key);
+        $key = str_replace('-----END RSA PUBLIC KEY-----', '', $key);
+        $key = preg_replace('/\s+/', '', $key);
+
+        return $key;
     }
 
     protected function encryptToken($key, $token) {
-        return '<todo:encrypt-key>';
+        if (!function_exists('openssl_public_encrypt')) {
+            throw new RuntimeException('Encrypting OAuth key requires the PECL openssl module.');
+        }
+
+        $paddedKey  = '-----BEGIN PUBLIC KEY-----' . PHP_EOL;
+        $paddedKey .= chunk_split($key);
+        $paddedKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
+
+        $encrypted = null;
+
+        openssl_public_encrypt('ICT_GITHUB_TOKEN="' . $token . '"', $encrypted, $paddedKey, OPENSSL_PKCS1_PADDING);
+
+        return base64_encode($encrypted);
     }
 
     protected function cloneSkeletons($projectRoot, array $skeletons, array $variables)
