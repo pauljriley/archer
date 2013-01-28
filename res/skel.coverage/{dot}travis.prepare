@@ -22,5 +22,5 @@ if (!is_dir($dir)) {
 
 file_put_contents(
     $path,
-    str_replace('{token}', getenv('ICT_GITHUB_TOKEN'), $config)
+    str_replace('%token%', getenv('ICT_GITHUB_TOKEN'), $config)
 );
