@@ -1,6 +1,9 @@
 <?php
 namespace Icecave\Testing\Support;
 
+use ErrorException;
+use RuntimeException;
+
 /**
  * This class is a partial implementation of eloquent/asplode, provided here to prevent
  * circular dependencies and namespace clashes.
@@ -44,16 +47,9 @@ class Asplode
 
     public function handleError($severity, $message, $filename, $lineno)
     {
-        throw new \ErrorException($message, 0, $severity, $filename, $lineno);
+        throw new ErrorException($message, 0, $severity, $filename, $lineno);
     }
 
-    /**
-     * @var boolean
-     */
     protected $installed = false;
-
-    /**
-     * @var Isolator
-     */
     protected $isolator;
 }
