@@ -21,7 +21,7 @@
     "autoload": {
         "psr-0": {
             "{vendor-tc}\\{package-tc}": "{source-dir}",
-            "{vendor-tc}\\{package-tc}\\TypeCheck": "{source-dir}-typhoon",
+            "{vendor-tc}\\{package-tc}\\TypeCheck": "{source-dir}-typhoon"
         }
     },
     "extra": {
