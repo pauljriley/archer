@@ -51,6 +51,11 @@ class FileManager
         return $this->packageRootPath() . '/.ict.key';
     }
 
+    public function encryptedEnvironmentPath()
+    {
+        return $this->packageRootPath() . '/.ict.env';
+    }
+
     public function travisYamlPath()
     {
         return $this->packageRootPath() . '/.travis.yml';

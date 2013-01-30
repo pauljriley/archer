@@ -4,36 +4,14 @@ namespace Icecave\Testing\Console\Command\Travis;
 use Icecave\Testing\GitHub\GitConfigReader;
 use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Travis\TravisClient;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Icecave\Testing\Console\Command\AbstractCommand;
 
-class FetchPublicKeyCommand extends Command
+class FetchPublicKeyCommand extends AbstractCommand
 {
-    public function __construct(FileManager $fileManager = null, GitConfigReader $configReader = null, TravisClient $travisClient = null)
-    {
-        if (null === $fileManager) {
-            $fileManager = new FileManager;
-        }
-
-        if (null === $configReader) {
-            $configReader = new GitConfigReader;
-        }
-
-        if (null === $travisClient) {
-            $travisClient = new TravisClient;
-        }
-
-        $this->fileManager = $fileManager;
-        $this->configReader = $configReader;
-        $this->travisClient = $travisClient;
-
-        parent::__construct();
-    }
-
     protected function configure()
     {
         $this->setName('travis:fetch-public-key');
@@ -69,9 +47,7 @@ class FetchPublicKeyCommand extends Command
             $this->fileManager->publicKey = $key;
             $output->writeln('Key updated successfully.');
         }
-    }
 
-    private $fileManager;
-    private $configReader;
-    private $travisClient;
+        $output->write(PHP_EOL);
+    }
 }

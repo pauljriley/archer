@@ -1,6 +1,7 @@
 <?php
 namespace Icecave\Testing\Travis;
 
+use RuntimeException;
 use Icecave\Testing\Support\Isolator;
 
 class TravisClient
@@ -31,20 +32,35 @@ class TravisClient
         return $this->keyCache[$cacheKey] = $response->key;
     }
 
-    public function encrypt($repoOwner, $repoName, $plainText)
+    public function encryptEnvironment($publicKey, $repoOwner, $repoName, $gitHubToken)
     {
-        $publicKey = $this->publicKey($repoOwner, $repoName);
-        $cipherText = null;
-
-        $this->isolator->openssl_public_encrypt(
-            $plainText,
-            $cipherText,
-            str_replace('RSA PUBLIC KEY', 'PUBLIC KEY', $publicKey)
+        $env = sprintf(
+            'ICT_REPO="%s/%s" ICT_TOKEN="%s"',
+            $repoOwner,
+            $repoName,
+            $gitHubToken
         );
 
-        return $cipherText;
+        return $this->encrypt($publicKey, $env);
     }
 
-    private $keyCache;
+    public function encrypt($publicKey, $plainText)
+    {
+        $cipherText = null;
+
+        $result = $this->isolator->openssl_public_encrypt(
+            $plainText,
+            $cipherText,
+            str_replace('RSA PUBLIC KEY', 'PUBLIC KEY', $publicKey),
+            OPENSSL_PKCS1_PADDING
+        );
+
+        if (!$result) {
+            throw new RuntimeException('Encryption failed.');
+        }
+
+        return base64_encode($cipherText);
+    }
+
     private $isolator;
 }

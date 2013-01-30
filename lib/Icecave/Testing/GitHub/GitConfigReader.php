@@ -22,11 +22,7 @@ class GitConfigReader
 
     public function get($key, $default = null)
     {
-        if (null === $this->config) {
-            $this->parse();
-        }
-
-        if (array_key_exists($key, $this->config)) {
+        if ($this->config && array_key_exists($key, $this->config)) {
             return $this->config[$key];
         }
 
