@@ -49,7 +49,7 @@ class SetTokenCommand extends AbstractCommand
 
         if (null === $key) {
             $output->writeln('Fetching public key for <info>' . $repoOwner . '/' . $repoName . '</info>.');
-            $this->fileManager->publicKey = $this->travisClient->publicKey($repoOwner, $repoName);
+            $this->fileManager->publicKey = $key = $this->travisClient->publicKey($repoOwner, $repoName);
         }
 
         $this->fileManager->encryptedEnvironment = $this->travisClient->encryptEnvironment(
@@ -59,8 +59,8 @@ class SetTokenCommand extends AbstractCommand
             $token
         );
 
-        // TODO: not implemented ...
-        // $this->fileManager->travisYaml = $this->travisClient->generateYaml();
+        $output->writeln('Updating Travis CI configuration.');
+        $this->travisConfigManager->updateConfig();
 
         $output->writeln('Token updated successfully.');
         $output->write(PHP_EOL);

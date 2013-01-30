@@ -8,17 +8,12 @@ class TravisClient
 {
     public function __construct(Isolator $isolator = null)
     {
-        $this->keyCache = array();
         $this->isolator = Isolator::get($isolator);
     }
 
     public function publicKey($repoOwner, $repoName, $forceCacheRefresh = false)
     {
         $cacheKey = $repoOwner . '/' . $repoName;
-
-        if (array_key_exists($cacheKey, $this->keyCache) && !$forceCacheRefresh) {
-            return $this->keyCache[$cacheKey];
-        }
 
         $url  = sprintf(
             'https://api.travis-ci.org/repos/%s/%s/key',
@@ -29,7 +24,7 @@ class TravisClient
         $response = $this->isolator->file_get_contents($url);
         $response = json_decode($response);
 
-        return $this->keyCache[$cacheKey] = $response->key;
+        return $response->key;
     }
 
     public function encryptEnvironment($publicKey, $repoOwner, $repoName, $gitHubToken)
