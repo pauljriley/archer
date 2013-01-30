@@ -17,24 +17,16 @@
     "bin": [
         "bin/ict",
         "bin/ict-woodhouse",
-        "bin/ict-chassis",
-        "bin/ict-near"
+        "bin/ict-chassis"
     ],
     "autoload": {
         "psr-0": {
             "Icecave\\Testing": "lib"
         }
     },
-    "extra": {
-        "bundled-packages": [
-            "icecave/woodhouse",
-            "icecave/chassis",
-            "icecave/near"
-        ]
-    },
     "scripts": {
         "post-update-cmd": [
-            "bin/ict update-bundled-packages"
+            "bin/ict update-binaries"
         ]
     }
 }

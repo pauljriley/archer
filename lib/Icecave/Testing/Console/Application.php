@@ -12,7 +12,7 @@ class Application extends SymfonyApplication
         $this->packageRoot = $packageRoot;
 
         $this->add(new Command\InitializeCommand);
-        $this->add(new Command\UpdateBundledPackagesCommand);
+        $this->add(new Command\UpdateBinariesCommand);
     }
 
     public function packageRoot()

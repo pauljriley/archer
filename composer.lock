@@ -1,5 +1,5 @@
 {
-    "hash": "16f95e62cd00bfa84b79f6217d7587d7",
+    "hash": "772f217b8e84fcd323384a46c50f8b4e",
     "packages": [
         {
             "name": "phake/phake",
@@ -70,7 +70,7 @@
                     "Symfony\\Component\\Console": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],

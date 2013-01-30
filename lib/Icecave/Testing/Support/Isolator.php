@@ -30,6 +30,7 @@ class Isolator
                 // @codeCoverageIgnoreEnd
             case 'echo':
                 echo current($arguments);
+
                 return;
             case 'eval':
                 return eval(current($arguments));

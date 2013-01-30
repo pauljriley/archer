@@ -3,10 +3,6 @@ namespace Icecave\Testing\Console\Command;
 
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class AbstractCommand extends Command
 {
@@ -23,7 +19,8 @@ abstract class AbstractCommand extends Command
         return null;
     }
 
-    protected function travisKey($githubAccount, $package) {
+    protected function travisKey($githubAccount, $package)
+    {
         $json = file_get_contents('https://api.travis-ci.org/repos/' . $githubAccount . '/' . $package . '/key');
 
         $key = json_decode($json)->key;
@@ -34,7 +31,8 @@ abstract class AbstractCommand extends Command
         return $key;
     }
 
-    protected function encryptToken($key, $token) {
+    protected function encryptToken($key, $token)
+    {
         if (!function_exists('openssl_public_encrypt')) {
             throw new RuntimeException('Encrypting OAuth key requires the PECL openssl module.');
         }
