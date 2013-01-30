@@ -10,7 +10,7 @@ class FileManager
     {
         $this->isolator = Isolator::get($isolator);
     }
-    
+
     public function setPackageRoot($packageRoot)
     {
         $this->packageRoot = $packageRoot;
@@ -38,6 +38,7 @@ class FileManager
         if (null === $this->packageRoot) {
             throw new RuntimeException('No package root has been set.');
         }
+
         return $this->packageRoot;
     }
 

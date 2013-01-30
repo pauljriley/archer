@@ -5,7 +5,6 @@ use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Travis\TravisClient;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Icecave\Testing\Console\Command\AbstractCommand;
 
@@ -39,6 +38,7 @@ class SetTokenCommand extends AbstractCommand
         if (!preg_match('/^[0-9a-f]{40}$/i', $token)) {
             $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
             $output->write(PHP_EOL);
+
             return 1;
         }
 

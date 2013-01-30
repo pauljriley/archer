@@ -3,7 +3,6 @@ namespace Icecave\Testing\GitHub;
 
 use Exception;
 use RuntimeException;
-use Icecave\Testing\Exception\ExecutionException;
 use Icecave\Testing\Support\Isolator;
 use Icecave\Testing\Support\ShellExecutor;
 
@@ -35,6 +34,7 @@ class GitConfigReader
         if (!preg_match('{github.com[/:](.+?)/(.+?).git$}i', $url, $matches)) {
             throw new RuntimeException('Origin URL "' . $url . '" is not a GitHub repository.');
         }
+
         return $matches[1];
     }
 
@@ -44,6 +44,7 @@ class GitConfigReader
         if (!preg_match('{github.com[/:](.+?)/(.+?).git$}i', $url, $matches)) {
             throw new RuntimeException('Origin URL "' . $url . '" is not a GitHub repository.');
         }
+
         return $matches[2];
     }
 

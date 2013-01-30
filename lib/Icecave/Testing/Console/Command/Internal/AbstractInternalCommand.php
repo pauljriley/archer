@@ -2,8 +2,6 @@
 namespace Icecave\Testing\Console\Command\Internal;
 
 use Icecave\Testing\Support\Isolator;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 
 abstract class AbstractInternalCommand extends Command
@@ -14,7 +12,7 @@ abstract class AbstractInternalCommand extends Command
 
         parent::__construct();
     }
-    
+
     public function isEnabled()
     {
         if (null === self::$enabled) {

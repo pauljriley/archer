@@ -1,15 +1,12 @@
 <?php
 namespace Icecave\Testing\Console\Command\Travis;
 
-use Icecave\Testing\GitHub\GitConfigReader;
 use Icecave\Testing\Support\FileManager;
-use Icecave\Testing\Travis\TravisClient;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Icecave\Testing\Console\Command\AbstractCommand;
-use Symfony\Component\Yaml\Parser;
 
 class UpdateConfigCommand extends AbstractCommand
 {

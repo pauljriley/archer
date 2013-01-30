@@ -1,7 +1,6 @@
 <?php
 namespace Icecave\Testing\Console\Command\Travis;
 
-use Icecave\Testing\GitHub\GitConfigReader;
 use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Travis\TravisClient;
 use Symfony\Component\Console\Command\Command;
