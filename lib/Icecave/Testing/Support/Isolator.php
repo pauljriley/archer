@@ -54,5 +54,10 @@ class Isolator
         return openssl_public_encrypt($data, $crypted, $key, $padding);
     }
 
+    public function exec($command, &$output = null, &$exitCode = null)
+    {
+        return exec($command, $output, $exitCode);
+    }
+
     private static $instance;
 }

@@ -11,9 +11,9 @@ class TravisClient
         $this->isolator = Isolator::get($isolator);
     }
 
-    public function publicKey($accountName, $repoName, $forceCacheRefresh = false)
+    public function publicKey($repoOwner, $repoName, $forceCacheRefresh = false)
     {
-        $cacheKey = $accountName . '/' . $repoName;
+        $cacheKey = $repoOwner . '/' . $repoName;
 
         if (array_key_exists($cacheKey, $this->keyCache) && !$forceCacheRefresh) {
             return $this->keyCache[$cacheKey];
@@ -21,7 +21,7 @@ class TravisClient
 
         $url  = sprintf(
             'https://api.travis-ci.org/repos/%s/%s/key',
-            urlencode($accountName),
+            urlencode($repoOwner),
             urlencode($repoName)
         );
 
@@ -31,9 +31,9 @@ class TravisClient
         return $this->keyCache[$cacheKey] = $response->key;
     }
 
-    public function encrypt($accountName, $repoName, $plainText)
+    public function encrypt($repoOwner, $repoName, $plainText)
     {
-        $publicKey = $this->publicKey($accountName, $repoName);
+        $publicKey = $this->publicKey($repoOwner, $repoName);
         $cipherText = null;
 
         $this->isolator->openssl_public_encrypt(
