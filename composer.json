@@ -1,7 +1,7 @@
 {
     "name": "icecave/testing",
     "description": "Test projects in a uniform way.",
-    "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage"],
+    "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts"],
     "homepage": "https://github.com/IcecaveStudios/testing",
     "license": "MIT",
     "authors": [

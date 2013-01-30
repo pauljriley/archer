@@ -25,7 +25,7 @@ class InitializeCommand extends AbstractCommand
             'oauth-token',
             't',
             InputOption::VALUE_REQUIRED,
-            'The GitHub OAuth token to use for composer and coverage report publishing.'
+            'The GitHub OAuth token to use for composer and artifact publishing.'
         );
     }
 
@@ -67,7 +67,6 @@ class InitializeCommand extends AbstractCommand
         }
 
         if ($token = $input->getOption('oauth-token')) {
-            $skeletons[] = 'coverage';
             $variables['travis-public-key'] = $key = $this->travisKey($variables['github-account'], $package);
             $variables['oauth-secure-environment'] = $this->encryptToken($key, $token);
         }
