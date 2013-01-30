@@ -7,12 +7,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BuildCommand extends AbstractCommand
+class UpdateCommand extends AbstractCommand
 {
     protected function configure()
     {
-        $this->setName('build');
-        $this->setDescription('Build the project.');
+        $this->setName('update');
+        $this->setDescription('Update a project with the latest testing configuration.');
 
         $this->addArgument(
             'path',
@@ -22,10 +22,17 @@ class BuildCommand extends AbstractCommand
         );
 
         $this->addOption(
-            'coverage',
-            null,
+            'oauth-token',
+            't',
+            InputOption::VALUE_REQUIRED,
+            'A GitHub OAuth token with succificent access to push to this repository.'
+        );
+
+        $this->addOption(
+            'update-private-key',
+            'k',
             InputOption::VALUE_NONE,
-            'Produce coverage reports.'
+            'Update the Travis CI public key for this repository.'
         );
     }
 

@@ -11,8 +11,17 @@ class Application extends SymfonyApplication
 
         $this->packageRoot = $packageRoot;
 
+        $this->add(new Command\BuildCommand);
         $this->add(new Command\InitializeCommand);
-        $this->add(new Command\UpdateBinariesCommand);
+        $this->add(new Command\UpdateCommand);
+
+        $this->add(new Command\GitHub\CreateTokenCommand);
+        $this->add(new Command\GitHub\FetchTokenCommand);
+        $this->add(new Command\GitHub\SetTokenCommand);
+
+        $this->add(new Command\Travis\FetchPublicKeyCommand);
+
+        $this->add(new Command\Internal\UpdateBinariesCommand);
     }
 
     public function packageRoot()

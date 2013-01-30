@@ -15,12 +15,6 @@ class InitializeCommand extends AbstractCommand
         $this->setDescription('Initialize a new project.');
 
         $this->addArgument(
-            'package-name',
-            InputArgument::REQUIRED,
-            'Package name (eg: icecave/testing).'
-        );
-
-        $this->addArgument(
             'path',
             InputArgument::OPTIONAL,
             'The path to the root of the project.',
@@ -29,7 +23,7 @@ class InitializeCommand extends AbstractCommand
 
         $this->addOption(
             'oauth-token',
-            'o',
+            't',
             InputOption::VALUE_REQUIRED,
             'The GitHub OAuth token to use for composer and coverage report publishing.'
         );
@@ -37,18 +31,11 @@ class InitializeCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        throw new \Exception('Not implemented error.');
+
         $packageName  = $input->getArgument('package-name');
         $projectPath  = rtrim($input->getArgument('path'), '/');
         $composerPath = $projectPath . '/composer.json';
-
-        $matches = array();
-        if (!preg_match('/^([a-z0-9-]+)\/([a-z0-9-]+)$/', $packageName, $matches)) {
-            throw new RuntimeException('Invalid package name: "' . $packageName . '".');
-        }
-
-        if (file_exists($composerPath)) {
-            throw new RuntimeException('Package already contains a composer.json file.');
-        }
 
         list(, $vendor, $package) = $matches;
 

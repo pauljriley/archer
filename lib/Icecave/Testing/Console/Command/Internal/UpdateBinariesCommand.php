@@ -1,22 +1,16 @@
 <?php
-namespace Icecave\Testing\Console\Command;
+namespace Icecave\Testing\Console\Command\Internal;
 
 use Icecave\Testing\Support\Isolator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 
-class UpdateBinariesCommand extends AbstractCommand
+class UpdateBinariesCommand extends AbstractInternalCommand
 {
-    public function __construct(Isolator $isolator = null)
-    {
-        $this->isolator = Isolator::get($isolator);
-
-        parent::__construct();
-    }
-
     protected function configure()
     {
-        $this->setName('update-binaries');
+        $this->setName('internal:update-binaries');
         $this->setDescription('Update the PHAR packages that are bundled with icecave/testing.');
     }
 
@@ -35,6 +29,4 @@ class UpdateBinariesCommand extends AbstractCommand
         $this->isolator->file_put_contents($target, $content);
         $this->isolator->chmod($target, 0755);
     }
-
-    private $isolator;
 }
