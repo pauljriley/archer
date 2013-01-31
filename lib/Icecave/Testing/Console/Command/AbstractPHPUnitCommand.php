@@ -8,8 +8,10 @@ use Icecave\Testing\Process\ProcessFactory;
 use Icecave\Testing\Support\Isolator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 abstract class AbstractPHPUnitCommand extends Command
 {
@@ -34,7 +36,7 @@ abstract class AbstractPHPUnitCommand extends Command
         }
         $this->phpFinder = $phpFinder;
 
-        $this->isolator = Isolator::get($isolator);
+        $isolator = Isolator::get($isolator);
 
         if (null === $processFactory) {
             $processFactory = new ProcessFactory;
@@ -45,18 +47,18 @@ abstract class AbstractPHPUnitCommand extends Command
             $phpunitFinder = new PHPUnitExecutableFinder(
                 null,
                 $this->processFactory,
-                $this->isolator
+                $isolator
             );
         }
         $this->phpunitFinder = $phpunitFinder;
 
         if (null === $phpConfigurationReader) {
-            $phpConfigurationReader = new PHPConfigurationReader($this->isolator);
+            $phpConfigurationReader = new PHPConfigurationReader($isolator);
         }
         $this->phpConfigurationReader = $phpConfigurationReader;
 
         if (null === $configurationFileFinder) {
-            $configurationFileFinder = new ConfigurationFileFinder($this->isolator);
+            $configurationFileFinder = new ConfigurationFileFinder($isolator);
         }
         $this->configurationFileFinder = $configurationFileFinder;
 
@@ -104,14 +106,6 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
-     * @return Isolator
-     */
-    protected function isolator()
-    {
-        return $this->isolator;
-    }
-
-    /**
      * @param InputInterface $input
      * @param OutputInterface $output
      *
@@ -132,11 +126,30 @@ abstract class AbstractPHPUnitCommand extends Command
             )
         );
 
-        return $process->run(function ($type, $buffer) {
+        return $this->passthru($process, $output);
+    }
+
+    /**
+     * @param Process $process
+     * @param ConsoleOutputInterface $output
+     *
+     * @return integer
+     */
+    protected function passthru(Process $process, ConsoleOutputInterface $output)
+    {
+        return $process->run(function ($type, $buffer) use ($output) {
             if ('out' === $type) {
-                $this->isolator()->fwrite(STDOUT, $buffer);
+                $output->write(
+                    $buffer,
+                    false,
+                    OutputInterface::OUTPUT_RAW
+                );
             } else {
-                $this->isolator()->fwrite(STDERR, $buffer);
+                $output->getErrorOutput()->write(
+                    $buffer,
+                    false,
+                    OutputInterface::OUTPUT_RAW
+                );
             }
         });
     }
@@ -207,5 +220,4 @@ abstract class AbstractPHPUnitCommand extends Command
     private $phpConfigurationReader;
     private $configurationFileFinder;
     private $processFactory;
-    private $isolator;
 }
