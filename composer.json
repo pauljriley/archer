@@ -18,7 +18,8 @@
     "require": {
         "ext-openssl": "*",
         "phake/phake": "~1",
-        "symfony/console": "~2"
+        "symfony/console": "~2",
+        "symfony/process": "~2"
     },
     "bin": [
         "bin/ict"
