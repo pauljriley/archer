@@ -55,6 +55,22 @@ class TestCommand extends AbstractPHPUnitCommand
     }
 
     /**
+     * @return string
+     */
+    protected function findPHPUnitConfiguration()
+    {
+        return $this->configurationFinder()->find(
+            array(
+                './phpunit.xml',
+                './phpunit.xml.dist',
+                './test/phpunit.xml',
+                './test/phpunit.xml.dist',
+            ),
+            './vendor/icecave/testing/res/phpunit/phpunit.xml'
+        );
+    }
+
+    /**
      * @return array<string>
      */
     protected function candidatePHPConfigurationPaths()
@@ -64,26 +80,5 @@ class TestCommand extends AbstractPHPUnitCommand
             './test/php.ini',
             './php.ini',
         );
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function candidatePHPUnitConfigurationPaths()
-    {
-        return array(
-            './phpunit.xml',
-            './phpunit.xml.dist',
-            './test/phpunit.xml',
-            './test/phpunit.xml.dist',
-        );
-    }
-
-    /**
-     * @return string
-     */
-    protected function defaultPHPUnitConfigurationPath()
-    {
-        return './vendor/icecave/testing/res/phpunit/phpunit.xml';
     }
 }

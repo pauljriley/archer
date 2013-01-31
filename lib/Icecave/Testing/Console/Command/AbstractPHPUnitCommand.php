@@ -1,6 +1,7 @@
 <?php
 namespace Icecave\Testing\Console\Command;
 
+use Icecave\Testing\Configuration\ConfigurationFileFinder;
 use Icecave\Testing\Process\PHPUnitExecutableFinder;
 use Icecave\Testing\Process\ProcessFactory;
 use Icecave\Testing\Support\Isolator;
@@ -12,12 +13,14 @@ abstract class AbstractPHPUnitCommand extends Command
     /**
      * @param PhpExecutableFinder|null     $phpFinder
      * @param PHPUnitExecutableFinder|null $phpunitFinder
+     * @param ConfigurationFileFinder|null $configurationFinder
      * @param ProcessFactory|null          $processFactory
      * @param Isolator|null                $isolator
      */
     public function __construct(
         PhpExecutableFinder $phpFinder = null,
         PHPUnitExecutableFinder $phpunitFinder = null,
+        ConfigurationFileFinder $configurationFinder = null,
         ProcessFactory $processFactory = null,
         Isolator $isolator = null
     ) {
@@ -38,6 +41,10 @@ abstract class AbstractPHPUnitCommand extends Command
             );
         }
         $this->phpunitFinder = $phpunitFinder;
+        if (null === $configurationFinder) {
+            $configurationFinder = new ConfigurationFileFinder($this->isolator);
+        }
+        $this->configurationFinder = $configurationFinder;
 
         parent::__construct();
     }
@@ -56,6 +63,14 @@ abstract class AbstractPHPUnitCommand extends Command
     public function phpunitFinder()
     {
         return $this->phpunitFinder;
+    }
+
+    /**
+     * @return ConfigurationFileFinder
+     */
+    public function configurationFinder()
+    {
+        return $this->configurationFinder;
     }
 
     /**
@@ -107,36 +122,13 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
-     * @return string
-     */
-    protected function findPHPUnitConfiguration()
-    {
-        foreach ($this->candidatePHPUnitConfigurationPaths() as $path) {
-            if ($this->isolator->is_file($path)) {
-                return $path;
-            }
-        }
-
-        return $this->defaultPHPUnitConfigurationPath();
-    }
-
-    /**
      * @return array<string>
      */
     abstract protected function candidatePHPConfigurationPaths();
 
-    /**
-     * @return array<string>
-     */
-    abstract protected function candidatePHPUnitConfigurationPaths();
-
-    /**
-     * @return string
-     */
-    abstract protected function defaultPHPUnitConfigurationPath();
-
     private $phpFinder;
     private $phpunitFinder;
+    private $configurationFinder;
     private $processFactory;
     private $isolator;
 }
