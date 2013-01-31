@@ -28,7 +28,7 @@ class UpdateCommand extends AbstractCommand
         );
 
         $this->addOption(
-            'update-private-key',
+            'update-public-key',
             'k',
             InputOption::VALUE_NONE,
             'Update the Travis CI public key for this repository.'
@@ -37,6 +37,60 @@ class UpdateCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        throw new \Exception('Not implemented error.');
+        $this->fileManager->setPackageRoot($input->getArgument('path'));
+        $this->configReader->parse($this->fileManager->packageRootPath());
+
+        // Validate the OAuth token if one was provided ...
+        $token = $input->getOption('oauth-token');
+        if ($token && !preg_match('/^[0-9a-f]{40}$/i', $token)) {
+            $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
+            $output->write(PHP_EOL);
+            return 1;
+        }
+
+        // Copy git files ...
+        if (!$this->fileManager->gitIgnore) {
+            $output->writeln('Updating <info>.gitignore</info>.');
+            $this->fileManager->gitIgnore = $this->isolator->file_get_contents($this->getApplication()->packageRoot() . '/res/git/gitignore');
+        }
+
+        if (!$this->fileManager->gitAttributes) {
+            $output->writeln('Updating <info>.gitattributes</info>.');
+            $this->fileManager->gitAttributes = $this->isolator->file_get_contents($this->getApplication()->packageRoot() . '/res/git/gitattributes');
+        }
+
+        $repoOwner = $this->configReader->repositoryOwner();
+        $repoName  = $this->configReader->repositoryName();
+
+        // Update the public key if requested (or it's missing) ...
+        $updateKey = $input->getOption('update-public-key');
+        $key = $this->fileManager->publicKey;
+
+        if ($updateKey || ($key === null && $token)) {
+            $output->writeln('Fetching public key for <info>' . $repoOwner . '/' . $repoName . '</info>.');
+            $this->fileManager->publicKey = $key = $this->travisClient->publicKey($repoOwner, $repoName);
+        }
+
+        // Re-encrypt the environment if the $token or $key changed ...
+        if ($token && $key) {
+            $output->writeln('Encrypting OAuth token.');
+            $this->fileManager->encryptedEnvironment = $this->travisClient->encryptEnvironment(
+                $key,
+                $repoOwner,
+                $repoName,
+                $token
+            );
+        }
+
+        // Update the travis CI configuration ...
+        $output->writeln('Updating <info>.travis.yml</info>.');
+        $artifacts = $this->travisConfigManager->updateConfig();
+
+        if (!$artifacts) {
+            $output->writeln('<comment>Artifact publication is not available as no GitHub OAuth token has been configured.</comment>');
+        }
+
+        $output->writeln('Configuration updated successfully.');
+        $output->write(PHP_EOL);
     }
 }

@@ -47,6 +47,16 @@ class FileManager
         return $this->packageRootPath() . '/composer.json';
     }
 
+    public function gitIgnorePath()
+    {
+        return $this->packageRootPath() . '/.gitignore';
+    }
+
+    public function gitAttributesPath()
+    {
+        return $this->packageRootPath() . '/.gitattributes';
+    }
+
     public function publicKeyPath()
     {
         return $this->packageRootPath() . '/.travis.key';

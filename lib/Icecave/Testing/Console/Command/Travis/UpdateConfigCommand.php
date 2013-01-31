@@ -28,13 +28,14 @@ class UpdateConfigCommand extends AbstractCommand
         $this->fileManager->setPackageRoot($input->getArgument('path'));
         $this->configReader->parse($this->fileManager->packageRootPath());
 
+        $output->writeln('Updating <info>.travis.yml</info>.');
         $artifacts = $this->travisConfigManager->updateConfig();
 
         if (!$artifacts) {
             $output->writeln('<comment>Artifact publication is not available as no GitHub OAuth token has been configured.</comment>');
         }
 
-        $output->writeln('Travis CI configuration updated successfully.');
+        $output->writeln('Configuration updated successfully.');
         $output->write(PHP_EOL);
     }
 }
