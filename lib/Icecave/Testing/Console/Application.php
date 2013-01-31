@@ -20,6 +20,7 @@ class Application extends SymfonyApplication
         $this->packageRoot = $packageRoot;
         $this->isolator = Isolator::get($isolator);
 
+        $this->add(new Command\TestCommand);
         $this->add(new Command\UpdateCommand);
 
         $this->add(new Command\GitHub\CreateTokenCommand);
