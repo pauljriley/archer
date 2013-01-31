@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * This script is executed before composer dependencies are executed,
+ * This script is executed before composer dependencies are installed,
  * and as such must be included in each project as part of the skeleton.
  */
 $path   = getenv('HOME') . '/.composer/config.json';
