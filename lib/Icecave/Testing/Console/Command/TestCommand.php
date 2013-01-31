@@ -35,7 +35,7 @@ class TestCommand extends AbstractPHPUnitCommand
 
         $arguments = array_merge(
             array($phpPath),
-            $this->phpConfigurationArguments(),
+            $this->phpConfigurationArguments($this->readPHPConfiguration()),
             array(
                 $phpunitPath,
                 '--configuration',
@@ -55,11 +55,23 @@ class TestCommand extends AbstractPHPUnitCommand
     }
 
     /**
+     * @return array<string,mixed>
+     */
+    protected function readPHPConfiguration()
+    {
+        return $this->phpConfigurationReader()->read(array(
+            './vendor/icecave/testing/res/php/php.ini',
+            './test/php.ini',
+            './php.ini',
+        ));
+    }
+
+    /**
      * @return string
      */
     protected function findPHPUnitConfiguration()
     {
-        return $this->configurationFinder()->find(
+        return $this->configurationFileFinder()->find(
             array(
                 './phpunit.xml',
                 './phpunit.xml.dist',
@@ -67,18 +79,6 @@ class TestCommand extends AbstractPHPUnitCommand
                 './test/phpunit.xml.dist',
             ),
             './vendor/icecave/testing/res/phpunit/phpunit.xml'
-        );
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function candidatePHPConfigurationPaths()
-    {
-        return array(
-            './vendor/icecave/testing/res/php/php.ini',
-            './test/php.ini',
-            './php.ini',
         );
     }
 }

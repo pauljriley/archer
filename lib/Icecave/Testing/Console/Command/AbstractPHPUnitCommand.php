@@ -2,6 +2,7 @@
 namespace Icecave\Testing\Console\Command;
 
 use Icecave\Testing\Configuration\ConfigurationFileFinder;
+use Icecave\Testing\Configuration\PHPConfigurationReader;
 use Icecave\Testing\Process\PHPUnitExecutableFinder;
 use Icecave\Testing\Process\ProcessFactory;
 use Icecave\Testing\Support\Isolator;
@@ -13,14 +14,16 @@ abstract class AbstractPHPUnitCommand extends Command
     /**
      * @param PhpExecutableFinder|null     $phpFinder
      * @param PHPUnitExecutableFinder|null $phpunitFinder
-     * @param ConfigurationFileFinder|null $configurationFinder
+     * @param PHPConfigurationReader|null  $phpConfigurationReader
+     * @param ConfigurationFileFinder|null $configurationFileFinder
      * @param ProcessFactory|null          $processFactory
      * @param Isolator|null                $isolator
      */
     public function __construct(
         PhpExecutableFinder $phpFinder = null,
         PHPUnitExecutableFinder $phpunitFinder = null,
-        ConfigurationFileFinder $configurationFinder = null,
+        PHPConfigurationReader $phpConfigurationReader = null,
+        ConfigurationFileFinder $configurationFileFinder = null,
         ProcessFactory $processFactory = null,
         Isolator $isolator = null
     ) {
@@ -28,11 +31,14 @@ abstract class AbstractPHPUnitCommand extends Command
             $phpFinder = new PhpExecutableFinder;
         }
         $this->phpFinder = $phpFinder;
+
         $this->isolator = Isolator::get($isolator);
+
         if (null === $processFactory) {
             $processFactory = new ProcessFactory;
         }
         $this->processFactory = $processFactory;
+
         if (null === $phpunitFinder) {
             $phpunitFinder = new PHPUnitExecutableFinder(
                 null,
@@ -41,10 +47,16 @@ abstract class AbstractPHPUnitCommand extends Command
             );
         }
         $this->phpunitFinder = $phpunitFinder;
-        if (null === $configurationFinder) {
-            $configurationFinder = new ConfigurationFileFinder($this->isolator);
+
+        if (null === $phpConfigurationReader) {
+            $phpConfigurationReader = new PHPConfigurationReader($this->isolator);
         }
-        $this->configurationFinder = $configurationFinder;
+        $this->phpConfigurationReader = $phpConfigurationReader;
+
+        if (null === $configurationFileFinder) {
+            $configurationFileFinder = new ConfigurationFileFinder($this->isolator);
+        }
+        $this->configurationFileFinder = $configurationFileFinder;
 
         parent::__construct();
     }
@@ -66,11 +78,19 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
+     * @return PHPConfigurationReader
+     */
+    public function phpConfigurationReader()
+    {
+        return $this->phpConfigurationReader;
+    }
+
+    /**
      * @return ConfigurationFileFinder
      */
-    public function configurationFinder()
+    public function configurationFileFinder()
     {
-        return $this->configurationFinder;
+        return $this->configurationFileFinder;
     }
 
     /**
@@ -90,12 +110,14 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
+     * @param array<string,mixed> $configuration
+     *
      * @return array<string>
      */
-    protected function phpConfigurationArguments()
+    protected function phpConfigurationArguments(array $configuration)
     {
         $arguments = array();
-        foreach ($this->phpConfigurationSettings() as $key => $value) {
+        foreach ($configuration as $key => $value) {
             $arguments[] = '--define';
             $arguments[] = sprintf('%s=%s', $key, $value);
         }
@@ -103,32 +125,10 @@ abstract class AbstractPHPUnitCommand extends Command
         return $arguments;
     }
 
-    /**
-     * @return array<string>
-     */
-    protected function phpConfigurationSettings()
-    {
-        $settings = array();
-        foreach ($this->candidatePHPConfigurationPaths() as $path) {
-            if ($this->isolator->is_file($path)) {
-                $settings = array_merge(
-                    $settings,
-                    $this->isolator->parse_ini_file($path)
-                );
-            }
-        }
-
-        return $settings;
-    }
-
-    /**
-     * @return array<string>
-     */
-    abstract protected function candidatePHPConfigurationPaths();
-
     private $phpFinder;
     private $phpunitFinder;
-    private $configurationFinder;
+    private $phpConfigurationReader;
+    private $configurationFileFinder;
     private $processFactory;
     private $isolator;
 }
