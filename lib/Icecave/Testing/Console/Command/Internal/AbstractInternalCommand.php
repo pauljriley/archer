@@ -6,6 +6,14 @@ use Symfony\Component\Console\Command\Command;
 
 abstract class AbstractInternalCommand extends Command
 {
+    /**
+     * @param boolean|null $isEnabled
+     */
+    public static function setIsEnabled($isEnabled)
+    {
+        self::$isEnabled = $isEnabled;
+    }
+
     public function __construct(Isolator $isolator = null)
     {
         $this->isolator = Isolator::get($isolator);
@@ -15,18 +23,29 @@ abstract class AbstractInternalCommand extends Command
 
     public function isEnabled()
     {
-        if (null === self::$enabled) {
-            $composer = $this->getApplication()->packageRoot() . '/composer.json';
-            $contents = $this->isolator->file_get_contents($composer);
-            $config   = json_decode($contents);
+        if (null === self::$isEnabled) {
+            $composerPath = sprintf(
+                '%s/composer.json',
+                $this->getApplication()->packageRoot()
+            );
 
-            self::$enabled = isset($config->name)
-                          && $config->name === 'icecave/testing';
+            if ($this->isolator->is_file($composerPath)) {
+                $config = json_decode(
+                    $this->isolator->file_get_contents($composerPath)
+                );
+
+                self::setIsEnabled(
+                    property_exists($config, 'name') &&
+                    'icecave/testing' === $config->name
+                );
+            } else {
+                self::setIsEnabled(false);
+            }
         }
 
-        return self::$enabled;
+        return self::$isEnabled;
     }
 
-    private static $enabled;
+    private static $isEnabled;
     protected $isolator;
 }
