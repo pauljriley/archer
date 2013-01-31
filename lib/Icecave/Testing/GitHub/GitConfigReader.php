@@ -2,20 +2,22 @@
 namespace Icecave\Testing\GitHub;
 
 use RuntimeException;
-use Icecave\Testing\Support\Isolator;
-use Icecave\Testing\Support\ShellExecutor;
+use Icecave\Testing\Process\ProcessFactory;
 
 class GitConfigReader
 {
-    public function __construct(ShellExecutor $executor = null, Isolator $isolator = null)
+    public function __construct(ProcessFactory $processFactory = null)
     {
-        $this->isolator = Isolator::get($isolator);
-
-        if (null === $executor) {
-            $executor = new ShellExecutor($this->isolator);
+        if (null === $processFactory) {
+            $processFactory = new ProcessFactory;
         }
 
-        $this->executor = $executor;
+        $this->processFactory = $processFactory;
+    }
+
+    public function processFactory()
+    {
+        return $this->processFactory;
     }
 
     public function get($key, $default = null)
@@ -50,12 +52,19 @@ class GitConfigReader
     public function parse($repositoryPath)
     {
         $config = array();
-        $output = $this->executor->execute('git config --list', $repositoryPath);
+        $process = $this->processFactory()->create('git', 'config', '--list');
+        $process->setWorkingDirectory($repositoryPath);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf(
+                'Unable to read git configuration: %s',
+                $process->getErrorOutput()
+            ));
+        }
 
-        foreach ($output as $line) {
-            $pos = strpos($line, '=');
-            if (false !== $pos) {
-                $config[substr($line, 0, $pos)] = substr($line, $pos + 1);
+        if (preg_match_all('/^([^=]*)=(.*)$/m', $process->getOutput(), $matches)) {
+            foreach ($matches[1] as $index => $key) {
+                $config[$key] = $matches[2][$index];
             }
         }
 
@@ -63,6 +72,5 @@ class GitConfigReader
     }
 
     private $config;
-    private $executor;
-    private $isolator;
+    private $processFactory;
 }
