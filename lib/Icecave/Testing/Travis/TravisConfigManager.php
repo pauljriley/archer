@@ -1,14 +1,16 @@
 <?php
 namespace Icecave\Testing\Travis;
 
+use Icecave\Testing\GitHub\GitConfigReader;
 use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Support\Isolator;
 
 class TravisConfigManager
 {
-    public function __construct(FileManager $fileManager, Isolator $isolator = null)
+    public function __construct(GitConfigReader $configReader, FileManager $fileManager, Isolator $isolator = null)
     {
         $this->fileManager = $fileManager;
+        $this->configReader = $configReader;
         $this->isolator = Isolator::get($isolator);
     }
 
@@ -19,22 +21,34 @@ class TravisConfigManager
 
     public function updateConfig()
     {
+        $replace = array(
+            '{repo-owner}' => $this->configReader->repositoryOwner(),
+            '{repo-name}'  => $this->configReader->repositoryName(),
+        );
+
         $env = $this->fileManager->encryptedEnvironment;
 
         if (null === $env) {
-            $config = $this->isolator->file_get_contents($this->packageRoot . '/res/travis/travis.yaml');
+            $filename = 'travis.no-oauth.yaml';
         } else {
-            $config = $this->isolator->file_get_contents($this->packageRoot . '/res/travis/travis.artifacts.yaml');
-            $config = str_replace('%env%', $env, $config);
+            $filename = 'travis.yaml';
+            $replace['{oauth-env}'] = $env;
+
+            // Copy the install token script.
+            $this->isolator->copy($this->packageRoot . '/res/travis/travis.before-install.php', $this->fileManager->travisBeforeInstallScriptPath());
+            $this->isolator->chmod($this->fileManager->travisBeforeInstallScriptPath(), 0755);
         }
 
-        $this->fileManager->travisYaml = $config;
+        // Re-build travis.yml.
+        $config = $this->isolator->file_get_contents($this->packageRoot . '/res/travis/' . $filename);
+        $this->fileManager->travisYaml = str_replace(array_keys($replace), array_values($replace), $config);
 
         // Return true if artifact publication is enabled.
         return null !== $env;
     }
 
     private $packageRoot;
+    private $configReader;
     private $fileManager;
     private $isolator;
 }

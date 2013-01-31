@@ -1,3 +1,11 @@
+#
+# This is the default Travis CI configuration.
+#
+# It uses a GitHub OAuth token when fetching composer dependencies
+# to avoid IP-based API throttling.
+#
+# It also allows publication of artifacts via an additional build.
+#
 language: php
 
 php:
@@ -6,12 +14,25 @@ php:
   - 5.4
   - 5.5
 
+env:
+  global:
+    - ICT_REPO_OWNER={repo-owner}
+    - ICT_REPO_NAME={repo-name}
+    - secure: "{oauth-env}"
+
+before_install:
+    - ./.travis.before-install
 install:
     - composer install --dev --prefer-dist --no-interaction
 script:
-    - ./vendor/bin/ict build
+    - ./vendor/bin/ict
 
 matrix:
   # PHP 5.5 is still in alpha, so ignore build failures.
   allow_failures:
     - php: 5.5
+
+  # This matrix entry is used to publish build artifacts.
+  include:
+    - php: 5.4
+      env: ICT_PUBLISH=true

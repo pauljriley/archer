@@ -10,7 +10,7 @@ $config = <<<EOD
 {
     "config" : {
         "github-oauth" : {
-            "github.com": %token%
+            "github.com": "${_SERVER['ICT_TOKEN']}"
         }
     }
 }
@@ -20,7 +20,4 @@ if (!is_dir($dir)) {
     mkdir($dir, 0755, true);
 }
 
-file_put_contents(
-    $path,
-    str_replace('%token%', getenv('ICT_TOKEN'), $config)
-);
+file_put_contents($path, $config);

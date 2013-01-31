@@ -34,6 +34,7 @@ abstract class AbstractCommand extends Command
 
         if (null === $travisConfigManager) {
             $travisConfigManager = new TravisConfigManager(
+                $configReader,
                 $fileManager,
                 $this->isolator
             );

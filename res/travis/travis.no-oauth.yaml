@@ -1,0 +1,29 @@
+#
+# This is a fall-back Travis CI configuration for
+# use when no GitHub OAuth token is available.
+#
+# It uses --prefer-source when fetching composer dependencies
+# to avoid IP-based API throttling (ie, it uses clone instead of downloading a zip).
+#
+language: php
+
+php:
+  - 5.3.3
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  global:
+    - ICT_REPO_OWNER={repo-owner}
+    - ICT_REPO_NAME={repo-name}
+
+install:
+    - composer install --dev --prefer-source --no-interaction
+script:
+    - ./vendor/bin/ict
+
+matrix:
+  # PHP 5.5 is still in alpha, so ignore build failures.
+  allow_failures:
+    - php: 5.5

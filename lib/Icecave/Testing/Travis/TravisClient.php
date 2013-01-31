@@ -30,7 +30,7 @@ class TravisClient
     public function encryptEnvironment($publicKey, $repoOwner, $repoName, $gitHubToken)
     {
         $env = sprintf(
-            'ICT_REPO="%s/%s" ICT_TOKEN="%s"',
+            'ICT_TOKEN="%s"',
             $repoOwner,
             $repoName,
             $gitHubToken

@@ -32,8 +32,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $expected = array(
             'help',
             'list',
-            'build',
-            'initialize',
             'update',
             'github:create-token',
             'github:fetch-token',
@@ -61,8 +59,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $expected = array(
             'help',
             'list',
-            'build',
-            'initialize',
             'update',
             'github:create-token',
             'github:fetch-token',

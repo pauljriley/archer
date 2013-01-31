@@ -26,6 +26,7 @@ class UpdateConfigCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->fileManager->setPackageRoot($input->getArgument('path'));
+        $this->configReader->parse($this->fileManager->packageRootPath());
 
         $artifacts = $this->travisConfigManager->updateConfig();
 

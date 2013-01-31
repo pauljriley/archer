@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "ext-openssl": "*",
         "phake/phake": "~1",
         "symfony/console": "~2"
     },

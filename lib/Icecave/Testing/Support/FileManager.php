@@ -49,17 +49,22 @@ class FileManager
 
     public function publicKeyPath()
     {
-        return $this->packageRootPath() . '/.ict.key';
+        return $this->packageRootPath() . '/.travis.key';
     }
 
     public function encryptedEnvironmentPath()
     {
-        return $this->packageRootPath() . '/.ict.env';
+        return $this->packageRootPath() . '/.travis.env';
     }
 
     public function travisYamlPath()
     {
         return $this->packageRootPath() . '/.travis.yml';
+    }
+
+    public function travisBeforeInstallScriptPath()
+    {
+        return $this->packageRootPath() . '/.travis.before-install';
     }
 
     private $packageRoot;
