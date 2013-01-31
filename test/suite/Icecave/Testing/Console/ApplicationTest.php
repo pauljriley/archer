@@ -32,6 +32,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $expected = array(
             'help',
             'list',
+            'coverage',
             'test',
             'update',
             'github:create-token',
@@ -60,6 +61,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $expected = array(
             'help',
             'list',
+            'coverage',
             'test',
             'update',
             'github:create-token',
@@ -108,6 +110,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $method = $reflector->getMethod('getDefaultCommandName');
         $method->setAccessible(true);
 
-        $this->assertSame('list', $method->invoke($this->_application));
+        $this->assertSame('test', $method->invoke($this->_application));
     }
 }

@@ -3,12 +3,14 @@ namespace Icecave\Testing\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 
-class TestCommand extends AbstractPHPUnitCommand
+class CoverageCommand extends AbstractPHPUnitCommand
 {
     protected function configure()
     {
-        $this->setName('test');
-        $this->setDescription('Run the test suite for a project.');
+        $this->setName('coverage');
+        $this->setDescription(
+            'Run the test suite for a project and generate a code coverage report.'
+        );
 
         $this->addArgument(
             'argument',
@@ -24,8 +26,11 @@ class TestCommand extends AbstractPHPUnitCommand
     {
         return $this->phpConfigurationReader()->read(array(
             './vendor/icecave/testing/res/php/php.ini',
+            './vendor/icecave/testing/res/php/php.coverage.ini',
             './test/php.ini',
+            './test/php.coverage.ini',
             './php.ini',
+            './php.coverage.ini',
         ));
     }
 
@@ -36,12 +41,10 @@ class TestCommand extends AbstractPHPUnitCommand
     {
         return $this->configurationFileFinder()->find(
             array(
-                './phpunit.xml',
-                './phpunit.xml.dist',
-                './test/phpunit.xml',
-                './test/phpunit.xml.dist',
+                './phpunit.coverage.xml',
+                './test/phpunit.coverage.xml',
             ),
-            './vendor/icecave/testing/res/phpunit/phpunit.xml'
+            './vendor/icecave/testing/res/phpunit/phpunit.coverage.xml'
         );
     }
 }

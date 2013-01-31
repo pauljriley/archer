@@ -7,6 +7,8 @@ use Icecave\Testing\Process\PHPUnitExecutableFinder;
 use Icecave\Testing\Process\ProcessFactory;
 use Icecave\Testing\Support\Isolator;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 abstract class AbstractPHPUnitCommand extends Command
@@ -110,6 +112,61 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     *
+     * @return integer
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $phpPath = $this->phpFinder()->find();
+        $output->writeln(sprintf('<info>Using PHP:</info> %s', $phpPath));
+
+        $phpunitPath = $this->phpunitFinder()->find();
+        $output->writeln(sprintf('<info>Using PHPUnit:</info> %s', $phpunitPath));
+
+        $process = $this->processFactory()->createFromArray(
+            $this->generateArguments(
+                $phpPath,
+                $phpunitPath,
+                $input->getArgument('argument')
+            )
+        );
+
+        return $process->run(function ($type, $buffer) {
+            if ('out' === $type) {
+                $this->isolator()->fwrite(STDOUT, $buffer);
+            } else {
+                $this->isolator()->fwrite(STDERR, $buffer);
+            }
+        });
+    }
+
+    /**
+     * @param string        $phpPath
+     * @param string        $phpunitPath
+     * @param array<string> $phpunitArguments
+     *
+     * @return array<string>
+     */
+    protected function generateArguments(
+        $phpPath,
+        $phpunitPath,
+        array $phpunitArguments
+    ) {
+        return array_merge(
+            array($phpPath),
+            $this->phpConfigurationArguments($this->readPHPConfiguration()),
+            array(
+                $phpunitPath,
+                '--configuration',
+                $this->findPHPUnitConfiguration(),
+            ),
+            $phpunitArguments
+        );
+    }
+
+    /**
      * @param array<string,mixed> $configuration
      *
      * @return array<string>
@@ -124,6 +181,16 @@ abstract class AbstractPHPUnitCommand extends Command
 
         return $arguments;
     }
+
+    /**
+     * @return array<string,mixed>
+     */
+    abstract protected function readPHPConfiguration();
+
+    /**
+     * @return string
+     */
+    abstract protected function findPHPUnitConfiguration();
 
     private $phpFinder;
     private $phpunitFinder;

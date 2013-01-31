@@ -20,6 +20,7 @@ class Application extends SymfonyApplication
         $this->packageRoot = $packageRoot;
         $this->isolator = Isolator::get($isolator);
 
+        $this->add(new Command\CoverageCommand);
         $this->add(new Command\TestCommand);
         $this->add(new Command\UpdateCommand);
 
@@ -64,7 +65,7 @@ class Application extends SymfonyApplication
      */
     protected function getDefaultCommandName()
     {
-        return 'list';
+        return 'test';
     }
 
     private $packageRoot;
