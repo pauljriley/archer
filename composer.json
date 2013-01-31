@@ -8,6 +8,11 @@
         {
             "name": "James Harris",
             "email": "james.harris@icecave.com.au"
+        },
+        {
+            "name": "Erin Millard",
+            "email": "ezzatron@gmail.com",
+            "homepage": "http://ezzatron.com/"
         }
     ],
     "require": {
