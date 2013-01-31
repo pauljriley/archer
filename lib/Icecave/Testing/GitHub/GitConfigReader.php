@@ -1,7 +1,6 @@
 <?php
 namespace Icecave\Testing\GitHub;
 
-use Exception;
 use RuntimeException;
 use Icecave\Testing\Support\Isolator;
 use Icecave\Testing\Support\ShellExecutor;

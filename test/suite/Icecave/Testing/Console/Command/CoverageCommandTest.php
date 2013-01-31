@@ -4,7 +4,6 @@ namespace Icecave\Testing\Console\Command;
 use Phake;
 use PHPUnit_Framework_TestCase;
 use ReflectionObject;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 

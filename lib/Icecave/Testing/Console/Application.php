@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Application extends SymfonyApplication
 {
     /**
-     * @param string $packageRoot
+     * @param string        $packageRoot
      * @param Isolator|null $isolator
      */
     public function __construct($packageRoot, Isolator $isolator = null)
@@ -43,7 +43,7 @@ class Application extends SymfonyApplication
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return integer

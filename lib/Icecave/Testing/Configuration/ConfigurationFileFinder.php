@@ -15,7 +15,7 @@ class ConfigurationFileFinder
 
     /**
      * @param array<string> $candidatePaths
-     * @param string $defaultPath
+     * @param string        $defaultPath
      *
      * @return string
      */

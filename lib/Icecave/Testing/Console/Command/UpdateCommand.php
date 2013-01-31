@@ -45,6 +45,7 @@ class UpdateCommand extends AbstractCommand
         if ($token && !preg_match('/^[0-9a-f]{40}$/i', $token)) {
             $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
             $output->write(PHP_EOL);
+
             return 1;
         }
 

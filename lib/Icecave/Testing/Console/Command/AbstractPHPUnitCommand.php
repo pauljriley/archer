@@ -106,7 +106,7 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return integer
@@ -130,7 +130,7 @@ abstract class AbstractPHPUnitCommand extends Command
     }
 
     /**
-     * @param Process $process
+     * @param Process                $process
      * @param ConsoleOutputInterface $output
      *
      * @return integer
