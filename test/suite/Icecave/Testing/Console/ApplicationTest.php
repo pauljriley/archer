@@ -20,6 +20,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'foo',
             $this->_isolator
         );
+        $this->_reflector = new ReflectionObject($this->_application);
     }
 
     public function testConstructor()
@@ -83,7 +84,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     {
         $commandName = uniqid();
         Phake::when($this->_application)
-            ->getDefaultCommandName(Phake::anyParameters())
+            ->defaultCommandName(Phake::anyParameters())
             ->thenReturn($commandName)
         ;
         Phake::when($this->_application)
@@ -102,16 +103,27 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $expectedInput = new ArrayInput(array('command' => $commandName));
 
         Phake::inOrder(
-            Phake::verify($this->_application)->getDefaultCommandName(),
+            Phake::verify($this->_application)->defaultCommandName(),
             Phake::verify($command)->run(Phake::capture($actualInput), $output)
         );
         $this->assertSame($commandName, $actualInput->getFirstArgument());
     }
 
-    public function testGetDefaultCommandName()
+    public function testRawArguments()
     {
-        $reflector = new ReflectionObject($this->_application);
-        $method = $reflector->getMethod('getDefaultCommandName');
+        $method = $this->_reflector->getMethod('rawArguments');
+        $method->setAccessible(true);
+        $argv = $_SERVER['argv'];
+        $_SERVER['argv'] = array('foo', 'bar', 'baz');
+        $actual = $method->invoke($this->_application);
+        $_SERVER['argv'] = $argv;
+
+        $this->assertSame(array('bar', 'baz'), $actual);
+    }
+
+    public function testDefaultCommandName()
+    {
+        $method = $this->_reflector->getMethod('defaultCommandName');
         $method->setAccessible(true);
 
         $this->assertSame('test', $method->invoke($this->_application));

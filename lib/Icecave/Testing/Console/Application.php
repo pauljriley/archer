@@ -53,7 +53,7 @@ class Application extends SymfonyApplication
         $rawArguments = $this->rawArguments();
         if (array() === $rawArguments) {
             $input = new ArrayInput(array(
-                'command' => $this->getDefaultCommandName(),
+                'command' => $this->defaultCommandName(),
             ));
         }
 
@@ -74,7 +74,7 @@ class Application extends SymfonyApplication
     /**
      * @return string
      */
-    protected function getDefaultCommandName()
+    protected function defaultCommandName()
     {
         return 'test';
     }
