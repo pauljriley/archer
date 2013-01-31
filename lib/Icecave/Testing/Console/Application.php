@@ -50,14 +50,25 @@ class Application extends SymfonyApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $name = $this->getCommandName($input);
-        if (!$name) {
+        $rawArguments = $this->rawArguments();
+        if (array() === $rawArguments) {
             $input = new ArrayInput(array(
                 'command' => $this->getDefaultCommandName(),
             ));
         }
 
         return parent::doRun($input, $output);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function rawArguments()
+    {
+        $argv = $_SERVER['argv'];
+        array_shift($argv);
+
+        return $argv;
     }
 
     /**

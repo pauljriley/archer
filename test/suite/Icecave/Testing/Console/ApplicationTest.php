@@ -86,6 +86,10 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             ->getDefaultCommandName(Phake::anyParameters())
             ->thenReturn($commandName)
         ;
+        Phake::when($this->_application)
+            ->rawArguments(Phake::anyParameters())
+            ->thenReturn(array())
+        ;
         $command = Phake::partialMock(
             'Symfony\Component\Console\Command\Command',
             $commandName

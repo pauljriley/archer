@@ -121,7 +121,6 @@ abstract class AbstractPHPUnitCommand extends Command
     {
         $phpPath = $this->phpFinder()->find();
         $output->writeln(sprintf('<info>Using PHP:</info> %s', $phpPath));
-
         $phpunitPath = $this->phpunitFinder()->find();
         $output->writeln(sprintf('<info>Using PHPUnit:</info> %s', $phpunitPath));
 
@@ -129,7 +128,7 @@ abstract class AbstractPHPUnitCommand extends Command
             $this->generateArguments(
                 $phpPath,
                 $phpunitPath,
-                $input->getArgument('argument')
+                $this->rawArguments()
             )
         );
 
@@ -178,6 +177,17 @@ abstract class AbstractPHPUnitCommand extends Command
             $arguments[] = '--define';
             $arguments[] = sprintf('%s=%s', $key, $value);
         }
+
+        return $arguments;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function rawArguments()
+    {
+        $arguments = $this->getApplication()->rawArguments();
+        array_shift($arguments);
 
         return $arguments;
     }
