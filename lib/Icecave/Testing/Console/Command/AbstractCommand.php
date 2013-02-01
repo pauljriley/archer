@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Testing\Console\Command;
 
-use Icecave\Testing\GitHub\GitConfigReader;
+use Icecave\Testing\GitHub\GitConfigReaderFactory;
 use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Support\Isolator;
 use Icecave\Testing\Travis\TravisClient;
@@ -13,7 +13,7 @@ abstract class AbstractCommand extends Command
 {
     public function __construct(
         FileManager $fileManager = null,
-        GitConfigReader $configReader = null,
+        GitConfigReaderFactory $configReaderFactory = null,
         TravisClient $travisClient = null,
         TravisConfigManager $travisConfigManager = null,
         Isolator $isolator = null
@@ -24,8 +24,8 @@ abstract class AbstractCommand extends Command
             $fileManager = new FileManager($this->isolator);
         }
 
-        if (null === $configReader) {
-            $configReader = new GitConfigReader(null, $this->isolator);
+        if (null === $configReaderFactory) {
+            $configReaderFactory = new GitConfigReaderFactory;
         }
 
         if (null === $travisClient) {
@@ -34,14 +34,13 @@ abstract class AbstractCommand extends Command
 
         if (null === $travisConfigManager) {
             $travisConfigManager = new TravisConfigManager(
-                $configReader,
                 $fileManager,
                 $this->isolator
             );
         }
 
         $this->fileManager = $fileManager;
-        $this->configReader = $configReader;
+        $this->configReaderFactory = $configReaderFactory;
         $this->travisClient = $travisClient;
         $this->travisConfigManager = $travisConfigManager;
 
@@ -56,7 +55,7 @@ abstract class AbstractCommand extends Command
     }
 
     protected $fileManager;
-    protected $configReader;
+    protected $configReaderFactory;
     protected $travisClient;
     protected $travisConfigManager;
     protected $isolator;

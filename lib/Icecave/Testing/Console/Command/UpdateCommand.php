@@ -38,7 +38,7 @@ class UpdateCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->fileManager->setPackageRoot($input->getArgument('path'));
-        $this->configReader->parse($this->fileManager->packageRootPath());
+        $configReader = $this->configReaderFactory->create($this->fileManager->packageRootPath());
 
         // Validate the OAuth token if one was provided ...
         $token = $input->getOption('oauth-token');
@@ -60,8 +60,8 @@ class UpdateCommand extends AbstractCommand
             $this->fileManager->gitAttributes = $this->isolator->file_get_contents($this->getApplication()->packageRoot() . '/res/git/gitattributes');
         }
 
-        $repoOwner = $this->configReader->repositoryOwner();
-        $repoName  = $this->configReader->repositoryName();
+        $repoOwner = $configReader->repositoryOwner();
+        $repoName  = $configReader->repositoryName();
 
         // Update the public key if requested (or it's missing) ...
         $updateKey = $input->getOption('update-public-key');
@@ -85,7 +85,7 @@ class UpdateCommand extends AbstractCommand
 
         // Update the travis CI configuration ...
         $output->writeln('Updating <info>.travis.yml</info>.');
-        $artifacts = $this->travisConfigManager->updateConfig();
+        $artifacts = $this->travisConfigManager->updateConfig($configReader);
 
         if (!$artifacts) {
             $output->writeln('<comment>Artifact publication is not available as no GitHub OAuth token has been configured.</comment>');

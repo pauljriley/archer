@@ -7,10 +7,9 @@ use Icecave\Testing\Support\Isolator;
 
 class TravisConfigManager
 {
-    public function __construct(GitConfigReader $configReader, FileManager $fileManager, Isolator $isolator = null)
+    public function __construct(FileManager $fileManager, Isolator $isolator = null)
     {
         $this->fileManager = $fileManager;
-        $this->configReader = $configReader;
         $this->isolator = Isolator::get($isolator);
     }
 
@@ -19,11 +18,11 @@ class TravisConfigManager
         $this->packageRoot = $packageRoot;
     }
 
-    public function updateConfig()
+    public function updateConfig(GitConfigReader $configReader)
     {
         $replace = array(
-            '{repo-owner}' => $this->configReader->repositoryOwner(),
-            '{repo-name}'  => $this->configReader->repositoryName(),
+            '{repo-owner}' => $configReader->repositoryOwner(),
+            '{repo-name}'  => $configReader->repositoryName(),
         );
 
         $env = $this->fileManager->encryptedEnvironment;
@@ -48,7 +47,6 @@ class TravisConfigManager
     }
 
     private $packageRoot;
-    private $configReader;
     private $fileManager;
     private $isolator;
 }
