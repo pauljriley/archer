@@ -33,8 +33,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
             ->openssl_public_encrypt(
                 'ICT_TOKEN="bar"',
                 Phake::setReference('baz'),
-                'PUBLIC KEY foo',
-                OPENSSL_PKCS1_PADDING
+                'PUBLIC KEY foo'
             )
             ->thenReturn(true)
         ;
@@ -45,8 +44,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
         Phake::verify($this->_isolator)->openssl_public_encrypt(
             'ICT_TOKEN="bar"',
             null,
-            'PUBLIC KEY foo',
-            OPENSSL_PKCS1_PADDING
+            'PUBLIC KEY foo'
         );
     }
 
@@ -56,8 +54,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
             ->openssl_public_encrypt(
                 'bar',
                 Phake::setReference('baz'),
-                'PUBLIC KEY foo',
-                OPENSSL_PKCS1_PADDING
+                'PUBLIC KEY foo'
             )
             ->thenReturn(true)
         ;
@@ -68,8 +65,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
         Phake::verify($this->_isolator)->openssl_public_encrypt(
             'bar',
             null,
-            'PUBLIC KEY foo',
-            OPENSSL_PKCS1_PADDING
+            'PUBLIC KEY foo'
         );
     }
 

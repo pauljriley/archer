@@ -57,8 +57,7 @@ class TravisClient
         $result = $this->isolator->openssl_public_encrypt(
             $plainText,
             $cipherText,
-            str_replace('RSA PUBLIC KEY', 'PUBLIC KEY', $publicKey),
-            OPENSSL_PKCS1_PADDING
+            str_replace('RSA PUBLIC KEY', 'PUBLIC KEY', $publicKey)
         );
         if (!$result) {
             throw new RuntimeException('Encryption failed.');

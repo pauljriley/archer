@@ -49,8 +49,12 @@ class Isolator
         return call_user_func_array($name, $arguments);
     }
 
-    public function openssl_public_encrypt($data, &$crypted, $key, $padding = OPENSSL_PKCS1_PADDING)
+    public function openssl_public_encrypt($data, &$crypted, $key, $padding = null)
     {
+        if (null === $padding) {
+            return openssl_public_encrypt($data, $crypted, $key);
+        }
+
         return openssl_public_encrypt($data, $crypted, $key, $padding);
     }
 
