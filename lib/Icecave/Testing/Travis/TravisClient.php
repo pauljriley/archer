@@ -6,50 +6,60 @@ use Icecave\Testing\Support\Isolator;
 
 class TravisClient
 {
+    /**
+     * @param Isolator|null $isolator
+     */
     public function __construct(Isolator $isolator = null)
     {
         $this->isolator = Isolator::get($isolator);
     }
 
-    public function publicKey($repoOwner, $repoName, $forceCacheRefresh = false)
+    /**
+     * @param string $repoOwner
+     * @param string $repoName
+     *
+     * @return string
+     */
+    public function publicKey($repoOwner, $repoName)
     {
-        $cacheKey = $repoOwner . '/' . $repoName;
-
-        $url  = sprintf(
+        $response = $this->isolator->file_get_contents(sprintf(
             'https://api.travis-ci.org/repos/%s/%s/key',
             urlencode($repoOwner),
             urlencode($repoName)
-        );
+        ));
 
-        $response = $this->isolator->file_get_contents($url);
-        $response = json_decode($response);
-
-        return $response->key;
+        return json_decode($response)->key;
     }
 
-    public function encryptEnvironment($publicKey, $repoOwner, $repoName, $gitHubToken)
+    /**
+     * @param string $publicKey
+     * @param string $gitHubToken
+     *
+     * @return string
+     */
+    public function encryptEnvironment($publicKey, $gitHubToken)
     {
-        $env = sprintf(
-            'ICT_TOKEN="%s"',
-            $repoOwner,
-            $repoName,
-            $gitHubToken
+        return $this->encrypt(
+            $publicKey,
+            sprintf('ICT_TOKEN="%s"', $gitHubToken)
         );
-
-        return $this->encrypt($publicKey, $env);
     }
 
+    /**
+     * @param string $publicKey
+     * @param string $plainText
+     *
+     * @return string
+     */
     public function encrypt($publicKey, $plainText)
     {
         $cipherText = null;
-
         $result = $this->isolator->openssl_public_encrypt(
             $plainText,
             $cipherText,
             str_replace('RSA PUBLIC KEY', 'PUBLIC KEY', $publicKey),
             OPENSSL_PKCS1_PADDING
         );
-
         if (!$result) {
             throw new RuntimeException('Encryption failed.');
         }
