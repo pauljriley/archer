@@ -26,10 +26,6 @@ class Application extends SymfonyApplication
 
         $this->add(new Command\GitHub\CreateTokenCommand);
         $this->add(new Command\GitHub\FetchTokenCommand);
-        $this->add(new Command\GitHub\SetTokenCommand);
-
-        $this->add(new Command\Travis\FetchPublicKeyCommand);
-        $this->add(new Command\Travis\UpdateConfigCommand);
 
         $this->add(new Command\Internal\UpdateBinariesCommand($isolator));
     }

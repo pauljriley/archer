@@ -38,9 +38,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'update',
             'github:create-token',
             'github:fetch-token',
-            'github:set-token',
-            'travis:fetch-public-key',
-            'travis:update-config',
         );
 
         $this->assertSame($expected, array_keys($this->_application->all()));
@@ -67,9 +64,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'update',
             'github:create-token',
             'github:fetch-token',
-            'github:set-token',
-            'travis:fetch-public-key',
-            'travis:update-config',
             'internal:update-binaries',
         );
 
