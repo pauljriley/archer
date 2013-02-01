@@ -11,6 +11,11 @@ class FileManager
         $this->isolator = Isolator::get($isolator);
     }
 
+    public function packageRoot()
+    {
+        return $this->packageRoot;
+    }
+
     public function setPackageRoot($packageRoot)
     {
         $this->packageRoot = $packageRoot;

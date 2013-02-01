@@ -85,7 +85,10 @@ class UpdateCommand extends AbstractCommand
 
         // Update the travis CI configuration ...
         $output->writeln('Updating <info>.travis.yml</info>.');
-        $artifacts = $this->travisConfigManager->updateConfig($configReader);
+        $artifacts = $this->travisConfigManager->updateConfig(
+            $this->getApplication()->packageRoot(),
+            $configReader
+        );
 
         if (!$artifacts) {
             $output->writeln('<comment>Artifact publication is not available as no GitHub OAuth token has been configured.</comment>');

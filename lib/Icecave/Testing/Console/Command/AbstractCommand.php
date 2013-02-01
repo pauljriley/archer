@@ -35,6 +35,7 @@ abstract class AbstractCommand extends Command
         if (null === $travisConfigManager) {
             $travisConfigManager = new TravisConfigManager(
                 $fileManager,
+                null,
                 $this->isolator
             );
         }
@@ -45,13 +46,6 @@ abstract class AbstractCommand extends Command
         $this->travisConfigManager = $travisConfigManager;
 
         parent::__construct();
-    }
-
-    public function setApplication(SymfonyApplication $application = null)
-    {
-        $this->travisConfigManager->setPackageRoot($application->packageRoot());
-
-        parent::setApplication($application);
     }
 
     protected $fileManager;
