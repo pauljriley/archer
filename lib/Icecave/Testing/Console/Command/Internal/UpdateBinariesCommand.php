@@ -1,7 +1,6 @@
 <?php
 namespace Icecave\Testing\Console\Command\Internal;
 
-use Icecave\Testing\Support\Isolator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;

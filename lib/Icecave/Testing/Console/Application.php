@@ -34,6 +34,17 @@ class Application extends SymfonyApplication
         $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
     }
 
+    protected function getDefaultHelperSet()
+    {
+        $helperSet = parent::getDefaultHelperSet();
+        $helperSet->set(
+            new Helper\HiddenInputHelper($this->packageRoot()),
+            'hidden-input'
+        );
+
+        return $helperSet;
+    }
+
     /**
      * @return string
      */
