@@ -68,11 +68,11 @@ class TravisConfigManager
 
             // Copy the install token script.
             $travisBeforeInstallScriptPath = sprintf('%s/.travis.before-install', $packageRoot);
-            $this->isolator->copy(
+            $this->fileSystem()->copy(
                 sprintf('%s/res/travis/travis.before-install.php', $ictPackageRoot),
                 $travisBeforeInstallScriptPath
             );
-            $this->isolator->chmod($travisBeforeInstallScriptPath, 0755);
+            $this->fileSystem()->chmod($travisBeforeInstallScriptPath, 0755);
         }
 
         // Re-build travis.yml.

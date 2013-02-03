@@ -1,16 +1,28 @@
 <?php
 namespace Icecave\Testing\Configuration;
 
-use Icecave\Testing\Support\Isolator;
+use Icecave\Testing\FileSystem\FileSystem;
 
 class ConfigurationFileFinder
 {
     /**
-     * @param Isolator|null $isolator
+     * @param FileSystem|null $fileSystem
      */
-    public function __construct(Isolator $isolator = null)
+    public function __construct(FileSystem $fileSystem = null)
     {
-        $this->isolator = Isolator::get($isolator);
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
+
+        $this->fileSystem = $fileSystem;
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -22,7 +34,7 @@ class ConfigurationFileFinder
     public function find(array $candidatePaths, $defaultPath)
     {
         foreach ($candidatePaths as $path) {
-            if ($this->isolator->is_file($path)) {
+            if ($this->fileSystem()->fileExists($path)) {
                 return $path;
             }
         }
@@ -30,5 +42,5 @@ class ConfigurationFileFinder
         return $defaultPath;
     }
 
-    private $isolator;
+    private $fileSystem;
 }

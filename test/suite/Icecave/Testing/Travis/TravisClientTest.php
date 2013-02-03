@@ -11,19 +11,38 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->_isolator = Phake::mock('Icecave\Testing\Support\Isolator');
-        $this->_client = new TravisClient($this->_isolator);
+        $this->_fileSystem = Phake::mock('Icecave\Testing\FileSystem\FileSystem');
+        $this->_client = new TravisClient(
+            $this->_fileSystem,
+            $this->_isolator
+        );
+    }
+
+    public function testConstructor()
+    {
+        $this->assertSame($this->_fileSystem, $this->_client->fileSystem());
+    }
+
+    public function testConstructorDefaults()
+    {
+        $this->_client = new TravisClient;
+
+        $this->assertInstanceOf(
+            'Icecave\Testing\FileSystem\FileSystem',
+            $this->_client->fileSystem()
+        );
     }
 
     public function testPublicKey()
     {
-        Phake::when($this->_isolator)
-            ->file_get_contents(Phake::anyParameters())
+        Phake::when($this->_fileSystem)
+            ->read(Phake::anyParameters())
             ->thenReturn('{"key": "foo"}')
         ;
 
         $this->assertSame('foo', $this->_client->publicKey('bar', 'baz'));
-        Phake::verify($this->_isolator)
-            ->file_get_contents('https://api.travis-ci.org/repos/bar/baz/key')
+        Phake::verify($this->_fileSystem)
+            ->read('https://api.travis-ci.org/repos/bar/baz/key')
         ;
     }
 

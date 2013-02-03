@@ -52,21 +52,21 @@ class UpdateCommand extends AbstractCommand
         }
 
         // Copy git files ...
-        $gitIgnorePath = sprintf('%/.gitignore', $packageRoot);
+        $gitIgnorePath = sprintf('%s/.gitignore', $packageRoot);
         if (!$this->fileSystem()->exists($gitIgnorePath)) {
             $output->writeln('Updating <info>.gitignore</info>.');
 
             $this->fileSystem()->copy(
-                sprintf('%/res/git/gitignore', $this->getApplication()->packageRoot()),
+                sprintf('%s/res/git/gitignore', $this->getApplication()->packageRoot()),
                 $gitIgnorePath
             );
         }
-        $gitAttributesPath = sprintf('%/.gitattributes', $packageRoot);
+        $gitAttributesPath = sprintf('%s/.gitattributes', $packageRoot);
         if (!$this->fileSystem()->exists($gitAttributesPath)) {
             $output->writeln('Updating <info>.gitattributes</info>.');
 
             $this->fileSystem()->copy(
-                sprintf('%/res/git/gitattributes', $this->getApplication()->packageRoot()),
+                sprintf('%s/res/git/gitattributes', $this->getApplication()->packageRoot()),
                 $gitAttributesPath
             );
         }
@@ -75,7 +75,7 @@ class UpdateCommand extends AbstractCommand
         $repoName  = $configReader->repositoryName();
 
         // Update the public key if requested (or it's missing) ...
-        $keyPath = sprintf('%/.travis.key', $packageRoot);
+        $keyPath = sprintf('%s/.travis.key', $packageRoot);
         if ($this->fileSystem()->exists($keyPath)) {
             $key = $this->fileSystem()->read($keyPath);
         } else {

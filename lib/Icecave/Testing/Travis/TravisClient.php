@@ -2,16 +2,33 @@
 namespace Icecave\Testing\Travis;
 
 use RuntimeException;
+use Icecave\Testing\FileSystem\FileSystem;
 use Icecave\Testing\Support\Isolator;
 
 class TravisClient
 {
     /**
-     * @param Isolator|null $isolator
+     * @param FileSystem|null $fileSystem
+     * @param Isolator|null   $isolator
      */
-    public function __construct(Isolator $isolator = null)
-    {
+    public function __construct(
+        FileSystem $fileSystem = null,
+        Isolator $isolator = null
+    ) {
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
+
+        $this->fileSystem = $fileSystem;
         $this->isolator = Isolator::get($isolator);
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -22,7 +39,7 @@ class TravisClient
      */
     public function publicKey($repoOwner, $repoName)
     {
-        $response = $this->isolator->file_get_contents(sprintf(
+        $response = $this->fileSystem()->read(sprintf(
             'https://api.travis-ci.org/repos/%s/%s/key',
             urlencode($repoOwner),
             urlencode($repoName)
@@ -66,5 +83,6 @@ class TravisClient
         return base64_encode($cipherText);
     }
 
+    private $fileSystem;
     private $isolator;
 }

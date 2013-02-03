@@ -159,6 +159,19 @@ class FileSystem
     }
 
     /**
+     * @param string  $path
+     * @param integer $mode
+     */
+    public function chmod($path, $mode)
+    {
+        try {
+            $this->isolator->chmod($path, $mode);
+        } catch (ErrorException $e) {
+            throw new Exception\WriteException($path, $e);
+        }
+    }
+
+    /**
      * @param string $path
      */
     public function delete($path)

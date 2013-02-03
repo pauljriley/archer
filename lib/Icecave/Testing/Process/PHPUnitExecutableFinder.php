@@ -2,7 +2,6 @@
 namespace Icecave\Testing\Process;
 
 use Icecave\Testing\Process\ProcessFactory;
-use Icecave\Testing\Support\Isolator;
 use RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 
@@ -11,12 +10,10 @@ class PHPUnitExecutableFinder
     /**
      * @param ExecutableFinder|null $executableFinder
      * @param ProcessFactory|null   $processFactory
-     * @param Isolator|null         $isolator
      */
     public function __construct(
         ExecutableFinder $executableFinder = null,
-        ProcessFactory $processFactory = null,
-        Isolator $isolator = null
+        ProcessFactory $processFactory = null
     ) {
         if (null === $executableFinder) {
             $executableFinder = new ExecutableFinder;
@@ -27,7 +24,6 @@ class PHPUnitExecutableFinder
 
         $this->executableFinder = $executableFinder;
         $this->processFactory = $processFactory;
-        $this->isolator = Isolator::get($isolator);
     }
 
     /**
@@ -93,10 +89,13 @@ class PHPUnitExecutableFinder
      */
     protected function environmentIsTravis()
     {
-        return 'true' === $this->isolator->getenv('TRAVIS');
+        if (array_key_exists('TRAVIS', $_SERVER)) {
+            return 'true' === $_SERVER['TRAVIS'];
+        }
+
+        return false;
     }
 
     private $executableFinder;
     private $processFactory;
-    private $isolator;
 }

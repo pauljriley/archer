@@ -17,6 +17,9 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
+        $this->_fileSystem = Phake::mock(
+            'Icecave\Testing\FileSystem\FileSystem'
+        );
         $this->_phpFinder = Phake::mock(
             'Symfony\Component\Process\PhpExecutableFinder'
         );
@@ -32,15 +35,14 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
         $this->_processFactory = Phake::mock(
             'Icecave\Testing\Process\ProcessFactory'
         );
-        $this->_isolator = Phake::mock('Icecave\Testing\Support\Isolator');
         $this->_command = Phake::partialMock(
             __NAMESPACE__ . '\TestCommand',
+            $this->_fileSystem,
             $this->_phpFinder,
             $this->_phpunitFinder,
             $this->_phpConfigurationReader,
             $this->_configurationFileFinder,
-            $this->_processFactory,
-            $this->_isolator
+            $this->_processFactory
         );
 
         $this->_application = Phake::mock('Icecave\Testing\Console\Application');
@@ -134,6 +136,7 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
+        $this->assertSame($this->_fileSystem, $this->_command->fileSystem());
         $this->assertSame($this->_phpFinder, $this->_command->phpFinder());
         $this->assertSame($this->_phpunitFinder, $this->_command->phpunitFinder());
         $this->assertSame($this->_phpConfigurationReader, $this->_command->phpConfigurationReader());
@@ -145,6 +148,10 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
     {
         $this->_command = new TestCommand;
 
+        $this->assertInstanceOf(
+            'Icecave\Testing\FileSystem\FileSystem',
+            $this->_command->fileSystem()
+        );
         $this->assertInstanceOf(
             'Symfony\Component\Process\PhpExecutableFinder',
             $this->_command->phpFinder()

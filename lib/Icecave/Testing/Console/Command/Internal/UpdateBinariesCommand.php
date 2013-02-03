@@ -16,6 +16,8 @@ class UpdateBinariesCommand extends AbstractInternalCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+
         foreach (array('woodhouse') as $package) {
             $output->writeln(sprintf('Fetching <info>icecave/%1$s</info> PHAR into <info>res/bin/%1$s</info>.', $package));
             $this->updateBinary($package);
@@ -24,9 +26,17 @@ class UpdateBinariesCommand extends AbstractInternalCommand
 
     protected function updateBinary($packageName)
     {
-        $content = $this->isolator->file_get_contents('http://icecave.com.au/' . $packageName . '/' . $packageName);
-        $target  = $this->getApplication()->packageRoot() . '/res/bin/' . $packageName;
-        $this->isolator->file_put_contents($target, $content);
-        $this->isolator->chmod($target, 0755);
+        $content = $this->fileSystem()->read(sprintf(
+            'http://icecave.com.au/%s/%s',
+            rawurlencode($packageName),
+            rawurlencode($packageName)
+        ));
+        $target = sprintf(
+            '%s/res/bin/%s',
+            $this->getApplication()->packageRoot(),
+            $packageName
+        );
+        $this->fileSystem()->write($target, $content);
+        $this->fileSystem()->chmod($target, 0755);
     }
 }

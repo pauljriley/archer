@@ -3,9 +3,9 @@ namespace Icecave\Testing\Console\Command;
 
 use Icecave\Testing\Configuration\ConfigurationFileFinder;
 use Icecave\Testing\Configuration\PHPConfigurationReader;
+use Icecave\Testing\FileSystem\FileSystem;
 use Icecave\Testing\Process\PHPUnitExecutableFinder;
 use Icecave\Testing\Process\ProcessFactory;
-use Icecave\Testing\Support\Isolator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -16,53 +16,56 @@ use Symfony\Component\Process\Process;
 abstract class AbstractPHPUnitCommand extends Command
 {
     /**
+     * @param FileSystem|null              $fileSystem
      * @param PhpExecutableFinder|null     $phpFinder
      * @param PHPUnitExecutableFinder|null $phpunitFinder
      * @param PHPConfigurationReader|null  $phpConfigurationReader
      * @param ConfigurationFileFinder|null $configurationFileFinder
      * @param ProcessFactory|null          $processFactory
-     * @param Isolator|null                $isolator
      */
     public function __construct(
+        FileSystem $fileSystem = null,
         PhpExecutableFinder $phpFinder = null,
         PHPUnitExecutableFinder $phpunitFinder = null,
         PHPConfigurationReader $phpConfigurationReader = null,
         ConfigurationFileFinder $configurationFileFinder = null,
-        ProcessFactory $processFactory = null,
-        Isolator $isolator = null
+        ProcessFactory $processFactory = null
     ) {
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
         if (null === $phpFinder) {
             $phpFinder = new PhpExecutableFinder;
         }
-        $this->phpFinder = $phpFinder;
-
-        $isolator = Isolator::get($isolator);
-
+        if (null === $phpunitFinder) {
+            $phpunitFinder = new PHPUnitExecutableFinder;
+        }
+        if (null === $phpConfigurationReader) {
+            $phpConfigurationReader = new PHPConfigurationReader;
+        }
+        if (null === $configurationFileFinder) {
+            $configurationFileFinder = new ConfigurationFileFinder;
+        }
         if (null === $processFactory) {
             $processFactory = new ProcessFactory;
         }
+
+        $this->fileSystem = $fileSystem;
+        $this->phpFinder = $phpFinder;
+        $this->phpunitFinder = $phpunitFinder;
+        $this->phpConfigurationReader = $phpConfigurationReader;
+        $this->configurationFileFinder = $configurationFileFinder;
         $this->processFactory = $processFactory;
 
-        if (null === $phpunitFinder) {
-            $phpunitFinder = new PHPUnitExecutableFinder(
-                null,
-                $this->processFactory,
-                $isolator
-            );
-        }
-        $this->phpunitFinder = $phpunitFinder;
-
-        if (null === $phpConfigurationReader) {
-            $phpConfigurationReader = new PHPConfigurationReader($isolator);
-        }
-        $this->phpConfigurationReader = $phpConfigurationReader;
-
-        if (null === $configurationFileFinder) {
-            $configurationFileFinder = new ConfigurationFileFinder($isolator);
-        }
-        $this->configurationFileFinder = $configurationFileFinder;
-
         parent::__construct();
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -113,6 +116,8 @@ abstract class AbstractPHPUnitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+
         $phpPath = $this->phpFinder()->find();
         $output->writeln(sprintf('<info>Using PHP:</info> %s', $phpPath));
         $phpunitPath = $this->phpunitFinder()->find();
@@ -215,6 +220,7 @@ abstract class AbstractPHPUnitCommand extends Command
      */
     abstract protected function findPHPUnitConfiguration();
 
+    private $fileSystem;
     private $phpFinder;
     private $phpunitFinder;
     private $phpConfigurationReader;

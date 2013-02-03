@@ -3,6 +3,7 @@ namespace Icecave\Testing\Process;
 
 use Phake;
 use PHPUnit_Framework_TestCase;
+use RuntimeException;
 
 class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
 {
@@ -48,47 +49,43 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
 
     public function testFindGeneric()
     {
-        Phake::when($this->_isolator)
-            ->getenv(Phake::anyParameters())
-            ->thenReturn(false)
-        ;
+        $server = $_SERVER;
+        unset($_SERVER['TRAVIS']);
         Phake::when($this->_executableFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('foo')
         ;
+        $actual = $this->_finder->find();
+        $_SERVER = $server;
 
-        $this->assertSame('foo', $this->_finder->find());
-        Phake::inOrder(
-            Phake::verify($this->_isolator)->getenv('TRAVIS'),
-            Phake::verify($this->_executableFinder)->find('phpunit')
-        );
+        $this->assertSame('foo', $actual);
+        Phake::verify($this->_executableFinder)->find('phpunit');
     }
 
     public function testFindGenericFailure()
     {
-        Phake::when($this->_isolator)
-            ->getenv(Phake::anyParameters())
-            ->thenReturn(false)
-        ;
+        $server = $_SERVER;
+        unset($_SERVER['TRAVIS']);
         Phake::when($this->_executableFinder)
             ->find(Phake::anyParameters())
             ->thenReturn(null)
         ;
+        $error = null;
+        try {
+            $this->_finder->find();
+        } catch (RuntimeException $error) {
+        }
+        $_SERVER = $server;
 
-        $this->setExpectedException(
-            'RuntimeException',
-            'Unable to find PHPUnit executable.'
-        );
-        $this->_finder->find();
+        $this->assertInstanceOf('RuntimeException', $error);
+        $this->assertSame('Unable to find PHPUnit executable.', $error->getMessage());
     }
 
     public function testFindTravis()
     {
+        $server = $_SERVER;
+        $_SERVER['TRAVIS'] = 'true';
         $process = Phake::mock('Symfony\Component\Process\Process');
-        Phake::when($this->_isolator)
-            ->getenv(Phake::anyParameters())
-            ->thenReturn('true')
-        ;
         Phake::when($this->_processFactory)
             ->create(Phake::anyParameters())
             ->thenReturn($process)
@@ -101,10 +98,11 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
             ->getOutput(Phake::anyParameters())
             ->thenReturn('foo')
         ;
+        $actual = $this->_finder->find();
+        $_SERVER = $server;
 
-        $this->assertSame('foo', $this->_finder->find());
+        $this->assertSame('foo', $actual);
         Phake::inOrder(
-            Phake::verify($this->_isolator)->getenv('TRAVIS'),
             Phake::verify($this->_processFactory)->create('rbenv', 'which', 'phpunit'),
             Phake::verify($process)->isSuccessful(),
             Phake::verify($process)->getOutput()
@@ -113,6 +111,8 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
 
     public function testFindTravisFailure()
     {
+        $server = $_SERVER;
+        $_SERVER['TRAVIS'] = 'true';
         $process = Phake::mock('Symfony\Component\Process\Process');
         Phake::when($this->_isolator)
             ->getenv(Phake::anyParameters())
@@ -130,11 +130,14 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
             ->getErrorOutput(Phake::anyParameters())
             ->thenReturn('Foo.')
         ;
+        $error = null;
+        try {
+            $this->_finder->find();
+        } catch (RuntimeException $error) {
+        }
+        $_SERVER = $server;
 
-        $this->setExpectedException(
-            'RuntimeException',
-            'Unable to find PHPUnit executable: Foo.'
-        );
-        $this->_finder->find();
+        $this->assertInstanceOf('RuntimeException', $error);
+        $this->assertSame('Unable to find PHPUnit executable: Foo.', $error->getMessage());
     }
 }

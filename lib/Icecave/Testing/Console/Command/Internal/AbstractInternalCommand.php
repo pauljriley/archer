@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Testing\Console\Command\Internal;
 
-use Icecave\Testing\Support\Isolator;
+use Icecave\Testing\FileSystem\FileSystem;
 use Symfony\Component\Console\Command\Command;
 
 abstract class AbstractInternalCommand extends Command
@@ -14,11 +14,26 @@ abstract class AbstractInternalCommand extends Command
         self::$isEnabled = $isEnabled;
     }
 
-    public function __construct(Isolator $isolator = null)
+    /**
+     * @param FileSystem|null $fileSystem
+     */
+    public function __construct(FileSystem $fileSystem = null)
     {
-        $this->isolator = Isolator::get($isolator);
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
+
+        $this->fileSystem = $fileSystem;
 
         parent::__construct();
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     public function isEnabled()
@@ -29,9 +44,9 @@ abstract class AbstractInternalCommand extends Command
                 $this->getApplication()->packageRoot()
             );
 
-            if ($this->isolator->is_file($composerPath)) {
+            if ($this->fileSystem()->fileExists($composerPath)) {
                 $config = json_decode(
-                    $this->isolator->file_get_contents($composerPath)
+                    $this->fileSystem()->read($composerPath)
                 );
 
                 self::setIsEnabled(
@@ -47,5 +62,5 @@ abstract class AbstractInternalCommand extends Command
     }
 
     private static $isEnabled;
-    protected $isolator;
+    private $fileSystem;
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Icecave\Testing\Console;
 
-use Icecave\Testing\Support\Isolator;
+use Icecave\Testing\FileSystem\FileSystem;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,15 +10,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Application extends SymfonyApplication
 {
     /**
-     * @param string        $packageRoot
-     * @param Isolator|null $isolator
+     * @param string          $packageRoot
+     * @param FileSystem|null $fileSystem
      */
-    public function __construct($packageRoot, Isolator $isolator = null)
+    public function __construct($packageRoot, FileSystem $fileSystem = null)
     {
         parent::__construct('Icecave Testing', '3.0.0-dev');
 
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
+
         $this->packageRoot = $packageRoot;
-        $this->isolator = Isolator::get($isolator);
+        $this->fileSystem = $fileSystem;
 
         $this->add(new Command\CoverageCommand);
         $this->add(new Command\TestCommand);
@@ -27,7 +31,7 @@ class Application extends SymfonyApplication
         $this->add(new Command\GitHub\CreateTokenCommand);
         $this->add(new Command\GitHub\FetchTokenCommand);
 
-        $this->add(new Command\Internal\UpdateBinariesCommand($isolator));
+        $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
     }
 
     /**
@@ -36,6 +40,14 @@ class Application extends SymfonyApplication
     public function packageRoot()
     {
         return $this->packageRoot;
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -76,5 +88,5 @@ class Application extends SymfonyApplication
     }
 
     private $packageRoot;
-    private $isolator;
+    private $fileSystem;
 }

@@ -14,11 +14,11 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         Command\Internal\AbstractInternalCommand::setIsEnabled(null);
 
-        $this->_isolator = Phake::mock('Icecave\Testing\Support\Isolator');
+        $this->_fileSystem = Phake::mock('Icecave\Testing\FileSystem\FileSystem');
         $this->_application = Phake::partialMock(
             __NAMESPACE__ . '\Application',
             'foo',
-            $this->_isolator
+            $this->_fileSystem
         );
         $this->_reflector = new ReflectionObject($this->_application);
     }
@@ -26,6 +26,19 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $this->assertSame('foo', $this->_application->packageRoot());
+        $this->assertSame($this->_fileSystem, $this->_application->fileSystem());
+    }
+
+    public function testConstructorDefaults()
+    {
+        $this->_application = new Application(
+            'foo'
+        );
+
+        $this->assertInstanceOf(
+            'Icecave\Testing\FileSystem\FileSystem',
+            $this->_application->fileSystem()
+        );
     }
 
     public function testEnabledCommands()
@@ -46,16 +59,16 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     public function testEnabledCommandsICT()
     {
         Command\Internal\AbstractInternalCommand::setIsEnabled(null);
-        $this->_isolator = Phake::mock('Icecave\Testing\Support\Isolator');
-        Phake::when($this->_isolator)
-            ->is_file(Phake::anyParameters())
+        $this->_fileSystem = Phake::mock('Icecave\Testing\FileSystem\FileSystem');
+        Phake::when($this->_fileSystem)
+            ->fileExists(Phake::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->_isolator)
-            ->file_get_contents(Phake::anyParameters())
+        Phake::when($this->_fileSystem)
+            ->read(Phake::anyParameters())
             ->thenReturn('{"name": "icecave/testing"}')
         ;
-        $this->_application = new Application('foo', $this->_isolator);
+        $this->_application = new Application('foo', $this->_fileSystem);
         $expected = array(
             'help',
             'list',
@@ -68,8 +81,8 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         );
 
         Phake::inOrder(
-            Phake::verify($this->_isolator)->is_file('foo/composer.json'),
-            Phake::verify($this->_isolator)->file_get_contents('foo/composer.json')
+            Phake::verify($this->_fileSystem)->fileExists('foo/composer.json'),
+            Phake::verify($this->_fileSystem)->read('foo/composer.json')
         );
         $this->assertSame($expected, array_keys($this->_application->all()));
     }

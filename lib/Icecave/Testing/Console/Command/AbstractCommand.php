@@ -3,7 +3,6 @@ namespace Icecave\Testing\Console\Command;
 
 use Icecave\Testing\FileSystem\FileSystem;
 use Icecave\Testing\GitHub\GitConfigReaderFactory;
-use Icecave\Testing\Support\Isolator;
 use Icecave\Testing\Travis\TravisClient;
 use Icecave\Testing\Travis\TravisConfigManager;
 use Symfony\Component\Console\Command\Command;
@@ -14,11 +13,8 @@ abstract class AbstractCommand extends Command
         FileSystem $fileSystem = null,
         GitConfigReaderFactory $configReaderFactory = null,
         TravisClient $travisClient = null,
-        TravisConfigManager $travisConfigManager = null,
-        Isolator $isolator = null
+        TravisConfigManager $travisConfigManager = null
     ) {
-        $this->isolator = Isolator::get($isolator);
-
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
         }
@@ -26,14 +22,10 @@ abstract class AbstractCommand extends Command
             $configReaderFactory = new GitConfigReaderFactory;
         }
         if (null === $travisClient) {
-            $travisClient = new TravisClient($this->isolator);
+            $travisClient = new TravisClient;
         }
         if (null === $travisConfigManager) {
-            $travisConfigManager = new TravisConfigManager(
-                null,
-                null,
-                $this->isolator
-            );
+            $travisConfigManager = new TravisConfigManager;
         }
 
         $this->fileSystem = $fileSystem;

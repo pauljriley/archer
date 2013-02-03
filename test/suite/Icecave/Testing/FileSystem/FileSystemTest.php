@@ -391,6 +391,26 @@ class FileSystemTest extends PHPUnit_Framework_TestCase
         $this->_fileSystem->createDirectory('foo');
     }
 
+    public function testChmod()
+    {
+        $this->_fileSystem->chmod('foo', 0755);
+
+        Phake::verify($this->_isolator)->chmod('foo', 0755);
+    }
+
+    public function testChmodFailure()
+    {
+        Phake::when($this->_isolator)
+            ->chmod(Phake::anyParameters())
+            ->thenThrow(Phake::mock('ErrorException'))
+        ;
+
+        $this->setExpectedException(
+            __NAMESPACE__ . '\Exception\WriteException'
+        );
+        $this->_fileSystem->chmod('foo', 0755);
+    }
+
     public function testDeleteFile()
     {
         Phake::when($this->_isolator)
