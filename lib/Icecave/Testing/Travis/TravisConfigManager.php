@@ -82,7 +82,7 @@ class TravisConfigManager
     }
 
     /**
-     * @param string $ictPackageRoot
+     * @param string  $ictPackageRoot
      * @param boolean $hasEncryptedEnvironment
      *
      * @return string
@@ -120,7 +120,7 @@ class TravisConfigManager
     }
 
     /**
-     * @param string $ictPackageRoot
+     * @param string  $ictPackageRoot
      * @param boolean $hasEncryptedEnvironment
      *
      * @return string

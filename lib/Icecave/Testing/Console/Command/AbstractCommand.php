@@ -7,7 +7,6 @@ use Icecave\Testing\Support\Isolator;
 use Icecave\Testing\Travis\TravisClient;
 use Icecave\Testing\Travis\TravisConfigManager;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Application as SymfonyApplication;
 
 abstract class AbstractCommand extends Command
 {
