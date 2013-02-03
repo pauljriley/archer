@@ -2,37 +2,40 @@
 namespace Icecave\Testing\Travis;
 
 use Icecave\Testing\Configuration\ConfigurationFileFinder;
+use Icecave\Testing\FileSystem\FileSystem;
 use Icecave\Testing\GitHub\GitConfigReader;
-use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Support\Isolator;
 
 class TravisConfigManager
 {
     /**
-     * @param FileManager                  $fileManager
+     * @param FileSystem|null              $fileSystem
      * @param ConfigurationFileFinder|null $fileFinder
      * @param Isolator|null                $isolator
      */
     public function __construct(
-        FileManager $fileManager,
+        FileSystem $fileSystem = null,
         ConfigurationFileFinder $fileFinder = null,
         Isolator $isolator = null
     ) {
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
         if (null === $fileFinder) {
             $fileFinder = new ConfigurationFileFinder;
         }
 
-        $this->fileManager = $fileManager;
+        $this->fileSystem = $fileSystem;
         $this->fileFinder = $fileFinder;
         $this->isolator = Isolator::get($isolator);
     }
 
     /**
-     * @return FileManager
+     * @return FileSystem
      */
-    public function fileManager()
+    public function fileSystem()
     {
-        return $this->fileManager;
+        return $this->fileSystem;
     }
 
     /**
@@ -45,62 +48,68 @@ class TravisConfigManager
 
     /**
      * @param string          $ictPackageRoot
+     * @param string          $packageRoot
      * @param GitConfigReader $configReader
      *
      * @return boolean
      */
-    public function updateConfig($ictPackageRoot, GitConfigReader $configReader)
+    public function updateConfig($ictPackageRoot, $packageRoot, GitConfigReader $configReader)
     {
         $replace = array(
             '{repo-owner}' => $configReader->repositoryOwner(),
             '{repo-name}'  => $configReader->repositoryName(),
         );
 
-        $env = $this->fileManager()->encryptedEnvironment;
-        $templatePath = $this->findTemplatePath($ictPackageRoot, null !== $env);
-
-        if (null !== $env) {
+        $encryptedEnvironmentPath = sprintf('%s/.travis.env', $packageRoot);
+        $hasEncryptedEnvironment = $this->fileSystem()->fileExists($encryptedEnvironmentPath);
+        if ($hasEncryptedEnvironment) {
+            $env = $this->fileSystem()->read($encryptedEnvironmentPath);
             $replace['{oauth-env}'] = $env;
 
             // Copy the install token script.
+            $travisBeforeInstallScriptPath = sprintf('%s/.travis.before-install', $packageRoot);
             $this->isolator->copy(
-                $ictPackageRoot . '/res/travis/travis.before-install.php',
-                $this->fileManager()->travisBeforeInstallScriptPath()
+                sprintf('%s/res/travis/travis.before-install.php', $ictPackageRoot),
+                $travisBeforeInstallScriptPath
             );
-            $this->isolator->chmod(
-                $this->fileManager()->travisBeforeInstallScriptPath(),
-                0755
-            );
+            $this->isolator->chmod($travisBeforeInstallScriptPath, 0755);
         }
 
         // Re-build travis.yml.
-        $template = $this->isolator->file_get_contents($templatePath);
-        $this->fileManager()->travisYaml = str_replace(array_keys($replace), array_values($replace), $template);
+        $template = $this->fileSystem()->read(
+            $this->findTemplatePath($ictPackageRoot, $packageRoot, $hasEncryptedEnvironment)
+        );
+        $this->fileSystem()->write(
+            sprintf('%s/.travis.yml', $packageRoot),
+            str_replace(array_keys($replace), array_values($replace), $template)
+        );
 
         // Return true if artifact publication is enabled.
-        return null !== $env;
+        return $hasEncryptedEnvironment;
     }
 
     /**
      * @param string  $ictPackageRoot
+     * @param string  $packageRoot
      * @param boolean $hasEncryptedEnvironment
      *
      * @return string
      */
-    protected function findTemplatePath($ictPackageRoot, $hasEncryptedEnvironment)
+    protected function findTemplatePath($ictPackageRoot, $packageRoot, $hasEncryptedEnvironment)
     {
         return $this->fileFinder()->find(
-            $this->candidateTemplatePaths($hasEncryptedEnvironment),
+            $this->candidateTemplatePaths($packageRoot, $hasEncryptedEnvironment),
             $this->defaultTemplatePath($ictPackageRoot, $hasEncryptedEnvironment)
         );
     }
 
     /**
+     * @param string  $packageRoot
      * @param boolean $hasEncryptedEnvironment
      *
      * @return array<string>
      */
-    protected function candidateTemplatePaths($hasEncryptedEnvironment)
+    protected function candidateTemplatePaths($packageRoot, $hasEncryptedEnvironment)
     {
         if ($hasEncryptedEnvironment) {
             $paths = array(
@@ -111,8 +120,6 @@ class TravisConfigManager
                 'test/travis.no-oauth.tpl.yml',
             );
         }
-
-        $packageRoot = $this->fileManager()->packageRoot();
 
         return array_map(function ($path) use ($packageRoot) {
             return sprintf('%s/%s', $packageRoot, $path);
@@ -136,7 +143,7 @@ class TravisConfigManager
         return sprintf('%s/res/travis/%s', $ictPackageRoot, $path);
     }
 
-    private $fileManager;
+    private $fileSystem;
     private $fileFinder;
     private $isolator;
 }

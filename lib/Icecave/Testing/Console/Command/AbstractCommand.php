@@ -1,8 +1,8 @@
 <?php
 namespace Icecave\Testing\Console\Command;
 
+use Icecave\Testing\FileSystem\FileSystem;
 use Icecave\Testing\GitHub\GitConfigReaderFactory;
-use Icecave\Testing\Support\FileManager;
 use Icecave\Testing\Support\Isolator;
 use Icecave\Testing\Travis\TravisClient;
 use Icecave\Testing\Travis\TravisConfigManager;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Command\Command;
 abstract class AbstractCommand extends Command
 {
     public function __construct(
-        FileManager $fileManager = null,
+        FileSystem $fileSystem = null,
         GitConfigReaderFactory $configReaderFactory = null,
         TravisClient $travisClient = null,
         TravisConfigManager $travisConfigManager = null,
@@ -19,27 +19,24 @@ abstract class AbstractCommand extends Command
     ) {
         $this->isolator = Isolator::get($isolator);
 
-        if (null === $fileManager) {
-            $fileManager = new FileManager($this->isolator);
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
         }
-
         if (null === $configReaderFactory) {
             $configReaderFactory = new GitConfigReaderFactory;
         }
-
         if (null === $travisClient) {
             $travisClient = new TravisClient($this->isolator);
         }
-
         if (null === $travisConfigManager) {
             $travisConfigManager = new TravisConfigManager(
-                $fileManager,
+                null,
                 null,
                 $this->isolator
             );
         }
 
-        $this->fileManager = $fileManager;
+        $this->fileSystem = $fileSystem;
         $this->configReaderFactory = $configReaderFactory;
         $this->travisClient = $travisClient;
         $this->travisConfigManager = $travisConfigManager;
@@ -47,9 +44,41 @@ abstract class AbstractCommand extends Command
         parent::__construct();
     }
 
-    protected $fileManager;
-    protected $configReaderFactory;
-    protected $travisClient;
-    protected $travisConfigManager;
-    protected $isolator;
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
+    }
+
+    /**
+     * @return GitConfigReaderFactory
+     */
+    public function configReaderFactory()
+    {
+        return $this->configReaderFactory;
+    }
+
+    /**
+     * @return TravisClient
+     */
+    public function travisClient()
+    {
+        return $this->travisClient;
+    }
+
+    /**
+     * @return TravisConfigManager
+     */
+    public function travisConfigManager()
+    {
+        return $this->travisConfigManager;
+    }
+
+    private $fileSystem;
+    private $configReaderFactory;
+    private $travisClient;
+    private $travisConfigManager;
+    private $isolator;
 }

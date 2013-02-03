@@ -37,8 +37,10 @@ class UpdateCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->fileManager->setPackageRoot($input->getArgument('path'));
-        $configReader = $this->configReaderFactory->create($this->fileManager->packageRootPath());
+        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+
+        $packageRoot = $input->getArgument('path');
+        $configReader = $this->configReaderFactory()->create($packageRoot);
 
         // Validate the OAuth token if one was provided ...
         $token = $input->getOption('oauth-token');
@@ -50,43 +52,65 @@ class UpdateCommand extends AbstractCommand
         }
 
         // Copy git files ...
-        if (!$this->fileManager->gitIgnore) {
+        $gitIgnorePath = sprintf('%/.gitignore', $packageRoot);
+        if (!$this->fileSystem()->exists($gitIgnorePath)) {
             $output->writeln('Updating <info>.gitignore</info>.');
-            $this->fileManager->gitIgnore = $this->isolator->file_get_contents($this->getApplication()->packageRoot() . '/res/git/gitignore');
-        }
 
-        if (!$this->fileManager->gitAttributes) {
+            $this->fileSystem()->copy(
+                sprintf('%/res/git/gitignore', $this->getApplication()->packageRoot()),
+                $gitIgnorePath
+            );
+        }
+        $gitAttributesPath = sprintf('%/.gitattributes', $packageRoot);
+        if (!$this->fileSystem()->exists($gitAttributesPath)) {
             $output->writeln('Updating <info>.gitattributes</info>.');
-            $this->fileManager->gitAttributes = $this->isolator->file_get_contents($this->getApplication()->packageRoot() . '/res/git/gitattributes');
+
+            $this->fileSystem()->copy(
+                sprintf('%/res/git/gitattributes', $this->getApplication()->packageRoot()),
+                $gitAttributesPath
+            );
         }
 
         $repoOwner = $configReader->repositoryOwner();
         $repoName  = $configReader->repositoryName();
 
         // Update the public key if requested (or it's missing) ...
+        $keyPath = sprintf('%/.travis.key', $packageRoot);
+        if ($this->fileSystem()->exists($keyPath)) {
+            $key = $this->fileSystem()->read($keyPath);
+        } else {
+            $key = null;
+        }
         $updateKey = $input->getOption('update-public-key');
-        $key = $this->fileManager->publicKey;
 
-        if ($updateKey || ($key === null && $token)) {
-            $output->writeln('Fetching public key for <info>' . $repoOwner . '/' . $repoName . '</info>.');
-            $this->fileManager->publicKey = $key = $this->travisClient->publicKey($repoOwner, $repoName);
+        if ($updateKey || (null === $key && $token)) {
+            $output->writeln(sprintf(
+                'Fetching public key for <info>%s/%s</info>.',
+                $repoOwner,
+                $repoName
+            ));
+
+            $key = $this->travisClient()->publicKey($repoOwner, $repoName);
+            $this->fileSystem()->write($keyPath, $key);
         }
 
         // Re-encrypt the environment if the $token or $key changed ...
         if ($token && $key) {
             $output->writeln('Encrypting OAuth token.');
-            $this->fileManager->encryptedEnvironment = $this->travisClient->encryptEnvironment(
-                $key,
-                $repoOwner,
-                $repoName,
-                $token
+            $this->fileSystem()->write(
+                sprintf('%s/.travis.env', $packageRoot),
+                $this->travisClient()->encryptEnvironment(
+                    $key,
+                    $token
+                )
             );
         }
 
         // Update the travis CI configuration ...
         $output->writeln('Updating <info>.travis.yml</info>.');
-        $artifacts = $this->travisConfigManager->updateConfig(
+        $artifacts = $this->travisConfigManager()->updateConfig(
             $this->getApplication()->packageRoot(),
+            $packageRoot,
             $configReader
         );
 
