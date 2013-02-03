@@ -83,6 +83,8 @@ class HiddenInputHelper extends Helper
         $sttyMode = $this->execute('stty -g');
         $this->execute('stty -echo');
 
+        $error = null;
+
         try {
             $value = rtrim(
                 $this->isolator->fgets(STDIN, 4096),
