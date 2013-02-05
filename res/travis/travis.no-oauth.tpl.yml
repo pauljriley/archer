@@ -15,13 +15,13 @@ php:
 
 env:
   global:
-    - ICT_REPO_OWNER={repo-owner}
-    - ICT_REPO_NAME={repo-name}
+    - ARCHER_REPO_OWNER={repo-owner}
+    - ARCHER_REPO_NAME={repo-name}
 
 install:
     - composer install --dev --prefer-source --no-interaction
 script:
-    - ./vendor/bin/ict
+    - ./vendor/bin/archer
 
 matrix:
   # PHP 5.5 is still in alpha, so ignore build failures.

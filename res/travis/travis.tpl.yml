@@ -16,8 +16,8 @@ php:
 
 env:
   global:
-    - ICT_REPO_OWNER={repo-owner}
-    - ICT_REPO_NAME={repo-name}
+    - ARCHER_REPO_OWNER={repo-owner}
+    - ARCHER_REPO_NAME={repo-name}
     - secure: "{oauth-env}"
 
 before_install:
@@ -25,7 +25,7 @@ before_install:
 install:
     - composer install --dev --prefer-dist --no-interaction
 script:
-    - ./vendor/bin/ict
+    - ./vendor/bin/archer
 
 matrix:
   # PHP 5.5 is still in alpha, so ignore build failures.
@@ -35,4 +35,4 @@ matrix:
   # This matrix entry is used to publish build artifacts.
   include:
     - php: 5.4
-      env: ICT_PUBLISH=true
+      env: ARCHER_PUBLISH=true

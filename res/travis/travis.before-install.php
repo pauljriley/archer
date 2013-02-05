@@ -10,7 +10,7 @@ $config = <<<EOD
 {
     "config" : {
         "github-oauth" : {
-            "github.com": "${_SERVER['ICT_TOKEN']}"
+            "github.com": "${_SERVER['ARCHER_TOKEN']}"
         }
     }
 }

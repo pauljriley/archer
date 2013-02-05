@@ -1,8 +1,8 @@
 {
-    "name": "icecave/testing",
-    "description": "Test projects in a uniform way.",
+    "name": "icecave/archer",
+    "description": "",
     "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts"],
-    "homepage": "https://github.com/IcecaveStudios/testing",
+    "homepage": "https://github.com/IcecaveStudios/archer",
     "license": "MIT",
     "authors": [
         {
@@ -22,16 +22,16 @@
         "symfony/process": "~2"
     },
     "bin": [
-        "bin/ict"
+        "bin/archer"
     ],
     "autoload": {
         "psr-0": {
-            "Icecave\\Testing": "lib"
+            "Icecave\\Archer": "lib"
         }
     },
     "scripts": {
         "post-update-cmd": [
-            "bin/ict internal:update-binaries"
+            "bin/archer internal:update-binaries"
         ]
     }
 }
