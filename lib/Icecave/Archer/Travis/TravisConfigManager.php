@@ -62,7 +62,7 @@ class TravisConfigManager
     }
 
     /**
-     * @param string $packageRoot
+     * @param string      $packageRoot
      * @param string|null $publicKey
      *
      * @return boolean
@@ -103,7 +103,7 @@ class TravisConfigManager
     }
 
     /**
-     * @param string $packageRoot
+     * @param string      $packageRoot
      * @param string|null $secureEnvironment
      *
      * @return boolean
