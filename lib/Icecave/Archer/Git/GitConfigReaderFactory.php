@@ -1,5 +1,5 @@
 <?php
-namespace Icecave\Archer\GitHub;
+namespace Icecave\Archer\Git;
 
 class GitConfigReaderFactory
 {

@@ -3,7 +3,7 @@ namespace Icecave\Archer\Travis;
 
 use Icecave\Archer\Configuration\ConfigurationFileFinder;
 use Icecave\Archer\FileSystem\FileSystem;
-use Icecave\Archer\GitHub\GitConfigReader;
+use Icecave\Archer\Git\GitConfigReader;
 use Icecave\Archer\Support\Isolator;
 
 class TravisConfigManager

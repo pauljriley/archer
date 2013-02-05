@@ -1,13 +1,91 @@
 <?php
 namespace Icecave\Archer\Console\Command;
 
+use Icecave\Archer\FileSystem\FileSystem;
+use Icecave\Archer\Git\GitConfigReaderFactory;
+use Icecave\Archer\Git\GitDotFilesManager;
+use Icecave\Archer\Travis\TravisClient;
+use Icecave\Archer\Travis\TravisConfigManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCommand extends AbstractCommand
+class UpdateCommand extends Command
 {
+    public function __construct(
+        FileSystem $fileSystem = null,
+        GitDotFilesManager $dotFilesManager = null,
+        GitConfigReaderFactory $configReaderFactory = null,
+        TravisClient $travisClient = null,
+        TravisConfigManager $travisConfigManager = null
+    ) {
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
+        if (null === $dotFilesManager) {
+            $dotFilesManager = new GitDotFilesManager;
+        }
+        if (null === $configReaderFactory) {
+            $configReaderFactory = new GitConfigReaderFactory;
+        }
+        if (null === $travisClient) {
+            $travisClient = new TravisClient;
+        }
+        if (null === $travisConfigManager) {
+            $travisConfigManager = new TravisConfigManager;
+        }
+
+        $this->fileSystem = $fileSystem;
+        $this->dotFilesManager = $dotFilesManager;
+        $this->configReaderFactory = $configReaderFactory;
+        $this->travisClient = $travisClient;
+        $this->travisConfigManager = $travisConfigManager;
+
+        parent::__construct();
+    }
+
+    /**
+     * @return FileSystem
+     */
+    public function fileSystem()
+    {
+        return $this->fileSystem;
+    }
+
+    /**
+     * @return GitDotFilesManager
+     */
+    public function dotFilesManager()
+    {
+        return $this->dotFilesManager;
+    }
+
+    /**
+     * @return GitConfigReaderFactory
+     */
+    public function configReaderFactory()
+    {
+        return $this->configReaderFactory;
+    }
+
+    /**
+     * @return TravisClient
+     */
+    public function travisClient()
+    {
+        return $this->travisClient;
+    }
+
+    /**
+     * @return TravisConfigManager
+     */
+    public function travisConfigManager()
+    {
+        return $this->travisConfigManager;
+    }
+
     protected function configure()
     {
         $this->setName('update');
@@ -121,4 +199,11 @@ class UpdateCommand extends AbstractCommand
         $output->writeln('Configuration updated successfully.');
         $output->write(PHP_EOL);
     }
+
+    private $fileSystem;
+    private $dotFilesManager;
+    private $configReaderFactory;
+    private $travisClient;
+    private $travisConfigManager;
+    private $isolator;
 }
