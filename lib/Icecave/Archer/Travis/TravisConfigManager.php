@@ -143,7 +143,9 @@ class TravisConfigManager
         );
 
         $secureEnvironment = $this->secureEnvironmentCache($packageRoot);
-        if (null !== $secureEnvironment) {
+        $hasEncryptedEnvironment = null !== $secureEnvironment;
+
+        if ($hasEncryptedEnvironment) {
             $replace['{oauth-env}'] = $secureEnvironment;
 
             // Copy the install token script.
@@ -165,7 +167,7 @@ class TravisConfigManager
         );
 
         // Return true if artifact publication is enabled.
-        return null !== $secureEnvironment;
+        return $hasEncryptedEnvironment;
     }
 
     /**
