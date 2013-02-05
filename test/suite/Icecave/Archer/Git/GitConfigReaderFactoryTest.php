@@ -1,5 +1,5 @@
 <?php
-namespace Icecave\Archer\GitHub;
+namespace Icecave\Archer\Git;
 
 use PHPUnit_Framework_TestCase;
 
