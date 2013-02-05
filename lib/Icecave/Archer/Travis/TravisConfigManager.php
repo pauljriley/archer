@@ -47,6 +47,88 @@ class TravisConfigManager
     }
 
     /**
+     * @param string $packageRoot
+     *
+     * @return string|null
+     */
+    public function publicKeyCache($packageRoot)
+    {
+        $publicKeyPath = sprintf('%s/.travis.key', $packageRoot);
+        if ($this->fileSystem()->fileExists($publicKeyPath)) {
+            return $this->fileSystem()->read($publicKeyPath);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $packageRoot
+     * @param string|null $publicKey
+     *
+     * @return boolean
+     */
+    public function setPublicKeyCache($packageRoot, $publicKey)
+    {
+        $publicKeyPath = sprintf('%s/.travis.key', $packageRoot);
+
+        // Key is the same as existing one, do nothing ...
+        if ($this->publicKeyCache($packageRoot) === $publicKey) {
+            return false;
+
+        // Key is null, remove file ...
+        } elseif (null === $publicKey) {
+            $this->fileSystem()->delete($publicKeyPath);
+
+        // Key is provided, write file ...
+        } else {
+            $this->fileSystem()->write($publicKeyPath, $publicKey);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $packageRoot
+     *
+     * @return string|null
+     */
+    public function secureEnvironmentCache($packageRoot)
+    {
+        $envPath = sprintf('%s/.travis.env', $packageRoot);
+        if ($this->fileSystem()->fileExists($envPath)) {
+            return $this->fileSystem()->read($envPath);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $packageRoot
+     * @param string|null $secureEnvironment
+     *
+     * @return boolean
+     */
+    public function setSecureEnvironmentCache($packageRoot, $secureEnvironment)
+    {
+        $envPath = sprintf('%s/.travis.env', $packageRoot);
+
+        // Environment is the same as existing one, do nothing ...
+        if ($this->secureEnvironmentCache($packageRoot) === $secureEnvironment) {
+            return false;
+
+        // Environment is null, remove file ...
+        } elseif (null === $secureEnvironment) {
+            $this->fileSystem()->delete($envPath);
+
+        // Environment is provided, write file ...
+        } else {
+            $this->fileSystem()->write($envPath, $secureEnvironment);
+        }
+
+        return true;
+    }
+
+    /**
      * @param string          $archerPackageRoot
      * @param string          $packageRoot
      * @param GitConfigReader $configReader
@@ -60,11 +142,9 @@ class TravisConfigManager
             '{repo-name}'  => $configReader->repositoryName(),
         );
 
-        $encryptedEnvironmentPath = sprintf('%s/.travis.env', $packageRoot);
-        $hasEncryptedEnvironment = $this->fileSystem()->fileExists($encryptedEnvironmentPath);
-        if ($hasEncryptedEnvironment) {
-            $env = $this->fileSystem()->read($encryptedEnvironmentPath);
-            $replace['{oauth-env}'] = $env;
+        $secureEnvironment = $this->secureEnvironmentCache($packageRoot);
+        if (null !== $secureEnvironment) {
+            $replace['{oauth-env}'] = $secureEnvironment;
 
             // Copy the install token script.
             $travisBeforeInstallScriptPath = sprintf('%s/.travis.before-install', $packageRoot);
@@ -85,7 +165,7 @@ class TravisConfigManager
         );
 
         // Return true if artifact publication is enabled.
-        return $hasEncryptedEnvironment;
+        return null !== $secureEnvironment;
     }
 
     /**

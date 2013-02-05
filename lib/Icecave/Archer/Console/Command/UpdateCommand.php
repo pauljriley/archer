@@ -129,59 +129,40 @@ class UpdateCommand extends Command
             return 1;
         }
 
-        // Copy git files ...
-        $gitIgnorePath = sprintf('%s/.gitignore', $packageRoot);
-        if (!$this->fileSystem()->exists($gitIgnorePath)) {
-            $output->writeln('Updating <info>.gitignore</info>.');
+        // Update Git dotfiles ...
+        $files = $this->dotFilesManager()->updateDotFiles(
+            $this->getApplication()->packageRoot(),
+            $packageRoot
+        );
 
-            $this->fileSystem()->copy(
-                sprintf('%s/res/git/gitignore', $this->getApplication()->packageRoot()),
-                $gitIgnorePath
-            );
-        }
-        $gitAttributesPath = sprintf('%s/.gitattributes', $packageRoot);
-        if (!$this->fileSystem()->exists($gitAttributesPath)) {
-            $output->writeln('Updating <info>.gitattributes</info>.');
-
-            $this->fileSystem()->copy(
-                sprintf('%s/res/git/gitattributes', $this->getApplication()->packageRoot()),
-                $gitAttributesPath
-            );
+        foreach ($files as $filename => $updated) {
+            if ($updated) {
+                $output->writeln(sprintf('Updated <info>%s</info>.', $filename));
+            }
         }
 
+        // Fetch the public key ...
         $repoOwner = $configReader->repositoryOwner();
         $repoName  = $configReader->repositoryName();
-
-        // Update the public key if requested (or it's missing) ...
-        $keyPath = sprintf('%s/.travis.key', $packageRoot);
-        if ($this->fileSystem()->exists($keyPath)) {
-            $key = $this->fileSystem()->read($keyPath);
-        } else {
-            $key = null;
-        }
+        $publicKey = $this->travisConfigManager()->publicKeyCache($packageRoot);
         $updateKey = $input->getOption('update-public-key');
 
-        if ($updateKey || (null === $key && $token)) {
+        if ($updateKey || (null === $publicKey && $token)) {
             $output->writeln(sprintf(
                 'Fetching public key for <info>%s/%s</info>.',
                 $repoOwner,
                 $repoName
             ));
 
-            $key = $this->travisClient()->publicKey($repoOwner, $repoName);
-            $this->fileSystem()->write($keyPath, $key);
+            $publicKey = $this->travisClient()->publicKey($repoOwner, $repoName);
+            $this->travisConfigManager()->setPublicKeyCache($packageRoot, $publicKey);
         }
 
         // Re-encrypt the environment if the $token or $key changed ...
-        if ($token && $key) {
+        if ($token && $publicKey) {
             $output->writeln('Encrypting OAuth token.');
-            $this->fileSystem()->write(
-                sprintf('%s/.travis.env', $packageRoot),
-                $this->travisClient()->encryptEnvironment(
-                    $key,
-                    $token
-                )
-            );
+            $secureEnv = $this->travisClient()->encryptEnvironment($publicKey, $token);
+            $this->travisConfigManager()->setSecureEnvironmentCache($packageRoot, $secureEnv);
         }
 
         // Update the travis CI configuration ...
