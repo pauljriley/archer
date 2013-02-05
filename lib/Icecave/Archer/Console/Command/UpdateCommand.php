@@ -44,7 +44,7 @@ class UpdateCommand extends AbstractCommand
 
         // Validate the OAuth token if one was provided ...
         $token = $input->getOption('oauth-token');
-        if ($token && !preg_match('/^[0-9a-f]{40}$/i', $token)) {
+        if ($token && GitHuToken::validate($token)) {
             $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
             $output->write(PHP_EOL);
 
