@@ -18,12 +18,12 @@
     <logging>
         <log
             type="coverage-text"
-            target="test/report/coverage/coverage.txt"
+            target="artifacts/coverage/coverage.txt"
         />
 
         <log
             type="coverage-html"
-            target="test/report/coverage"
+            target="artifacts/coverage"
             charset="UTF-8"
             yui="true"
             highlight="true"
