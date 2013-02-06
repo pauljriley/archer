@@ -1,6 +1,6 @@
 {
     "name": "icecave/archer",
-    "description": "",
+    "description": "PHP testing and continuous integration by convention.",
     "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts"],
     "homepage": "https://github.com/IcecaveStudios/archer",
     "license": "MIT",
