@@ -32,6 +32,8 @@ class Application extends SymfonyApplication
         $this->add(new Command\GitHub\FetchTokenCommand);
 
         $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
+
+        $this->add(new Command\Travis\BuildCommand);
     }
 
     protected function getDefaultHelperSet()

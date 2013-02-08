@@ -25,7 +25,7 @@ before_install:
 install:
     - composer install --dev --prefer-dist --no-interaction
 script:
-    - ./vendor/bin/archer
+    - ./vendor/bin/archer travis:build
 
 matrix:
   # PHP 5.5 is still in alpha, so ignore build failures.

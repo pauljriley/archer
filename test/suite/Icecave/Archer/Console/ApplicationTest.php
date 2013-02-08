@@ -51,6 +51,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'update',
             'github:create-token',
             'github:fetch-token',
+            'travis:build'
         );
 
         $this->assertSame($expected, array_keys($this->_application->all()));
@@ -78,6 +79,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'github:create-token',
             'github:fetch-token',
             'internal:update-binaries',
+            'travis:build'
         );
 
         Phake::inOrder(
