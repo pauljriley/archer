@@ -75,7 +75,7 @@ class BuildCommand extends AbstractTravisCommand
         $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
 
         // Publish artifacts ...
-        $command  = $archerRoot . '/res/bin/woodhouse';
+        $command  = $archerRoot . '/bin/woodhouse';
         $command .= ' publish %s';
         $command .= ' %s/artifacts:artifacts';
         $command .= ' --message "Publishing artifacts from build #%d."';

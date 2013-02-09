@@ -24,7 +24,8 @@
         "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
     },
     "bin": [
-        "bin/archer"
+        "bin/archer",
+        "bin/woodhouse"
     ],
     "autoload": {
         "psr-0": {

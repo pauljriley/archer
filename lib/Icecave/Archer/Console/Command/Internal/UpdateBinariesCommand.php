@@ -18,7 +18,7 @@ class UpdateBinariesCommand extends AbstractInternalCommand
         $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
 
         foreach (array('woodhouse') as $package) {
-            $output->writeln(sprintf('Fetching <info>icecave/%1$s</info> PHAR into <info>res/bin/%1$s</info>.', $package));
+            $output->writeln(sprintf('Fetching <info>icecave/%1$s</info> PHAR into <info>bin/%1$s</info>.', $package));
             $this->updateBinary($package);
         }
     }
@@ -31,7 +31,7 @@ class UpdateBinariesCommand extends AbstractInternalCommand
             rawurlencode($packageName)
         ));
         $target = sprintf(
-            '%s/res/bin/%s',
+            '%s/bin/woodhouse',
             $this->getApplication()->packageRoot(),
             $packageName
         );

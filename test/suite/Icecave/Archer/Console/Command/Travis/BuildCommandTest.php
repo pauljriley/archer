@@ -106,7 +106,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
     {
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
 
-        $expectedWoodhouseCommand  = "/path/to/archer/res/bin/woodhouse publish 'Vendor/package'";
+        $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
@@ -151,7 +151,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
     {
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
 
-        $expectedWoodhouseCommand  = "/path/to/archer/res/bin/woodhouse publish 'Vendor/package'";
+        $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
