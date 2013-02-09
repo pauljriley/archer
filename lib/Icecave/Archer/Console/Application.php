@@ -2,6 +2,7 @@
 namespace Icecave\Archer\Console;
 
 use Icecave\Archer\FileSystem\FileSystem;
+use Icecave\Archer\Support\Isolator;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,9 +13,13 @@ class Application extends SymfonyApplication
     /**
      * @param string          $packageRoot
      * @param FileSystem|null $fileSystem
+     * @param Isolator|null   $isolator
      */
-    public function __construct($packageRoot, FileSystem $fileSystem = null)
-    {
+    public function __construct(
+        $packageRoot,
+        FileSystem $fileSystem = null,
+        Isolator $isolator = null
+    ) {
         parent::__construct('Archer', 'DEV');
 
         if (null === $fileSystem) {
@@ -23,6 +28,7 @@ class Application extends SymfonyApplication
 
         $this->packageRoot = $packageRoot;
         $this->fileSystem = $fileSystem;
+        $this->isolator = Isolator::get($isolator);
 
         $this->add(new Command\CoverageCommand);
         $this->add(new Command\TestCommand);
@@ -33,7 +39,7 @@ class Application extends SymfonyApplication
 
         $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
 
-        $this->add(new Command\Travis\BuildCommand);
+        $this->add(new Command\Travis\BuildCommand(null, $isolator));
     }
 
     protected function getDefaultHelperSet()
@@ -102,4 +108,5 @@ class Application extends SymfonyApplication
 
     private $packageRoot;
     private $fileSystem;
+    private $isolator;
 }

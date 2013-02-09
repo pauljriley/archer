@@ -2,7 +2,7 @@
 namespace Icecave\Archer\Console\Command;
 
 use Icecave\Archer\Git\GitConfigReaderFactory;
-use Icecave\Archer\GitHub\GitHubToken;
+use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Git\GitDotFilesManager;
 use Icecave\Archer\Travis\TravisClient;
 use Icecave\Archer\Travis\TravisConfigManager;
@@ -106,7 +106,7 @@ class UpdateCommand extends Command
 
         // Validate the OAuth token if one was provided ...
         $token = $input->getOption('oauth-token');
-        if ($token && !GitHubToken::validate($token)) {
+        if ($token && !GitHubClient::validateToken($token)) {
             $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
             $output->write(PHP_EOL);
 

@@ -63,5 +63,10 @@ class Isolator
         return exec($command, $output, $exitCode);
     }
 
+    public function passthru($command, &$exitCode = null)
+    {
+        return passthru($command, $exitCode);
+    }
+
     private static $instance;
 }

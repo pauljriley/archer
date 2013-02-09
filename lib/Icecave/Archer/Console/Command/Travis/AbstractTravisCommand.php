@@ -9,16 +9,16 @@ abstract class AbstractTravisCommand extends Command
     /**
      * @param Isolator|null $isolator
      */
-    public function __construct(Isolator $isolator = null)
+    public function __construct(Isolator $isolator = null, $name = null)
     {
         $this->isolator = Isolator::get($isolator);
 
-        parent::__construct();
+        parent::__construct($name);
     }
 
     public function isEnabled()
     {
-        return $this->isolator->getenv('TRAVIS') !== '';
+        return $this->isolator->getenv('TRAVIS') ? true : false;
     }
 
     protected $isolator;
