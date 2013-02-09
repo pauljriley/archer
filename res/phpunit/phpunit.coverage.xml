@@ -11,34 +11,34 @@
 >
     <testsuites>
         <testsuite>
-            <directory>../../../../test/suite</directory>
+            <directory>../../../../../test/suite</directory>
         </testsuite>
     </testsuites>
 
     <logging>
         <log
             type="tap"
-            target="../../../../artifacts/tests/report.tap"
+            target="../../../../../artifacts/tests/report.tap"
         />
         <log
             type="coverage-html"
-            target="../../../../artifacts/tests/coverage"
+            target="../../../../../artifacts/tests/coverage"
             charset="UTF-8"
             yui="true"
             highlight="true"
         />
         <log
             type="coverage-text"
-            target="../../../../artifacts/tests/coverage/coverage.txt"
+            target="../../../../../artifacts/tests/coverage/coverage.txt"
         />
     </logging>
 
     <filter>
         <whitelist>
-            <directory>../../../../lib</directory>
-            <directory>../../../../lib-internal</directory>
-            <directory>../../../../src</directory>
-            <directory>../../../../src-internal</directory>
+            <directory>../../../../../lib</directory>
+            <directory>../../../../../lib-internal</directory>
+            <directory>../../../../../src</directory>
+            <directory>../../../../../src-internal</directory>
         </whitelist>
     </filter>
 </phpunit>

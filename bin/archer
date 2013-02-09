@@ -1,21 +1,12 @@
 #!/usr/bin/env php
 <?php
-$standaloneAutoloadPath = __DIR__ . '/../vendor/autoload.php';
-$dependencyAutoloadPath = __DIR__ . '/../../../autoload.php';
+$packageRoot = dirname(__DIR__);
 
-if (is_file($standaloneAutoloadPath)) {
-    require $standaloneAutoloadPath;
-    $packageRoot = dirname(dirname($standaloneAutoloadPath));
-} elseif (is_file($dependencyAutoloadPath)) {
-    require $dependencyAutoloadPath;
-    $packageRoot = dirname(dirname($dependencyAutoloadPath));
+$matches = array();
+if (preg_match('{^(.*)/vendor/.+/.+$}', $packageRoot, $matches)) {
+    require $matches[1] . '/vendor/autoload.php';
 } else {
-    throw new LogicException(
-        sprintf(
-            "No autoloader found at '%s'. Try installing Composer dependencies?",
-            $standaloneAutoloadPath
-        )
-    );
+    require $packageRoot . '/vendor/autoload.php';
 }
 
 Icecave\Archer\Support\Asplode::instance()->install();
