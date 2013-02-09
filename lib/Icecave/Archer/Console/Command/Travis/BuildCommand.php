@@ -53,7 +53,7 @@ class BuildCommand extends AbstractTravisCommand
         // Run default tests ...
         if (!$publishArtifacts) {
             $exitCode = 1;
-            $this->isolator->passthru($archerRoot . '/bin/archer test --no-interaction', $exitCode);
+            $this->isolator->passthru($archerRoot . '/bin/archer test', $exitCode);
 
             return $exitCode;
         }
@@ -73,7 +73,7 @@ class BuildCommand extends AbstractTravisCommand
         }
 
         // Run tests with reports ...
-        $this->isolator->passthru($archerRoot . '/bin/archer coverage --no-interaction');
+        $this->isolator->passthru($archerRoot . '/bin/archer coverage');
 
         $command  = $archerRoot . '/res/bin/woodhouse';
         $command .= ' publish %s/%s';

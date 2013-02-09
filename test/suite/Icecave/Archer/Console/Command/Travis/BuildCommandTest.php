@@ -58,14 +58,14 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_isolator)
             ->passthru(
-                '/path/to/archer/bin/archer test --no-interaction',
+                '/path/to/archer/bin/archer test',
                 Phake::setReference(123)
             )
             ->thenReturn(null);
 
         $exitCode = $this->_command->run($input, $this->_output);
 
-        Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer test --no-interaction', 1);
+        Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer test', 1);
         Phake::verifyNoInteraction($this->_githubClient);
 
         $this->assertSame(123, $exitCode);
@@ -101,7 +101,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer coverage --no-interaction'),
+            Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer coverage'),
             Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 1)
         );
 
