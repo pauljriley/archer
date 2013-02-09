@@ -5,6 +5,22 @@ use PHPUnit_Framework_TestCase;
 
 class IsolatorTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        Isolator::resetIsolator();
+    }
+
+    public function testGet()
+    {
+        $isolator = new Isolator;
+        $this->assertSame($isolator, Isolator::get($isolator));
+
+        $singleton = Isolator::get(null);
+
+        $this->assertInstanceOf(__NAMESPACE__ . '\Isolator', $singleton);
+        $this->assertSame($singleton, Isolator::get(null));
+    }
+
     public function testCall()
     {
         $isolator = new Isolator;
@@ -22,17 +38,6 @@ class IsolatorTest extends PHPUnit_Framework_TestCase
     {
         $isolator = new Isolator;
         $this->assertSame(3, $isolator->eval('return strlen("foo");'));
-    }
-
-    public function testGet()
-    {
-        $isolator = new Isolator;
-        $this->assertSame($isolator, Isolator::get($isolator));
-
-        $singleton = Isolator::get(null);
-
-        $this->assertInstanceOf(__NAMESPACE__ . '\Isolator', $singleton);
-        $this->assertSame($singleton, Isolator::get(null));
     }
 
     public function testInclude()

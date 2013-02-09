@@ -20,6 +20,11 @@ class Isolator
         }
     }
 
+    public static function resetIsolator()
+    {
+        self::$instance = null;
+    }
+
     public function __call($name, array $arguments)
     {
         switch ($name) {

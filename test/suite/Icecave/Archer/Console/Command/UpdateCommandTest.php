@@ -72,7 +72,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_configReader)->repositoryOwner(),
             Phake::verify($this->_configReader)->repositoryName(),
             Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project', $this->_configReader),
+            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
             Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
             Phake::verify($this->_output)->write(PHP_EOL)
@@ -118,7 +118,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
             Phake::verify($this->_travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project', $this->_configReader),
+            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
             Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
             Phake::verify($this->_output)->write(PHP_EOL)
@@ -144,7 +144,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
             Phake::verify($this->_travisClient)->encryptEnvironment('<cached key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project', $this->_configReader),
+            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
             Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
             Phake::verify($this->_output)->write(PHP_EOL)
@@ -166,7 +166,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
             Phake::verify($this->_travisClient)->publicKey('owner', 'repo-name'),
             Phake::verify($this->_travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project', $this->_configReader),
+            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
             Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
             Phake::verify($this->_output)->write(PHP_EOL)

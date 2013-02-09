@@ -203,4 +203,54 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_fileSystem)->delete('/path/to/project/.travis.env')
         );
     }
+
+    public function testUpdateConfig()
+    {
+        Phake::when($this->_fileFinder)
+            ->find(Phake::anyParameters())
+            ->thenReturn('/real/path/to/template');
+
+        Phake::when($this->_fileSystem)
+            ->read(Phake::anyParameters())
+            ->thenReturn('<template content>');
+
+        $result = $this->_manager->updateConfig('/path/to/archer', '/path/to/project');
+
+        Phake::inOrder(
+            Phake::verify($this->_fileFinder)->find(array('/path/to/project/test/travis.no-oauth.tpl.yml'), '/path/to/archer/res/travis/travis.no-oauth.tpl.yml'),
+            Phake::verify($this->_fileSystem)->read('/real/path/to/template'),
+            Phake::verify($this->_fileSystem)->write('/path/to/project/.travis.yml', '<template content>')
+        );
+
+        $this->assertFalse($result);
+    }
+
+    public function testUpdateConfigWithOAuth()
+    {
+        Phake::when($this->_fileSystem)
+            ->fileExists('/path/to/project/.travis.env')
+            ->thenReturn(true);
+
+        Phake::when($this->_fileSystem)
+            ->read('/path/to/project/.travis.env')
+            ->thenReturn('<env data>');
+
+        Phake::when($this->_fileFinder)
+            ->find(Phake::anyParameters())
+            ->thenReturn('/real/path/to/template');
+
+        Phake::when($this->_fileSystem)
+            ->read('/real/path/to/template')
+            ->thenReturn('<secure: {secure-env}>');
+
+        $result = $this->_manager->updateConfig('/path/to/archer', '/path/to/project');
+
+        Phake::inOrder(
+            Phake::verify($this->_fileFinder)->find(array('/path/to/project/test/travis.tpl.yml'), '/path/to/archer/res/travis/travis.tpl.yml'),
+            Phake::verify($this->_fileSystem)->read('/real/path/to/template'),
+            Phake::verify($this->_fileSystem)->write('/path/to/project/.travis.yml', '<secure: <env data>>')
+        );
+
+        $this->assertTrue($result);
+    }
 }

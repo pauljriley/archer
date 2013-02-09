@@ -3,7 +3,6 @@ namespace Icecave\Archer\Travis;
 
 use Icecave\Archer\Configuration\ConfigurationFileFinder;
 use Icecave\Archer\FileSystem\FileSystem;
-use Icecave\Archer\Git\GitConfigReader;
 use Icecave\Archer\Support\Isolator;
 
 class TravisConfigManager
@@ -129,45 +128,38 @@ class TravisConfigManager
     }
 
     /**
-     * @param string          $archerPackageRoot
-     * @param string          $packageRoot
-     * @param GitConfigReader $configReader
+     * @param string $archerPackageRoot
+     * @param string $packageRoot
      *
      * @return boolean
      */
-    public function updateConfig($archerPackageRoot, $packageRoot, GitConfigReader $configReader)
+    public function updateConfig($archerPackageRoot, $packageRoot)
     {
-        $replace = array(
-            '{repo-owner}' => $configReader->repositoryOwner(),
-            '{repo-name}'  => $configReader->repositoryName(),
-        );
-
         $secureEnvironment = $this->secureEnvironmentCache($packageRoot);
-        $hasEncryptedEnvironment = null !== $secureEnvironment;
 
-        if ($hasEncryptedEnvironment) {
-            $replace['{oauth-env}'] = $secureEnvironment;
+        if ($secureEnvironment) {
+            $source = sprintf('%s/res/travis/travis.before-install.php', $archerPackageRoot);
+            $target = sprintf('%s/.travis.before-install', $packageRoot);
+            $this->fileSystem()->copy($source, $target);
+            $this->fileSystem()->chmod($target, 0755);
 
-            // Copy the install token script.
-            $travisBeforeInstallScriptPath = sprintf('%s/.travis.before-install', $packageRoot);
-            $this->fileSystem()->copy(
-                sprintf('%s/res/travis/travis.before-install.php', $archerPackageRoot),
-                $travisBeforeInstallScriptPath
-            );
-            $this->fileSystem()->chmod($travisBeforeInstallScriptPath, 0755);
+            $replace = array('{secure-env}' => $secureEnvironment);
+        } else {
+            $replace = array();
         }
 
         // Re-build travis.yml.
         $template = $this->fileSystem()->read(
-            $this->findTemplatePath($archerPackageRoot, $packageRoot, $hasEncryptedEnvironment)
+            $this->findTemplatePath($archerPackageRoot, $packageRoot, $secureEnvironment !== null)
         );
+
         $this->fileSystem()->write(
             sprintf('%s/.travis.yml', $packageRoot),
             str_replace(array_keys($replace), array_values($replace), $template)
         );
 
         // Return true if artifact publication is enabled.
-        return $hasEncryptedEnvironment;
+        return $secureEnvironment !== null;
     }
 
     /**
@@ -177,52 +169,58 @@ class TravisConfigManager
      *
      * @return string
      */
-    protected function findTemplatePath($archerPackageRoot, $packageRoot, $hasEncryptedEnvironment)
+    protected function findTemplatePath($archerPackageRoot, $packageRoot, $hasSecureEnvironment)
     {
         return $this->fileFinder()->find(
-            $this->candidateTemplatePaths($packageRoot, $hasEncryptedEnvironment),
-            $this->defaultTemplatePath($archerPackageRoot, $hasEncryptedEnvironment)
+            $this->candidateTemplatePaths($packageRoot, $hasSecureEnvironment),
+            $this->defaultTemplatePath($archerPackageRoot, $hasSecureEnvironment)
         );
     }
 
     /**
      * @param string  $packageRoot
-     * @param boolean $hasEncryptedEnvironment
+     * @param boolean $hasSecureEnvironment
      *
      * @return array<string>
      */
-    protected function candidateTemplatePaths($packageRoot, $hasEncryptedEnvironment)
+    protected function candidateTemplatePaths($packageRoot, $hasSecureEnvironment)
     {
-        if ($hasEncryptedEnvironment) {
-            $paths = array(
-                'test/travis.tpl.yml',
-            );
-        } else {
-            $paths = array(
-                'test/travis.no-oauth.tpl.yml',
-            );
-        }
-
-        return array_map(function ($path) use ($packageRoot) {
-            return sprintf('%s/%s', $packageRoot, $path);
-        }, $paths);
+        return array(
+            sprintf(
+                '%s/test/%s',
+                $packageRoot,
+                $this->templateFilename($hasSecureEnvironment)
+            )
+        );
     }
 
     /**
      * @param string  $archerPackageRoot
-     * @param boolean $hasEncryptedEnvironment
+     * @param boolean $hasSecureEnvironment
      *
      * @return string
      */
-    protected function defaultTemplatePath($archerPackageRoot, $hasEncryptedEnvironment)
+    protected function defaultTemplatePath($archerPackageRoot, $hasSecureEnvironment)
     {
-        if ($hasEncryptedEnvironment) {
-            $path = 'travis.tpl.yml';
-        } else {
-            $path = 'travis.no-oauth.tpl.yml';
-        }
+        return sprintf(
+            '%s/res/travis/%s',
+            $archerPackageRoot,
+            $this->templateFilename($hasSecureEnvironment)
+        );
+    }
 
-        return sprintf('%s/res/travis/%s', $archerPackageRoot, $path);
+    /**
+     * @param string $archerPackageRoot
+     *
+     * @return string
+     */
+    protected function templateFilename($hasSecureEnvironment)
+    {
+        if ($hasSecureEnvironment) {
+            return 'travis.tpl.yml';
+        } else {
+            return 'travis.no-oauth.tpl.yml';
+        }
     }
 
     private $fileSystem;

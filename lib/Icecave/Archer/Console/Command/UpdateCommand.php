@@ -157,8 +157,7 @@ class UpdateCommand extends Command
         // Update the travis CI configuration ...
         $artifacts = $this->travisConfigManager()->updateConfig(
             $archerRoot,
-            $packageRoot,
-            $configReader
+            $packageRoot
         );
 
         $output->writeln('Updated <info>.travis.yml</info>.');

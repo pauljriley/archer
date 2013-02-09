@@ -17,7 +17,7 @@ php:
 env:
   global:
     - ARCHER_PUBLISH_VERSION=5.4
-    - secure: "{oauth-env}"
+    - secure: "{secure-env}"
 
 before_install:
     - ./.travis.before-install
