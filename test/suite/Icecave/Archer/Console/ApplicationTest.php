@@ -71,7 +71,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             ->read(Phake::anyParameters())
             ->thenReturn('{"name": "icecave/archer"}')
         ;
-        $this->_application = new Application('foo', $this->_fileSystem);
+        $this->_application = new Application('foo', $this->_fileSystem, $this->_isolator);
         $expected = array(
             'help',
             'list',
