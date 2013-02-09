@@ -84,6 +84,8 @@ class BuildCommand extends AbstractTravisCommand
         $command .= ' --build-status-image artifacts/images/build-status.png';
         $command .= ' --build-status-tap artifacts/tests/report.tap';
         $command .= ' --auth-token-env ARCHER_TOKEN';
+        $command .= ' --image-theme travis/variable-width';
+        $command .= ' --image-theme icecave/regular';
         $command .= ' --no-interaction';
         $command .= ' --verbose';
 

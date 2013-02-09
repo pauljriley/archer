@@ -114,6 +114,8 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
         $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
 
@@ -159,6 +161,8 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
         $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
 
