@@ -49,6 +49,8 @@ class Isolator
         return call_user_func_array($name, $arguments);
     }
 
+    // @codeCoverageIgnoreStart
+
     public function openssl_public_encrypt($data, &$crypted, $key, $padding = null)
     {
         if (null === $padding) {
@@ -67,6 +69,8 @@ class Isolator
     {
         return passthru($command, $exitCode);
     }
+
+    // @codeCoverageIgnoreEnd
 
     private static $instance;
 }
