@@ -86,7 +86,7 @@ class UpdateCommand extends Command
         );
 
         $this->addOption(
-            'oauth-token',
+            'auth-token',
             't',
             InputOption::VALUE_REQUIRED,
             'A GitHub OAuth token with succificent access to push to this repository.'
@@ -103,7 +103,7 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Validate the OAuth token if one was provided ...
-        $token = $input->getOption('oauth-token');
+        $token = $input->getOption('auth-token');
         if ($token && !GitHubClient::validateToken($token)) {
             $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
             $output->write(PHP_EOL);
@@ -114,7 +114,7 @@ class UpdateCommand extends Command
         // Verify that a token is provided if --update-public-key is used.
         $updateKey = $input->getOption('update-public-key');
         if ($updateKey && !$token) {
-            $output->writeln('Can not update public key without --oauth-token.');
+            $output->writeln('Can not update public key without --auth-token.');
             $output->write(PHP_EOL);
 
             return 1;

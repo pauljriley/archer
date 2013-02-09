@@ -102,7 +102,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteWithNewToken()
     {
-        $input = new StringInput('update --oauth-token b1a94b90073382b330f601ef198bb0729b0168aa /path/to/project');
+        $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa /path/to/project');
 
         $this->_command->run($input, $this->_output);
 
@@ -131,7 +131,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             ->publicKeyCache(Phake::anyParameters())
             ->thenReturn('<cached key data>');
 
-        $input = new StringInput('update --oauth-token b1a94b90073382b330f601ef198bb0729b0168aa /path/to/project');
+        $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa /path/to/project');
 
         $this->_command->run($input, $this->_output);
 
@@ -153,7 +153,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteWithUpdatePublicKey()
     {
-        $input = new StringInput('update --oauth-token b1a94b90073382b330f601ef198bb0729b0168aa --update-public-key /path/to/project');
+        $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa --update-public-key /path/to/project');
 
         $this->_command->run($input, $this->_output);
 
@@ -175,7 +175,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
     public function testExecuteWithInvalidToken()
     {
-        $input = new StringInput('update --oauth-token XXX');
+        $input = new StringInput('update --auth-token XXX');
 
         $exitCode = $this->_command->run($input, $this->_output);
 
@@ -196,7 +196,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->assertSame(1, $exitCode);
 
         Phake::inOrder(
-            Phake::verify($this->_output)->writeln('Can not update public key without --oauth-token.'),
+            Phake::verify($this->_output)->writeln('Can not update public key without --auth-token.'),
             Phake::verify($this->_output)->write(PHP_EOL)
         );
     }
