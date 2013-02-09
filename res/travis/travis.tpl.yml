@@ -16,8 +16,7 @@ php:
 
 env:
   global:
-    - ARCHER_REPO_OWNER={repo-owner}
-    - ARCHER_REPO_NAME={repo-name}
+    - ARCHER_PUBLISH_VERSION=5.4
     - secure: "{oauth-env}"
 
 before_install:
@@ -25,14 +24,9 @@ before_install:
 install:
     - composer install --dev --prefer-dist --no-interaction
 script:
-    - ./vendor/bin/archer
+    - ./vendor/bin/archer travis:build
 
 matrix:
   # PHP 5.5 is still in alpha, so ignore build failures.
   allow_failures:
     - php: 5.5
-
-  # This matrix entry is used to publish build artifacts.
-  include:
-    - php: 5.4
-      env: ARCHER_PUBLISH=true

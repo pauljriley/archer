@@ -11,7 +11,7 @@
 >
     <testsuites>
         <testsuite>
-            <directory>../../../../test/suite</directory>
+            <directory>../../../../../test/suite</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,6 +1,7 @@
 <?php
 namespace Icecave\Archer\Console;
 
+use Icecave\Archer\Support\Isolator;
 use Phake;
 use PHPUnit_Framework_TestCase;
 use ReflectionObject;
@@ -15,10 +16,12 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         Command\Internal\AbstractInternalCommand::setIsEnabled(null);
 
         $this->_fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->_isolator = Phake::mock('Icecave\Archer\Support\Isolator');
         $this->_application = Phake::partialMock(
             __NAMESPACE__ . '\Application',
             'foo',
-            $this->_fileSystem
+            $this->_fileSystem,
+            $this->_isolator
         );
         $this->_reflector = new ReflectionObject($this->_application);
     }
@@ -68,7 +71,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             ->read(Phake::anyParameters())
             ->thenReturn('{"name": "icecave/archer"}')
         ;
-        $this->_application = new Application('foo', $this->_fileSystem);
+        $this->_application = new Application('foo', $this->_fileSystem, $this->_isolator);
         $expected = array(
             'help',
             'list',
@@ -84,6 +87,27 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_fileSystem)->fileExists('foo/composer.json'),
             Phake::verify($this->_fileSystem)->read('foo/composer.json')
         );
+        $this->assertSame($expected, array_keys($this->_application->all()));
+    }
+
+    public function testEnabledCommandsTravis()
+    {
+        Phake::when($this->_isolator)
+            ->getenv('TRAVIS')
+            ->thenReturn('true');
+
+        $this->_application = new Application('foo', $this->_fileSystem, $this->_isolator);
+        $expected = array(
+            'help',
+            'list',
+            'coverage',
+            'test',
+            'update',
+            'github:create-token',
+            'github:fetch-token',
+            'travis:build',
+        );
+
         $this->assertSame($expected, array_keys($this->_application->all()));
     }
 

@@ -1,6 +1,6 @@
 <?php
 // Find the root path of the project being tested ...
-$rootPath = __DIR__ . '/../../../..';
+$rootPath = __DIR__ . '/../../../../..';
 
 // Install the composer autoloader ...
 $autoloader = require_once $rootPath . '/vendor/autoload.php';

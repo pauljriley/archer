@@ -17,16 +17,19 @@
 
     <logging>
         <log
-            type="coverage-text"
-            target="artifacts/coverage/coverage.txt"
+            type="tap"
+            target="artifacts/tests/report.tap"
         />
-
         <log
             type="coverage-html"
-            target="artifacts/coverage"
+            target="artifacts/tests/coverage"
             charset="UTF-8"
             yui="true"
             highlight="true"
+        />
+        <log
+            type="coverage-text"
+            target="artifacts/tests/coverage/coverage.txt"
         />
     </logging>
 

@@ -16,13 +16,16 @@
         }
     ],
     "require": {
-        "ext-openssl": "*",
         "phake/phake": "~1",
         "symfony/console": "~2",
         "symfony/process": "~2"
     },
+    "suggest": {
+        "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
+    },
     "bin": [
-        "bin/archer"
+        "bin/archer",
+        "bin/woodhouse"
     ],
     "autoload": {
         "psr-0": {
