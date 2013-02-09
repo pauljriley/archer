@@ -58,14 +58,14 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_isolator)
             ->passthru(
-                '/path/to/archer/bin/archer --no-interaction',
+                '/path/to/archer/bin/archer test --no-interaction',
                 Phake::setReference(123)
             )
             ->thenReturn(null);
 
         $exitCode = $this->_command->run($input, $this->_output);
 
-        Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer --no-interaction', 1);
+        Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer test --no-interaction', 1);
         Phake::verifyNoInteraction($this->_githubClient);
 
         $this->assertSame(123, $exitCode);
