@@ -21,7 +21,7 @@
         "symfony/process": "~2"
     },
     "suggest": {
-        "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens (not required to execute tests)."
+        "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
     },
     "bin": [
         "bin/archer"

@@ -46,38 +46,38 @@ class BuildCommand extends AbstractTravisCommand
     {
         $archerRoot       = $this->getApplication()->packageRoot();
         $packageRoot      = $input->getArgument('path');
-        $publishArtifacts = $this->isolator->getenv('ARCHER_PUBLISH') === 'true';
+        $travisPhpVersion = $this->isolator->getenv('TRAVIS_PHP_VERSION');
+        $publishVersion   = $this->isolator->getenv('ARCHER_PUBLISH_VERSION');
+        $currentBranch    = $this->isolator->getenv('TRAVIS_BRANCH');
+        $authToken        = $this->isolator->getenv('ARCHER_TOKEN');
+        $buildNumber      = $this->isolator->getenv('TRAVIS_BUILD_NUMBER');
+        $repoSlug         = $this->isolator->getenv('TRAVIS_REPO_SLUG');
 
-        $this->isolator->chdir($packageRoot);
+        list($repoOwner, $repoName) = explode('/', $repoSlug);
+
+        if ($travisPhpVersion === $publishVersion) {
+            $this->githubClient()->setAuthToken($authToken);
+            $publishArtifacts = $this->githubClient()->defaultBranch($repoOwner, $repoName) === $currentBranch;
+        } else {
+            $publishArtifacts = false;
+        }
 
         // Run default tests ...
         if (!$publishArtifacts) {
-            $exitCode = 1;
-            $this->isolator->passthru($archerRoot . '/bin/archer test', $exitCode);
+            $testsExitCode = 255;
+            $this->isolator->passthru($archerRoot . '/bin/archer test', $testsExitCode);
 
-            return $exitCode;
-        }
-
-        $currentBranch = $this->isolator->getenv('TRAVIS_BRANCH');
-        $authToken     = $this->isolator->getenv('ARCHER_TOKEN');
-        $buildNumber   = $this->isolator->getenv('TRAVIS_BUILD_NUMBER');
-        $repoOwner     = $this->isolator->getenv('ARCHER_REPO_OWNER');
-        $repoName      = $this->isolator->getenv('ARCHER_REPO_NAME');
-
-        $this->githubClient()->setAuthToken($authToken);
-
-        if ($currentBranch !== $this->githubClient()->defaultBranch($repoOwner, $repoName)) {
-            $output->writeln('Skipping artifact publication for branch "' . $currentBranch . '".');
-
-            return 0;
+            return $testsExitCode;
         }
 
         // Run tests with reports ...
-        $this->isolator->passthru($archerRoot . '/bin/archer coverage');
+        $testsExitCode = 255;
+        $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
 
+        // Publish artifacts ...
         $command  = $archerRoot . '/res/bin/woodhouse';
-        $command .= ' publish %s/%s';
-        $command .= ' artifacts:artifacts';
+        $command .= ' publish %s';
+        $command .= ' %s/artifacts:artifacts';
         $command .= ' --message "Publishing artifacts from build #%d."';
         $command .= ' --coverage-image artifacts/images/coverage.png';
         $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
@@ -89,15 +89,19 @@ class BuildCommand extends AbstractTravisCommand
 
         $command = sprintf(
             $command,
-            $repoOwner,
-            $repoName,
+            escapeshellarg($repoSlug),
+            $packageRoot,
             $buildNumber
         );
 
-        $exitCode = 1;
-        $this->isolator->passthru($command, $exitCode);
+        $publishExitCode = 255;
+        $this->isolator->passthru($command, $publishExitCode);
 
-        return $exitCode;
+        if ($testsExitCode !== 0) {
+            return $testsExitCode;
+        }
+
+        return $publishExitCode;
     }
 
     private $githubClient;

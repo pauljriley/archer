@@ -13,11 +13,6 @@ php:
   - 5.4
   - 5.5
 
-env:
-  global:
-    - ARCHER_REPO_OWNER={repo-owner}
-    - ARCHER_REPO_NAME={repo-name}
-
 install:
     - composer install --dev --prefer-source --no-interaction
 script:

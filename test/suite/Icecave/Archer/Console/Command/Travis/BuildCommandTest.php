@@ -25,6 +25,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $this->_command->setApplication($this->_application);
 
+        $this->_input = new StringInput('travis:build /path/to/project');
         $this->_output = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
 
         Phake::when($this->_githubClient)
@@ -40,12 +41,12 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             ->thenReturn('543');
 
         Phake::when($this->_isolator)
-            ->getenv('ARCHER_REPO_OWNER')
-            ->thenReturn('Vendor');
+            ->getenv('TRAVIS_REPO_SLUG')
+            ->thenReturn('Vendor/package');
 
         Phake::when($this->_isolator)
-            ->getenv('ARCHER_REPO_NAME')
-            ->thenReturn('package');
+            ->getenv('ARCHER_PUBLISH_VERSION')
+            ->thenReturn('5.4');
 
         Phake::when($this->_isolator)
             ->getenv('ARCHER_TOKEN')
@@ -54,32 +55,59 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $input = new StringInput('travis:build /path/to/project');
+        $expectedTestCommand = '/path/to/archer/bin/archer test';
 
         Phake::when($this->_isolator)
             ->passthru(
-                '/path/to/archer/bin/archer test',
+                $expectedTestCommand,
                 Phake::setReference(123)
             )
             ->thenReturn(null);
 
-        $exitCode = $this->_command->run($input, $this->_output);
+        $exitCode = $this->_command->run($this->_input, $this->_output);
 
-        Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer test', 1);
+        Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255);
         Phake::verifyNoInteraction($this->_githubClient);
+
+        $this->assertSame(123, $exitCode);
+    }
+
+    public function testExecuteWithPublishVersionButWrongBranch()
+    {
+        $expectedTestCommand = '/path/to/archer/bin/archer test';
+
+        Phake::when($this->_isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->_isolator)
+            ->getenv('TRAVIS_BRANCH')
+            ->thenReturn('feature/some-thing');
+
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedTestCommand,
+                Phake::setReference(123)
+            )
+            ->thenReturn(null);
+
+        $exitCode = $this->_command->run($this->_input, $this->_output);
+
+        Phake::inOrder(
+            Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
+            Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255)
+        );
 
         $this->assertSame(123, $exitCode);
     }
 
     public function testExecuteWithPublish()
     {
-        Phake::when($this->_isolator)
-            ->getenv('ARCHER_PUBLISH')
-            ->thenReturn('true');
+        $expectedTestCommand = '/path/to/archer/bin/archer coverage';
 
-        $input = new StringInput('travis:build /path/to/project');
-
-        $expectedWoodhouseCommand  = '/path/to/archer/res/bin/woodhouse publish Vendor/package artifacts:artifacts';
+        $expectedWoodhouseCommand  = "/path/to/archer/res/bin/woodhouse publish 'Vendor/package'";
+        $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
@@ -90,44 +118,77 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --verbose';
 
         Phake::when($this->_isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->_isolator)
             ->passthru(
-                $expectedWoodhouseCommand,
-                Phake::setReference(123)
+                $expectedTestCommand,
+                Phake::setReference(0)
             )
             ->thenReturn(null);
 
-        $exitCode = $this->_command->run($input, $this->_output);
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedWoodhouseCommand,
+                Phake::setReference(222)
+            )
+            ->thenReturn(null);
+
+        $exitCode = $this->_command->run($this->_input, $this->_output);
 
         Phake::inOrder(
             Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->_isolator)->passthru('/path/to/archer/bin/archer coverage'),
-            Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 1)
+            Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
-        $this->assertSame(123, $exitCode);
+        $this->assertSame(222, $exitCode);
     }
 
-    public function testExecuteWithPublishWithNonDefaultBranch()
+    public function testExecuteWithAndTestFailure()
     {
-        Phake::when($this->_isolator)
-            ->getenv('TRAVIS_BRANCH')
-            ->thenReturn('feature/some-thing');
+        $expectedTestCommand = '/path/to/archer/bin/archer coverage';
+
+        $expectedWoodhouseCommand  = "/path/to/archer/res/bin/woodhouse publish 'Vendor/package'";
+        $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
+        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
+        $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
+        $expectedWoodhouseCommand .= ' --no-interaction';
+        $expectedWoodhouseCommand .= ' --verbose';
 
         Phake::when($this->_isolator)
-            ->getenv('ARCHER_PUBLISH')
-            ->thenReturn('true');
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
 
-        $input = new StringInput('travis:build /path/to/project');
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedTestCommand,
+                Phake::setReference(111)
+            )
+            ->thenReturn(null);
 
-        $exitCode = $this->_command->run($input, $this->_output);
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedWoodhouseCommand,
+                Phake::setReference(222)
+            )
+            ->thenReturn(null);
+
+        $exitCode = $this->_command->run($this->_input, $this->_output);
 
         Phake::inOrder(
             Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->_output)->writeln('Skipping artifact publication for branch "feature/some-thing".')
+            Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
-        $this->assertSame(0, $exitCode);
+        $this->assertSame(111, $exitCode);
     }
 }
