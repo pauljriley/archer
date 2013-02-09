@@ -37,8 +37,6 @@ class CreateTokenCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-
         var_dump($this->getHelper('hidden-input')->askHiddenResponse($output, 'Sup?'));
 
         throw new \Exception('Not implemented error.');

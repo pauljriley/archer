@@ -102,8 +102,6 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-
         // Validate the OAuth token if one was provided ...
         $token = $input->getOption('oauth-token');
         if ($token && !GitHubClient::validateToken($token)) {

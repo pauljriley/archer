@@ -116,8 +116,6 @@ abstract class AbstractPHPUnitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-
         $phpPath = $this->phpFinder()->find();
         $output->writeln(sprintf('<info>Using PHP:</info> %s', $phpPath));
         $phpunitPath = $this->phpunitFinder()->find();

@@ -37,8 +37,6 @@ class FetchTokenCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-
         throw new \Exception('Not implemented error.');
     }
 }

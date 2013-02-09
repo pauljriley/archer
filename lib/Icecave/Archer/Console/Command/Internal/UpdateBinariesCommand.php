@@ -15,8 +15,6 @@ class UpdateBinariesCommand extends AbstractInternalCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-
         foreach (array('woodhouse') as $package) {
             $output->writeln(sprintf('Fetching <info>icecave/%1$s</info> PHAR into <info>bin/%1$s</info>.', $package));
             $this->updateBinary($package);
