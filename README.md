@@ -1,9 +1,7 @@
-# Archer
-
+![Archer](http://icecave.com.au/assets/img/project-icons/icon-archer.png)<br>&nbsp;&nbsp;
 [![Build Status](https://api.travis-ci.org/IcecaveStudios/archer.png)](http://travis-ci.org/IcecaveStudios/archer)
-<!--
-[![Test Coverage](http://icecave.com.au/archer/coverage-report/coverage.png)](http://icecave.com.au/archer/coverage-report/index.html)
--->
+
+---
 
 **Archer** is a library for standardizing PHP unit testing and continuous integration behaviour across many projects using a [convention-over-configuration](http://en.wikipedia.org/wiki/Convention_over_configuration]) approach.
 
