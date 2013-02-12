@@ -30,27 +30,15 @@ class Application extends SymfonyApplication
         $this->fileSystem = $fileSystem;
         $this->isolator = Isolator::get($isolator);
 
+        $this->getHelperSet()->set(new Helper\HiddenInputHelper);
+
         $this->add(new Command\CoverageCommand);
         $this->add(new Command\TestCommand);
         $this->add(new Command\UpdateCommand);
 
-        $this->add(new Command\GitHub\CreateTokenCommand);
-        $this->add(new Command\GitHub\FetchTokenCommand);
-
         $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
 
         $this->add(new Command\Travis\BuildCommand(null, $isolator));
-    }
-
-    protected function getDefaultHelperSet()
-    {
-        $helperSet = parent::getDefaultHelperSet();
-        $helperSet->set(
-            new Helper\HiddenInputHelper($this->packageRoot()),
-            'hidden-input'
-        );
-
-        return $helperSet;
     }
 
     /**
