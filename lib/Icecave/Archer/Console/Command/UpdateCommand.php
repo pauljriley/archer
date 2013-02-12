@@ -1,6 +1,7 @@
 <?php
 namespace Icecave\Archer\Console\Command;
 
+use Icecave\Archer\FileSystem\Exception\ReadException;
 use Icecave\Archer\Git\GitConfigReaderFactory;
 use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Git\GitDotFilesManager;
@@ -204,7 +205,15 @@ class UpdateCommand extends Command
                 $repoName
             ));
 
-            $publicKey = $this->travisClient()->publicKey($repoOwner, $repoName);
+            try {
+                $publicKey = $this->travisClient()->publicKey($repoOwner, $repoName);
+            } catch (ReadException $e) {
+                throw new RuntimeException(sprintf(
+                    'Unable to retrieve the public key for repository %s/%s. Check that the repository has been synced to Travis CI.',
+                    $repoOwner,
+                    $repoName
+                ));
+            }
             $this->travisConfigManager()->setPublicKeyCache($packageRoot, $publicKey);
         }
 

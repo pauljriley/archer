@@ -2,6 +2,7 @@
 namespace Icecave\Archer\Console\Command;
 
 use Icecave\Archer\Console\Application;
+use Icecave\Archer\FileSystem\Exception\ReadException;
 use PHPUnit_Framework_TestCase;
 use Phake;
 use Symfony\Component\Console\Input\StringInput;
@@ -457,6 +458,21 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
             Phake::verify($this->_output)->writeln('')
         );
+    }
+
+    public function testExecuteFailureUnsyncedRepo()
+    {
+        $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa --update-public-key /path/to/project');
+
+        Phake::when($this->_travisClient)
+            ->publicKey(Phake::anyParameters())
+            ->thenThrow(new ReadException('foo'));
+
+        $this->setExpectedException(
+            'RuntimeException',
+            'Unable to retrieve the public key for repository owner/repo-name. Check that the repository has been synced to Travis CI.'
+        );
+        $this->_command->run($input, $this->_output);
     }
 
     public function testExecuteWithInvalidToken()
