@@ -134,46 +134,6 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
         ;
     }
 
-    public function testConstructor()
-    {
-        $this->assertSame($this->_fileSystem, $this->_command->fileSystem());
-        $this->assertSame($this->_phpFinder, $this->_command->phpFinder());
-        $this->assertSame($this->_phpunitFinder, $this->_command->phpunitFinder());
-        $this->assertSame($this->_phpConfigurationReader, $this->_command->phpConfigurationReader());
-        $this->assertSame($this->_configurationFileFinder, $this->_command->configurationFileFinder());
-        $this->assertSame($this->_processFactory, $this->_command->processFactory());
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->_command = new CoverageCommand;
-
-        $this->assertInstanceOf(
-            'Icecave\Archer\FileSystem\FileSystem',
-            $this->_command->fileSystem()
-        );
-        $this->assertInstanceOf(
-            'Symfony\Component\Process\PhpExecutableFinder',
-            $this->_command->phpFinder()
-        );
-        $this->assertInstanceOf(
-            'Icecave\Archer\Process\PHPUnitExecutableFinder',
-            $this->_command->phpunitFinder()
-        );
-        $this->assertInstanceOf(
-            'Icecave\Archer\Configuration\PHPConfigurationReader',
-            $this->_command->phpConfigurationReader()
-        );
-        $this->assertInstanceOf(
-            'Icecave\Archer\Configuration\ConfigurationFileFinder',
-            $this->_command->configurationFileFinder()
-        );
-        $this->assertInstanceOf(
-            'Icecave\Archer\Process\ProcessFactory',
-            $this->_command->processFactory()
-        );
-    }
-
     public function testConfigure()
     {
         $expectedInputDefinition = new InputDefinition;

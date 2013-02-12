@@ -22,6 +22,7 @@ abstract class AbstractPHPUnitCommand extends Command
      * @param PHPConfigurationReader|null  $phpConfigurationReader
      * @param ConfigurationFileFinder|null $configurationFileFinder
      * @param ProcessFactory|null          $processFactory
+     * @param string|null                  $commandName
      */
     public function __construct(
         FileSystem $fileSystem = null,
@@ -29,7 +30,8 @@ abstract class AbstractPHPUnitCommand extends Command
         PHPUnitExecutableFinder $phpunitFinder = null,
         PHPConfigurationReader $phpConfigurationReader = null,
         ConfigurationFileFinder $configurationFileFinder = null,
-        ProcessFactory $processFactory = null
+        ProcessFactory $processFactory = null,
+        $commandName = null
     ) {
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
@@ -57,7 +59,9 @@ abstract class AbstractPHPUnitCommand extends Command
         $this->configurationFileFinder = $configurationFileFinder;
         $this->processFactory = $processFactory;
 
-        parent::__construct();
+        parent::__construct($commandName);
+
+        $this->ignoreValidationErrors();
     }
 
     /**
@@ -132,6 +136,27 @@ abstract class AbstractPHPUnitCommand extends Command
         return $this->passthru($process, $output);
     }
 
+    public function getHelp()
+    {
+        $phpPath = $this->phpFinder()->find();
+        $phpunitPath = $this->phpunitFinder()->find();
+        $process = $this->processFactory()->create($phpPath, $phpunitPath, '--help');
+
+        $help  = '<info>This command forwards all arguments to PHPUnit.</info>';
+        $help .= PHP_EOL;
+        $help .= PHP_EOL;
+
+        $process->run(
+            function ($type, $buffer) use (&$help) {
+                if ('out' === $type) {
+                    $help .= $buffer;
+                }
+            }
+        );
+
+        return $help;
+    }
+
     /**
      * @param Process                $process
      * @param ConsoleOutputInterface $output
@@ -169,6 +194,28 @@ abstract class AbstractPHPUnitCommand extends Command
         $phpunitPath,
         array $phpunitArguments
     ) {
+        $phpunitArguments = array_filter(
+            array_map(
+                function ($element) {
+                    switch ($element) {
+                        case '--quiet':
+                        case '-q':
+                        case '--version':
+                        case '-V':
+                        case '--no-ansi':
+                        case '--no-interaction':
+                        case '-n':
+                            return null;
+                        case '--ansi':
+                            return '--color';
+                    }
+
+                    return $element;
+                },
+                $phpunitArguments
+            )
+        );
+
         return array_merge(
             array($phpPath),
             $this->phpConfigurationArguments($this->readPHPConfiguration()),
