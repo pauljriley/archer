@@ -1,6 +1,7 @@
 <?php
 namespace Icecave\Archer\Console\Helper;
 
+use ErrorException;
 use Icecave\Archer\Support\Isolator;
 use RuntimeException;
 use Symfony\Component\Console\Helper\Helper;
@@ -9,21 +10,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 class HiddenInputHelper extends Helper
 {
     /**
-     * @param string        $archerPackageRoot
+     * @param string|null   $hiddenInputPath
      * @param Isolator|null $isolator
      */
-    public function __construct($archerPackageRoot, Isolator $isolator = null)
+    public function __construct($hiddenInputPath = null, Isolator $isolator = null)
     {
-        $this->archerPackageRoot = $archerPackageRoot;
-        $this->isolator = Isolator::get($isolator);
-    }
+        if (null === $hiddenInputPath) {
+            $hiddenInputPath = __DIR__ . '/../../../../../res/bin/hiddeninput.exe';
+        }
 
-    /**
-     * @return string
-     */
-    public function archerPackageRoot()
-    {
-        return $this->archerPackageRoot;
+        $this->hiddenInputPath = $hiddenInputPath;
+        $this->isolator = Isolator::get($isolator);
     }
 
     /**
@@ -35,6 +32,14 @@ class HiddenInputHelper extends Helper
     }
 
     /**
+     * @return string
+     */
+    public function hiddenInputPath()
+    {
+        return $this->hiddenInputPath;
+    }
+
+    /**
      * @param OutputInterface $output
      * @param string|array    $question
      *
@@ -42,7 +47,7 @@ class HiddenInputHelper extends Helper
      */
     public function askHiddenResponse(OutputInterface $output, $question)
     {
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+        if ($this->isolator->defined('PHP_WINDOWS_VERSION_BUILD')) {
             return $this->askHiddenResponseWindows($output, $question);
         }
 
@@ -59,10 +64,7 @@ class HiddenInputHelper extends Helper
     {
         $output->write($question);
         $value = rtrim(
-            $this->execute(sprintf(
-                '%s/res/bin/hiddeninput.exe',
-                $this->archerPackageRoot()
-            )),
+            $this->execute($this->hiddenInputRealPath()),
             "\r\n"
         );
         $output->writeln('');
@@ -87,20 +89,40 @@ class HiddenInputHelper extends Helper
 
         try {
             $value = rtrim(
-                $this->isolator->fgets(STDIN, 4096),
+                $this->isolator->fgets(STDIN),
                 "\r\n"
             );
-        } catch (RuntimeException $error) {
+        } catch (ErrorException $error) {
             // reset stty before throwing
         }
 
         $this->execute(sprintf('stty %s', $sttyMode));
         if (null !== $error) {
-            throw $error;
+            throw new RuntimeException('Unable to read response.', 0, $error);
         }
         $output->writeln('');
 
         return $value;
+    }
+
+    /**
+     * @return string
+     */
+    protected function hiddenInputRealPath()
+    {
+        if (null === $this->hiddenInputRealPath) {
+            $this->hiddenInputRealPath = sprintf(
+                '%s/hiddeninput-%s.exe',
+                $this->isolator->sys_get_temp_dir(),
+                $this->isolator->uniqid()
+            );
+            $this->isolator->copy(
+                $this->hiddenInputPath(),
+                $this->hiddenInputRealPath
+            );
+        }
+
+        return $this->hiddenInputRealPath;
     }
 
     /**
@@ -118,7 +140,8 @@ class HiddenInputHelper extends Helper
         return $result;
     }
 
-    private $archerPackageRoot;
+    private $hiddenInputPath;
+    private $hiddenInputRealPath;
     private $isolator;
     private $hasSttyAvailable;
 }

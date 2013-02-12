@@ -52,8 +52,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'coverage',
             'test',
             'update',
-            'github:create-token',
-            'github:fetch-token',
         );
 
         $this->assertSame($expected, array_keys($this->_application->all()));
@@ -78,8 +76,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'coverage',
             'test',
             'update',
-            'github:create-token',
-            'github:fetch-token',
             'internal:update-binaries',
         );
 
@@ -103,8 +99,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'coverage',
             'test',
             'update',
-            'github:create-token',
-            'github:fetch-token',
             'travis:build',
         );
 

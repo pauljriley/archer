@@ -4,8 +4,10 @@ namespace Icecave\Archer\Console\Command;
 use Icecave\Archer\Git\GitConfigReaderFactory;
 use Icecave\Archer\GitHub\GitHubClient;
 use Icecave\Archer\Git\GitDotFilesManager;
+use Icecave\Archer\Process\ProcessFactory;
 use Icecave\Archer\Travis\TravisClient;
 use Icecave\Archer\Travis\TravisConfigManager;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,11 +16,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends Command
 {
+    /**
+     * @param GitDotFilesManager|null     $dotFilesManager
+     * @param GitConfigReaderFactory|null $configReaderFactory
+     * @param TravisClient|null           $travisClient
+     * @param TravisConfigManager|null    $travisConfigManager
+     * @param ProcessFactory|null         $processFactory
+     */
     public function __construct(
         GitDotFilesManager $dotFilesManager = null,
         GitConfigReaderFactory $configReaderFactory = null,
         TravisClient $travisClient = null,
-        TravisConfigManager $travisConfigManager = null
+        TravisConfigManager $travisConfigManager = null,
+        ProcessFactory $processFactory = null
     ) {
         if (null === $dotFilesManager) {
             $dotFilesManager = new GitDotFilesManager;
@@ -32,11 +42,15 @@ class UpdateCommand extends Command
         if (null === $travisConfigManager) {
             $travisConfigManager = new TravisConfigManager;
         }
+        if (null === $processFactory) {
+            $processFactory = new ProcessFactory;
+        }
 
         $this->dotFilesManager = $dotFilesManager;
         $this->configReaderFactory = $configReaderFactory;
         $this->travisClient = $travisClient;
         $this->travisConfigManager = $travisConfigManager;
+        $this->processFactory = $processFactory;
 
         parent::__construct();
     }
@@ -73,6 +87,14 @@ class UpdateCommand extends Command
         return $this->travisConfigManager;
     }
 
+    /**
+     * @return ProcessFactory
+     */
+    public function processFactory()
+    {
+        return $this->processFactory;
+    }
+
     protected function configure()
     {
         $this->setName('update');
@@ -86,27 +108,66 @@ class UpdateCommand extends Command
         );
 
         $this->addOption(
+            'authorize',
+            'a',
+            InputOption::VALUE_NONE,
+            'Set up authorization for this repository.'
+        );
+        $this->addOption(
             'auth-token',
             't',
             InputOption::VALUE_REQUIRED,
             'A GitHub OAuth token with succificent access to push to this repository.'
         );
-
         $this->addOption(
             'update-public-key',
             'k',
             InputOption::VALUE_NONE,
             'Update the Travis CI public key for this repository.'
         );
+        $this->addOption(
+            'username',
+            'u',
+            InputOption::VALUE_REQUIRED,
+            'A GitHub username to use for API authentication.'
+        );
+        $this->addOption(
+            'password',
+            'p',
+            InputOption::VALUE_REQUIRED,
+            'A GitHub password to use for API authentication.'
+        );
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return integer
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Validate the OAuth token if one was provided ...
+        // Fetch the OAuth token if necessary.
         $token = $input->getOption('auth-token');
+        if (null === $token && $input->getOption('authorize')) {
+            $output->writeln('Searching for existing authorization.');
+            list($username, $password) = $this->credentials($input, $output);
+
+            $token = $this->existingToken($username, $password);
+            if (null === $token) {
+                $output->writeln('No existing authorization found.');
+                $output->writeln('Creating new authorization.');
+
+                $token = $this->createToken($username, $password);
+            } else {
+                $output->writeln('Existing authorization found.');
+            }
+        }
+
+        // Validate the OAuth token if one was provided.
         if ($token && !GitHubClient::validateToken($token)) {
             $output->writeln('Invalid GitHub OAuth token <comment>"' . $token . '"</comment>.');
-            $output->write(PHP_EOL);
+            $output->writeln('');
 
             return 1;
         }
@@ -114,8 +175,8 @@ class UpdateCommand extends Command
         // Verify that a token is provided if --update-public-key is used.
         $updateKey = $input->getOption('update-public-key');
         if ($updateKey && !$token) {
-            $output->writeln('Can not update public key without --auth-token.');
-            $output->write(PHP_EOL);
+            $output->writeln('Can not update public key without --authorize or --auth-token.');
+            $output->writeln('');
 
             return 1;
         }
@@ -167,12 +228,148 @@ class UpdateCommand extends Command
         }
 
         $output->writeln('Configuration updated successfully.');
-        $output->write(PHP_EOL);
+        $output->writeln('');
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     *
+     * @return string|null
+     */
+    protected function existingToken($username, $password)
+    {
+        $result = $this->executeWoodhouse(
+            $username,
+            $password,
+            array(
+                'github:list-auth',
+                '--name',
+                '/^Archer$/',
+                '--url',
+                '~^https://github\.com/IcecaveStudios/archer$~',
+            )
+        );
+
+        return $this->parseAuthorization($result);
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     *
+     * @return string
+     */
+    protected function createToken($username, $password)
+    {
+        $result = $this->executeWoodhouse(
+            $username,
+            $password,
+            array(
+                'github:create-auth',
+                '--name',
+                'Archer',
+                '--url',
+                'https://github.com/IcecaveStudios/archer',
+            )
+        );
+
+        return $this->parseAuthorization($result);
+    }
+
+    /**
+     * @param string $data
+     *
+     * @return string|null
+     */
+    protected function parseAuthorization($data)
+    {
+        if ('' === trim($data)) {
+            return null;
+        }
+
+        $pattern = '~^\d+: ([0-9a-f]{40}) Archer \(API\) \[([a-z, ]*)\] https://github.com/IcecaveStudios/archer$~m';
+        if (preg_match_all($pattern, $data, $matches)) {
+            if (count($matches[0]) > 1) {
+                throw new RuntimeException(
+                    'Mutiple Archer GitHub authorizations found. Delete redundant authorizations before continuing.'
+                );
+            }
+
+            if ('repo' !== $matches[2][0]) {
+                throw new RuntimeException(sprintf(
+                    'Archer GitHub authorization has incorrect scope. Expected [repo], but actual token scope is [%s].',
+                    $matches[2][0]
+                ));
+            }
+
+            return $matches[1][0];
+        }
+
+        throw new RuntimeException('Unable to parse authorization token.');
+    }
+
+    /**
+     * @param string        $username
+     * @param string        $password
+     * @param array<string> $arguments
+     *
+     * @return string
+     */
+    protected function executeWoodhouse($username, $password, array $arguments)
+    {
+        array_unshift(
+            $arguments,
+            sprintf('%s/bin/woodhouse', $this->getApplication()->packageRoot())
+        );
+        $arguments[] = '--username';
+        $arguments[] = $username;
+        $arguments[] = '--password';
+        $arguments[] = $password;
+
+        $process = $this->processFactory()->createFromArray($arguments);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf(
+                'Failed to execute authorization management command (%s).',
+                $arguments[1]
+            ));
+        }
+
+        return $process->getOutput();
+    }
+
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return tuple<string,string>
+     */
+    protected function credentials(InputInterface $input, OutputInterface $output)
+    {
+        if (null === $this->credentials) {
+            $username = $input->getOption('username');
+            $password = $input->getOption('password');
+            if ($input->isInteractive()) {
+                if (null === $username) {
+                    $username = $this->getHelperSet()->get('dialog')->ask($output, 'Username: ');
+                }
+                if (null === $password) {
+                    $password = $this->getHelperSet()->get('hidden-input')->askHiddenResponse($output, 'Password: ');
+                }
+            }
+
+            $this->credentials = array($username, $password);
+        }
+
+        return $this->credentials;
     }
 
     private $dotFilesManager;
     private $configReaderFactory;
     private $travisClient;
     private $travisConfigManager;
+    private $processFactory;
+    private $credentials;
     private $isolator;
 }
