@@ -28,6 +28,9 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
+        $this->assertSame('Archer', $this->_application->getName());
+        $this->assertSame('0.1.0', $this->_application->getVersion());
+
         $this->assertSame('foo', $this->_application->packageRoot());
         $this->assertSame($this->_fileSystem, $this->_application->fileSystem());
     }
