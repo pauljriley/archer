@@ -4,6 +4,10 @@
  * This script is executed before composer dependencies are installed,
  * and as such must be included in each project as part of the skeleton.
  */
+if (!array_key_exists('ARCHER_TOKEN', $_SERVER)) {
+    exit;
+}
+
 $path   = getenv('HOME') . '/.composer/config.json';
 $dir    = dirname($path);
 $config = <<<EOD
