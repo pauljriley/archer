@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -z $ARCHER_TOKEN ];
+    phpunit
+else
+    ARCHER_PUBLISH_VERSION=$TRAVIS_PHP_VERSION ./vendor/bin/archer travis:build
+fi
