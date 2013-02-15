@@ -22,7 +22,7 @@ env:
 before_install:
   - ./.travis.before-install
 install:
-  - composer install --dev --prefer-dist --no-interaction
+  - composer install --dev --prefer-dist --no-progress --no-interaction
 script:
   - ./vendor/bin/archer travis:build
 

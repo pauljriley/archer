@@ -14,7 +14,7 @@ php:
   - 5.5
 
 install:
-    - composer install --dev --prefer-source --no-interaction
+    - composer install --dev --prefer-source --no-progress --no-interaction
 script:
     - ./vendor/bin/archer travis:build
 
