@@ -59,7 +59,7 @@ Set up the git repository and Travis CI configuration files using the update com
 
 This command will prompt for a GitHub username and password in order to authorize **Archer** to publish build artifacts
 from [Travis CI]. For more information about security, please see the
-[Security section](https://github.com/IcecaveStudios/woodhouse#security) of the [woodhouse] documentation.
+[Security section](https://github.com/IcecaveStudios/woodhouse#security) of the [Woodhouse] documentation.
 
 The changes made by **Archer** should now be committed to the repository, and pushed back to GitHub:
 
@@ -91,7 +91,7 @@ Running `archer` with no arguments is equivalent to `archer test`.
 
 #### Improved mock object support
 
-In addition to the [PHPUnit's test doubles], **Archer** includes [Phake] - an alternative mocking library - and handles
+In addition to [PHPUnit's test doubles], **Archer** includes [Phake] - an alternative mocking library - and handles
 the configuration necessary to integrate Phake and PHPUnit.
 
 Phake's mocking system is easier to work with, requiring less setup and providing more flexibility than PHPUnit mocks.
@@ -134,6 +134,7 @@ The generated configuration ensures that:
 
 * Travis CI knows how to run the tests, build the coverage report, and publish build artifacts.
 * Travis CI builds against all relevant versions of PHP.
+* Travis CI builds are much less likely to fail because of GitHub API throttling.
 * Test and build artifacts are ignored by Git.
 * Archived versions of projects do not include development artifacts like the test suite.
 
@@ -174,7 +175,7 @@ Once published, a project's test coverage report is available through GitHub's [
 example, [Siesta]'s coverage reports coverage reports are published to
 http://icecavestudios.github.com/siesta/artifacts/tests/coverage/.
 
-Note that this link redirects to a custom domain, but it is still served through GitHub Pages.
+Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
 ##### Published build status and test coverage badges
 
@@ -210,7 +211,7 @@ display this information effectively.
 [github default branch]: https://help.github.com/articles/setting-the-default-branch-for-a-repository
 [openssl]: http://php.net/openssl
 [phake]: http://phake.digitalsandwich.com/docs/html
-[phpunit test doubles]: http://www.phpunit.de/manual/current/en/test-doubles.html
+[phpunit's test doubles]: http://www.phpunit.de/manual/current/en/test-doubles.html
 [phpunit]: https://github.com/sebastianbergmann/phpunit
 [psr-0]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
 [siesta]: https://github.com/IcecaveStudios/siesta
