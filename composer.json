@@ -1,8 +1,8 @@
 {
-    "name": "icecave/testing",
-    "description": "Test projects in a uniform way.",
+    "name": "icecave/archer",
+    "description": "PHP testing and continuous integration by convention.",
     "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts"],
-    "homepage": "https://github.com/IcecaveStudios/testing",
+    "homepage": "https://github.com/IcecaveStudios/archer",
     "license": "MIT",
     "authors": [
         {
@@ -16,22 +16,25 @@
         }
     ],
     "require": {
-        "ext-openssl": "*",
         "phake/phake": "~1",
         "symfony/console": "~2",
         "symfony/process": "~2"
     },
+    "suggest": {
+        "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
+    },
     "bin": [
-        "bin/ict"
+        "bin/archer",
+        "bin/woodhouse"
     ],
     "autoload": {
         "psr-0": {
-            "Icecave\\Testing": "lib"
+            "Icecave\\Archer": "lib"
         }
     },
     "scripts": {
         "post-update-cmd": [
-            "bin/ict internal:update-binaries"
+            "bin/archer internal:update-binaries"
         ]
     }
 }
