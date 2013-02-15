@@ -161,7 +161,7 @@ Generating code coverage report in HTML format ... done
 
 #### Example test coverage report
 
-![Example archer coverage report](http://i.imgur.com/2to6pta.png)
+![Example archer coverage report](http://icecave.com.au/archer/doc/img/example-coverage-report.png)
 
 For a live example see the [test coverage report](http://icecave.com.au/siesta/artifacts/tests/coverage/) for [Siesta].
 
