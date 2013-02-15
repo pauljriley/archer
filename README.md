@@ -5,8 +5,6 @@
 
 ---
 
-## Overview
-
 **Archer** is a library for standardizing PHP unit testing and continuous integration behavior across multiple projects
 using a [convention-over-configuration] approach. It brings together several high-quality libraries to help
 improve the quality of a project's test suite and reporting tools.
