@@ -14,17 +14,13 @@ php:
   - 5.4
   - 5.5
 
-env:
-  global:
-    - ARCHER_PUBLISH_VERSION=5.4
-    - secure: "PBoNnK73ID8FUCR6nreUdqnBIyH1h9NjB9eVVSFllc1+WRAGAFBNMVNo4f/4x9Da84SbfBwpw7Z7l7Rtgo69kPcSzgnhtE7WeqHZ5lzdxW+0dgBnFA48KVz5BZ7clvMSeqDI06v96hbTBWcs6KNvemg5ZRegG6U7R4AmSWUmQlI="
-
 before_install:
   - ./.travis.before-install
 install:
   - composer install --dev --prefer-dist --no-interaction
 script:
-  - phpunit
+  - [ -z $ARCHER_PUBLISH_VERSION ] && phpunit
+  - [ -z $ARCHER_PUBLISH_VERSION ] && ./vendor/bin/archer travis:build
 
 matrix:
   # PHP 5.5 is still in alpha, so ignore build failures.
@@ -33,4 +29,6 @@ matrix:
 
   include:
     - php: 5.4
-      script: ./vendor/bin/archer travis:build
+      env:
+        - ARCHER_PUBLISH_VERSION=5.4
+        - secure: "PBoNnK73ID8FUCR6nreUdqnBIyH1h9NjB9eVVSFllc1+WRAGAFBNMVNo4f/4x9Da84SbfBwpw7Z7l7Rtgo69kPcSzgnhtE7WeqHZ5lzdxW+0dgBnFA48KVz5BZ7clvMSeqDI06v96hbTBWcs6KNvemg5ZRegG6U7R4AmSWUmQlI="
