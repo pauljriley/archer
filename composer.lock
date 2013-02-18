@@ -41,8 +41,8 @@
             "description": "The Phake mock testing library",
             "homepage": "https://github.com/mlively/Phake",
             "keywords": [
-                "testing",
-                "mock"
+                "mock",
+                "testing"
             ]
         },
         {
@@ -56,7 +56,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/archive/v2.1.7.zip",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.1.7",
                 "reference": "v2.1.7",
                 "shasum": ""
             },
@@ -98,7 +98,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/archive/v2.1.7.zip",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/v2.1.7",
                 "reference": "v2.1.7",
                 "shasum": ""
             },
