@@ -17,12 +17,10 @@ php:
 env:
   global:
     - ARCHER_PUBLISH_VERSION=5.4
-    - secure: "{secure-env}"
+    {token-env}
 
-before_install:
-  - ./.travis.before-install
 install:
-  - composer install --dev --prefer-dist --no-progress --no-interaction
+  - ~/.travis.install
 script:
   - ./vendor/bin/archer travis:build
 
