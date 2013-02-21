@@ -1,12 +1,12 @@
 
 
 Code Coverage Report 
-  2013-02-21 08:38:26
+  2013-02-21 22:49:05
 
  Summary: 
   Classes: 92.00% (23/25)
   Methods: 94.81% (128/135)
-  Lines:   94.73% (827/873)
+  Lines:   94.72% (825/871)
 
 \Icecave\Archer\Configuration::ConfigurationFileFinder
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 11/ 11)
@@ -53,4 +53,4 @@ Code Coverage Report
 \Icecave\Archer\Travis::TravisClient
   Methods: 100.00% ( 5/ 5)   Lines: 100.00% ( 26/ 26)
 \Icecave\Archer\Travis::TravisConfigManager
-  Methods: 100.00% (12/12)   Lines: 100.00% ( 71/ 71)
+  Methods: 100.00% (12/12)   Lines: 100.00% ( 69/ 69)
