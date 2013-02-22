@@ -135,17 +135,17 @@ class TravisConfigManager
      */
     public function updateConfig($archerPackageRoot, $packageRoot)
     {
+        $source = sprintf('%s/res/travis/travis.install.php', $archerPackageRoot);
+        $target = sprintf('%s/.travis.install', $packageRoot);
+        $this->fileSystem()->copy($source, $target);
+        $this->fileSystem()->chmod($target, 0755);
+
         $secureEnvironment = $this->secureEnvironmentCache($packageRoot);
 
         if ($secureEnvironment) {
-            $source = sprintf('%s/res/travis/travis.before-install.php', $archerPackageRoot);
-            $target = sprintf('%s/.travis.before-install', $packageRoot);
-            $this->fileSystem()->copy($source, $target);
-            $this->fileSystem()->chmod($target, 0755);
-
-            $replace = array('{secure-env}' => $secureEnvironment);
+            $tokenEnvironment = sprintf('- secure: "%s"', $secureEnvironment);
         } else {
-            $replace = array();
+            $tokenEnvironment = '';
         }
 
         // Re-build travis.yml.
@@ -155,7 +155,7 @@ class TravisConfigManager
 
         $this->fileSystem()->write(
             sprintf('%s/.travis.yml', $packageRoot),
-            str_replace(array_keys($replace), array_values($replace), $template)
+            str_replace('{token-env}', $tokenEnvironment, $template)
         );
 
         // Return true if artifact publication is enabled.
@@ -216,11 +216,7 @@ class TravisConfigManager
      */
     protected function templateFilename($hasSecureEnvironment)
     {
-        if ($hasSecureEnvironment) {
-            return 'travis.tpl.yml';
-        } else {
-            return 'travis.no-oauth.tpl.yml';
-        }
+        return 'travis.tpl.yml';
     }
 
     private $fileSystem;

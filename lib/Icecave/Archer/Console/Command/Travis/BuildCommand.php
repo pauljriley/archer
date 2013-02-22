@@ -55,7 +55,7 @@ class BuildCommand extends AbstractTravisCommand
 
         list($repoOwner, $repoName) = explode('/', $repoSlug);
 
-        if ($travisPhpVersion === $publishVersion) {
+        if ($authToken && $travisPhpVersion === $publishVersion) {
             $this->githubClient()->setAuthToken($authToken);
             $publishArtifacts = $this->githubClient()->defaultBranch($repoOwner, $repoName) === $currentBranch;
         } else {

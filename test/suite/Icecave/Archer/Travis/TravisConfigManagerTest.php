@@ -212,14 +212,16 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_fileSystem)
             ->read(Phake::anyParameters())
-            ->thenReturn('<template content>');
+            ->thenReturn('<template content: {token-env}>');
 
         $result = $this->_manager->updateConfig('/path/to/archer', '/path/to/project');
 
         Phake::inOrder(
-            Phake::verify($this->_fileFinder)->find(array('/path/to/project/test/travis.no-oauth.tpl.yml'), '/path/to/archer/res/travis/travis.no-oauth.tpl.yml'),
+            Phake::verify($this->_fileSystem)->copy('/path/to/archer/res/travis/travis.install.php', '/path/to/project/.travis.install'),
+            Phake::verify($this->_fileSystem)->chmod('/path/to/project/.travis.install', 0755),
+            Phake::verify($this->_fileFinder)->find(array('/path/to/project/test/travis.tpl.yml'), '/path/to/archer/res/travis/travis.tpl.yml'),
             Phake::verify($this->_fileSystem)->read('/real/path/to/template'),
-            Phake::verify($this->_fileSystem)->write('/path/to/project/.travis.yml', '<template content>')
+            Phake::verify($this->_fileSystem)->write('/path/to/project/.travis.yml', '<template content: >')
         );
 
         $this->assertFalse($result);
@@ -241,14 +243,16 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_fileSystem)
             ->read('/real/path/to/template')
-            ->thenReturn('<secure: {secure-env}>');
+            ->thenReturn('<template content: {token-env}>');
 
         $result = $this->_manager->updateConfig('/path/to/archer', '/path/to/project');
 
         Phake::inOrder(
+            Phake::verify($this->_fileSystem)->copy('/path/to/archer/res/travis/travis.install.php', '/path/to/project/.travis.install'),
+            Phake::verify($this->_fileSystem)->chmod('/path/to/project/.travis.install', 0755),
             Phake::verify($this->_fileFinder)->find(array('/path/to/project/test/travis.tpl.yml'), '/path/to/archer/res/travis/travis.tpl.yml'),
             Phake::verify($this->_fileSystem)->read('/real/path/to/template'),
-            Phake::verify($this->_fileSystem)->write('/path/to/project/.travis.yml', '<secure: <env data>>')
+            Phake::verify($this->_fileSystem)->write('/path/to/project/.travis.yml', '<template content: - secure: "<env data>">')
         );
 
         $this->assertTrue($result);
