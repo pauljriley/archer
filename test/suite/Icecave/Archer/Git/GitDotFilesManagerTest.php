@@ -176,7 +176,6 @@ class GitDotFilesManagerTest extends PHPUnit_Framework_TestCase
             '.gitattributes' => true,
         );
 
-        $this->assertSame($expectedIgnore, $actualIgnore);
         $this->assertSame($expected, $result);
     }
 
