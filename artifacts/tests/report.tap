@@ -101,7 +101,7 @@ ok 99 - Icecave\Archer\Git\GitDotFilesManagerTest::testConstructorDefaults
 ok 100 - Icecave\Archer\Git\GitDotFilesManagerTest::testUpdateDotFiles
 ok 101 - Icecave\Archer\Git\GitDotFilesManagerTest::testUpdateDotFilesAppend
 ok 102 - Icecave\Archer\Git\GitDotFilesManagerTest::testUpdateDotFilesReplace
-not ok 103 - Error: Icecave\Archer\Git\GitDotFilesManagerTest::testUpdateDotFilesNoChange
+ok 103 - Icecave\Archer\Git\GitDotFilesManagerTest::testUpdateDotFilesNoChange
 ok 104 - Icecave\Archer\Git\GitDotFilesManagerTest::testUpdateDotFilesMissingTags
 ok 105 - Icecave\Archer\GitHub\GitHubClientTest::testValidateToken
 ok 106 - Icecave\Archer\GitHub\GitHubClientTest::testDefaultBranch
