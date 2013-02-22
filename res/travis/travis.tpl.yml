@@ -20,7 +20,7 @@ env:
     {token-env}
 
 install:
-  - ~/.travis.install
+  - ./.travis.install
 script:
   - ./vendor/bin/archer travis:build
 
