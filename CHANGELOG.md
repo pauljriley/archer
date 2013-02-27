@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 0.2.1
+
+* Removed PHP v5.3.3 from Travis CI build configuration
+
 ### 0.2.0
 
 * Pull-request builds no longer fail due to unavailable secure environment variables
