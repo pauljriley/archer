@@ -199,20 +199,24 @@ class UpdateCommand extends Command
         $publicKey    = $this->travisConfigManager()->publicKeyCache($packageRoot);
 
         if ($updateKey || ($token && null === $publicKey)) {
-            $output->writeln(sprintf(
-                'Fetching public key for <info>%s/%s</info>.',
-                $repoOwner,
-                $repoName
-            ));
+            $output->writeln(
+                sprintf(
+                    'Fetching public key for <info>%s/%s</info>.',
+                    $repoOwner,
+                    $repoName
+                )
+            );
 
             try {
                 $publicKey = $this->travisClient()->publicKey($repoOwner, $repoName);
             } catch (ReadException $e) {
-                throw new RuntimeException(sprintf(
-                    'Unable to retrieve the public key for repository %s/%s. Check that the repository has been synced to Travis CI.',
-                    $repoOwner,
-                    $repoName
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        'Unable to retrieve the public key for repository %s/%s. Check that the repository has been synced to Travis CI.',
+                        $repoOwner,
+                        $repoName
+                    )
+                );
             }
             $this->travisConfigManager()->setPublicKeyCache($packageRoot, $publicKey);
         }
@@ -306,10 +310,12 @@ class UpdateCommand extends Command
             }
 
             if ('repo' !== $matches[2][0]) {
-                throw new RuntimeException(sprintf(
-                    'Archer GitHub authorization has incorrect scope. Expected [repo], but actual token scope is [%s].',
-                    $matches[2][0]
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        'Archer GitHub authorization has incorrect scope. Expected [repo], but actual token scope is [%s].',
+                        $matches[2][0]
+                    )
+                );
             }
 
             return $matches[1][0];
@@ -339,10 +345,12 @@ class UpdateCommand extends Command
         $process = $this->processFactory()->createFromArray($arguments);
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(sprintf(
-                'Failed to execute authorization management command (%s).',
-                $arguments[1]
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Failed to execute authorization management command (%s).',
+                    $arguments[1]
+                )
+            );
         }
 
         return $process->getOutput();

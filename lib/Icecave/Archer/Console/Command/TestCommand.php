@@ -22,11 +22,13 @@ class TestCommand extends AbstractPHPUnitCommand
      */
     protected function readPHPConfiguration()
     {
-        return $this->phpConfigurationReader()->read(array(
-            './vendor/icecave/archer/res/php/php.ini',
-            './test/php.ini',
-            './php.ini',
-        ));
+        return $this->phpConfigurationReader()->read(
+            array(
+                './vendor/icecave/archer/res/php/php.ini',
+                './test/php.ini',
+                './php.ini',
+            )
+        );
     }
 
     /**

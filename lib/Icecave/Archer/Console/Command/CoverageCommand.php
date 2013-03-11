@@ -24,14 +24,16 @@ class CoverageCommand extends AbstractPHPUnitCommand
      */
     protected function readPHPConfiguration()
     {
-        return $this->phpConfigurationReader()->read(array(
-            './vendor/icecave/archer/res/php/php.ini',
-            './vendor/icecave/archer/res/php/php.coverage.ini',
-            './test/php.ini',
-            './test/php.coverage.ini',
-            './php.ini',
-            './php.coverage.ini',
-        ));
+        return $this->phpConfigurationReader()->read(
+            array(
+                './vendor/icecave/archer/res/php/php.ini',
+                './vendor/icecave/archer/res/php/php.coverage.ini',
+                './test/php.ini',
+                './test/php.coverage.ini',
+                './php.ini',
+                './php.coverage.ini',
+            )
+        );
     }
 
     /**

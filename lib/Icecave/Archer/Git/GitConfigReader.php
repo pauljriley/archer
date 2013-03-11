@@ -98,10 +98,12 @@ class GitConfigReader
         $process->setWorkingDirectory($this->repositoryPath());
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(sprintf(
-                'Unable to read git configuration: %s',
-                $process->getErrorOutput()
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Unable to read git configuration: %s',
+                    $process->getErrorOutput()
+                )
+            );
         }
 
         if (preg_match_all('/^([^=]*)=(.*)$/m', $process->getOutput(), $matches)) {

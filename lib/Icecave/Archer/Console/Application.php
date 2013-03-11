@@ -67,9 +67,11 @@ class Application extends SymfonyApplication
     {
         $rawArguments = $this->rawArguments();
         if (array() === $rawArguments) {
-            $input = new ArrayInput(array(
-                'command' => $this->defaultCommandName(),
-            ));
+            $input = new ArrayInput(
+                array(
+                    'command' => $this->defaultCommandName(),
+                )
+            );
         }
 
         return parent::doRun($input, $output);

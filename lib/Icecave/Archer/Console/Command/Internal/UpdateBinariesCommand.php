@@ -23,11 +23,13 @@ class UpdateBinariesCommand extends AbstractInternalCommand
 
     protected function updateBinary($packageName)
     {
-        $content = $this->fileSystem()->read(sprintf(
-            'http://icecave.com.au/%s/%s',
-            rawurlencode($packageName),
-            rawurlencode($packageName)
-        ));
+        $content = $this->fileSystem()->read(
+            sprintf(
+                'http://icecave.com.au/%s/%s',
+                rawurlencode($packageName),
+                rawurlencode($packageName)
+            )
+        );
         $target = sprintf(
             '%s/bin/woodhouse',
             $this->getApplication()->packageRoot(),

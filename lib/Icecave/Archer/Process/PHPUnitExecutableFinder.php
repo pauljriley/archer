@@ -75,10 +75,12 @@ class PHPUnitExecutableFinder
         $process = $this->processFactory()->create('rbenv', 'which', 'phpunit');
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(sprintf(
-                'Unable to find PHPUnit executable: %s',
-                $process->getErrorOutput()
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Unable to find PHPUnit executable: %s',
+                    $process->getErrorOutput()
+                )
+            );
         }
 
         return trim($process->getOutput());
