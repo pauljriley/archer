@@ -20,7 +20,7 @@ class Application extends SymfonyApplication
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
-        parent::__construct('Archer', '0.2.1');
+        parent::__construct('Archer', '0.3.0');
 
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
@@ -67,9 +67,11 @@ class Application extends SymfonyApplication
     {
         $rawArguments = $this->rawArguments();
         if (array() === $rawArguments) {
-            $input = new ArrayInput(array(
-                'command' => $this->defaultCommandName(),
-            ));
+            $input = new ArrayInput(
+                array(
+                    'command' => $this->defaultCommandName(),
+                )
+            );
         }
 
         return parent::doRun($input, $output);

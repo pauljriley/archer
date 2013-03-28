@@ -165,21 +165,23 @@ abstract class AbstractPHPUnitCommand extends Command
      */
     protected function passthru(Process $process, ConsoleOutputInterface $output)
     {
-        return $process->run(function ($type, $buffer) use ($output) {
-            if ('out' === $type) {
-                $output->write(
-                    $buffer,
-                    false,
-                    OutputInterface::OUTPUT_RAW
-                );
-            } else {
-                $output->getErrorOutput()->write(
-                    $buffer,
-                    false,
-                    OutputInterface::OUTPUT_RAW
-                );
+        return $process->run(
+            function ($type, $buffer) use ($output) {
+                if ('out' === $type) {
+                    $output->write(
+                        $buffer,
+                        false,
+                        OutputInterface::OUTPUT_RAW
+                    );
+                } else {
+                    $output->getErrorOutput()->write(
+                        $buffer,
+                        false,
+                        OutputInterface::OUTPUT_RAW
+                    );
+                }
             }
-        });
+        );
     }
 
     /**

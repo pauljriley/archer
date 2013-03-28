@@ -39,11 +39,13 @@ class TravisClient
      */
     public function publicKey($repoOwner, $repoName)
     {
-        $response = $this->fileSystem()->read(sprintf(
-            'https://api.travis-ci.org/repos/%s/%s/key',
-            urlencode($repoOwner),
-            urlencode($repoName)
-        ));
+        $response = $this->fileSystem()->read(
+            sprintf(
+                'https://api.travis-ci.org/repos/%s/%s/key',
+                urlencode($repoOwner),
+                urlencode($repoName)
+            )
+        );
 
         return json_decode($response)->key;
     }

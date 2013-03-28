@@ -99,24 +99,30 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
         $this->_errorOutput = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
         Phake::when($this->_errorOutput)
             ->write(Phake::anyParameters())
-            ->thenGetReturnByLambda(function ($data) use ($that) {
-                $that->_stdErr .= $data;
-            })
+            ->thenGetReturnByLambda(
+                function ($data) use ($that) {
+                    $that->_stdErr .= $data;
+                }
+            )
         ;
 
         $this->_stdOut = '';
         $this->_output = Phake::mock('Symfony\Component\Console\Output\ConsoleOutputInterface');
         Phake::when($this->_output)
             ->write(Phake::anyParameters())
-            ->thenGetReturnByLambda(function ($data) use ($that) {
-                $that->_stdOut .= $data;
-            })
+            ->thenGetReturnByLambda(
+                function ($data) use ($that) {
+                    $that->_stdOut .= $data;
+                }
+            )
         ;
         Phake::when($this->_output)
             ->writeln(Phake::anyParameters())
-            ->thenGetReturnByLambda(function ($data) use ($that) {
-                $that->_stdOut .= $data . "\n";
-            })
+            ->thenGetReturnByLambda(
+                function ($data) use ($that) {
+                    $that->_stdOut .= $data . "\n";
+                }
+            )
         ;
         Phake::when($this->_output)
             ->getErrorOutput(Phake::anyParameters())
@@ -125,12 +131,14 @@ class CoverageCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_process)
             ->run(Phake::anyParameters())
-            ->thenGetReturnByLambda(function ($callback) {
-                $callback('out', "out\nout\n");
-                $callback('err', "err\nerr\n");
+            ->thenGetReturnByLambda(
+                function ($callback) {
+                    $callback('out', "out\nout\n");
+                    $callback('err', "err\nerr\n");
 
-                return 111;
-            })
+                    return 111;
+                }
+            )
         ;
     }
 
