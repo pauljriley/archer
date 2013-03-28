@@ -1,5 +1,10 @@
 # Archer Changelog
 
+### 0.3.0
+
+* Added JUnit XML reporting to PHPUnit configuration
+* Disabled notify-on-install in composer configuration (prevents inflated installation numbers on packagist)
+
 ### 0.2.1
 
 * Removed PHP v5.3.3 from Travis CI build configuration
