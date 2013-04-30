@@ -1,12 +1,12 @@
 
 
 Code Coverage Report 
-  2013-03-28 06:19:59
+  2013-04-30 07:40:27
 
  Summary: 
   Classes: 92.00% (23/25)
-  Methods: 94.85% (129/136)
-  Lines:   94.80% (875/923)
+  Methods: 94.96% (132/139)
+  Lines:   94.89% (892/940)
 
 \Icecave\Archer\Configuration::ConfigurationFileFinder
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 11/ 11)
@@ -15,7 +15,7 @@ Code Coverage Report
 \Icecave\Archer\Console::Application
   Methods: 100.00% ( 6/ 6)   Lines: 100.00% ( 27/ 27)
 \Icecave\Archer\Console\Command::AbstractPHPUnitCommand
-  Methods:  87.50% (14/16)   Lines: 100.00% (118/118)
+  Methods:  87.50% (14/16)   Lines: 100.00% (119/119)
 \Icecave\Archer\Console\Command::CoverageCommand
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 21/ 21)
 \Icecave\Archer\Console\Command::TestCommand
@@ -25,7 +25,7 @@ Code Coverage Report
 \Icecave\Archer\Console\Command\Travis::AbstractTravisCommand
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  4/  4)
 \Icecave\Archer\Console\Command\Travis::BuildCommand
-  Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 58/ 58)
+  Methods: 100.00% ( 5/ 5)   Lines: 100.00% ( 65/ 65)
 \Icecave\Archer\Console\Helper::HiddenInputHelper
   Methods: 100.00% ( 8/ 8)   Lines: 100.00% ( 46/ 46)
 \Icecave\Archer\FileSystem::FileSystem
@@ -41,7 +41,7 @@ Code Coverage Report
 \Icecave\Archer\Git::GitDotFilesManager
   Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 52/ 52)
 \Icecave\Archer\GitHub::GitHubClient
-  Methods: 100.00% ( 6/ 6)   Lines: 100.00% ( 27/ 27)
+  Methods: 100.00% ( 8/ 8)   Lines: 100.00% ( 36/ 36)
 \Icecave\Archer\Process::PHPUnitExecutableFinder
   Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 31/ 31)
 \Icecave\Archer\Process::ProcessFactory
