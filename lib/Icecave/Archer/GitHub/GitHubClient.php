@@ -64,6 +64,22 @@ class GitHubClient
         $this->authToken = $authToken;
     }
 
+    /**
+     * @return string|null
+     */
+    public function userAgent()
+    {
+        return $this->userAgent;
+    }
+
+    /**
+     * @param string|null $userAgent
+     */
+    public function setUserAgent($userAgent)
+    {
+        $this->userAgent = $userAgent;
+    }
+
     public function apiGet($resource)
     {
         $url = vsprintf(
@@ -71,15 +87,22 @@ class GitHubClient
             array_slice(func_get_args(), 1)
         );
 
-        if (null === $this->authToken) {
+        $options = array();
+
+        if (null !== $this->authToken) {
+            $options['header'] = sprintf('Authorization: token %s', $this->authToken);
+        }
+
+        if (null !== $this->userAgent) {
+            $options['user_agent'] = $this->userAgent;
+        }
+
+        if (empty($options)) {
             $context = null;
         } else {
-            $options = array(
-                'http' => array(
-                    'header' => sprintf('Authorization: token %s', $this->authToken)
-                )
+            $context = $this->isolator->stream_context_create(
+                array('http' => $options)
             );
-            $context = $this->isolator->stream_context_create($options);
         }
 
         $response = $this->isolator->file_get_contents($url, false, $context);
@@ -88,5 +111,6 @@ class GitHubClient
     }
 
     private $authToken;
+    private $userAgent;
     private $isolator;
 }

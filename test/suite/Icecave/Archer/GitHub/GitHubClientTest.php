@@ -91,6 +91,15 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
         $this->_client->setAuthToken('invalid-token');
     }
 
+    public function testSetUserAgent()
+    {
+        $this->assertNull($this->_client->userAgent());
+
+        $this->_client->setUserAgent('test-agent');
+
+        $this->assertSame('test-agent', $this->_client->userAgent());
+    }
+
     public function testApiGet()
     {
         Phake::when($this->_isolator)
@@ -105,6 +114,35 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $response);
 
         Phake::verify($this->_isolator)->file_get_contents('https://api.github.com/foo/bar', false, null);
+    }
+
+    public function testApiGetWithUserAgent()
+    {
+        Phake::when($this->_isolator)
+            ->file_get_contents(Phake::anyParameters())
+            ->thenReturn('{ "result" : true }');
+
+        Phake::when($this->_isolator)
+            ->stream_context_create(Phake::anyParameters())
+            ->thenReturn('<context>');
+
+        $this->_client->setUserAgent('test-agent');
+
+        $response = $this->_client->apiGet('foo/%s', 'bar');
+
+        $expected = new stdClass;
+        $expected->result = true;
+
+        $this->assertEquals($expected, $response);
+
+        $contextOptions = array(
+            'http' => array(
+                'user_agent' => 'test-agent'
+            )
+        );
+
+        Phake::verify($this->_isolator)->stream_context_create($contextOptions);
+        Phake::verify($this->_isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
     }
 
     public function testApiGetWithAuthToken()
