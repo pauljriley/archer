@@ -196,6 +196,7 @@ EOD;
             ),
             Phake::verify($this->_processFactory)
                 ->createFromArray(Phake::capture($actualArguments)),
+            Phake::verify($this->_process)->setTimeout(null),
             Phake::verify($this->_command)->passthru(
                 $this->identicalTo($this->_process),
                 $this->identicalTo($this->_output)
