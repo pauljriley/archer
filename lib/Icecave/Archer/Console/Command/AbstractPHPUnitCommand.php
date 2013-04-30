@@ -132,6 +132,7 @@ abstract class AbstractPHPUnitCommand extends Command
                 $this->rawArguments()
             )
         );
+        $process->setTimeout(null);
 
         return $this->passthru($process, $output);
     }

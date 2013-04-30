@@ -67,7 +67,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $exitCode = $this->_command->run($this->_input, $this->_output);
 
         Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255);
-        Phake::verifyNoInteraction($this->_githubClient);
+        Phake::verify($this->_githubClient)->setUserAgent($this->_application->getName() . '/' . $this->_application->getVersion());
 
         $this->assertSame(123, $exitCode);
     }

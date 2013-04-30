@@ -3,6 +3,7 @@ namespace Icecave\Archer\Console\Command\Travis;
 
 use Icecave\Archer\Support\Isolator;
 use Icecave\Archer\GitHub\GitHubClient;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,6 +28,20 @@ class BuildCommand extends AbstractTravisCommand
     public function githubClient()
     {
         return $this->githubClient;
+    }
+
+    /**
+     * @param Application|null $application
+     */
+    public function setApplication(Application $application = null)
+    {
+        parent::setApplication($application);
+
+        if ($application) {
+            $this->githubClient->setUserAgent(
+                $application->getName() . '/' . $application->getVersion()
+            );
+        }
     }
 
     protected function configure()
