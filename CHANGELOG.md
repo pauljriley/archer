@@ -1,5 +1,10 @@
 # Archer Changelog
 
+### 0.3.1
+
+* Disabled sub-process timeout that caused long running tests to fail
+* Added User-Agent header to GitHub API client [as required](http://developer.github.com/changes/2013-04-24-user-agent-required)
+
 ### 0.3.0
 
 * Added JUnit XML reporting to PHPUnit configuration
