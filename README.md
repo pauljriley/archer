@@ -1,9 +1,7 @@
-# ![Archer]
+# Archer
 
 [![Build Status]](http://travis-ci.org/IcecaveStudios/archer)
 [![Test Coverage]](http://icecavestudios.github.com/archer/artifacts/tests/coverage)
-
----
 
 **Archer** is a library for standardizing PHP unit testing and continuous integration behavior across multiple projects
 using a [convention-over-configuration] approach. It brings together several high-quality libraries to help
@@ -239,7 +237,6 @@ display this information effectively.
 - ![50% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/test-coverage/test-coverage-050.png)
 
 <!-- references -->
-[Archer]: http://icecave.com.au/assets/img/project-icons/icon-archer.png
 [Build Status]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/build-status.png
 [Test Coverage]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/coverage.png
 
