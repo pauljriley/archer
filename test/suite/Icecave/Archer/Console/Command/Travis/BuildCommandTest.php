@@ -132,6 +132,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
     public function testExecuteWithPublish()
     {
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
+        $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
@@ -159,6 +160,13 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_isolator)
             ->passthru(
+                $expectedDocumentationCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->_isolator)
+            ->passthru(
                 $expectedWoodhouseCommand,
                 Phake::setReference(222)
             )
@@ -170,15 +178,17 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
             Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->_isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
         $this->assertSame(222, $exitCode);
     }
 
-    public function testExecuteWithAndTestFailure()
+    public function testExecuteWithPublishAndTestFailure()
     {
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
+        $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
@@ -206,6 +216,13 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->_isolator)
             ->passthru(
+                $expectedDocumentationCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->_isolator)
+            ->passthru(
                 $expectedWoodhouseCommand,
                 Phake::setReference(222)
             )
@@ -217,6 +234,63 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
             Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->_isolator)->passthru($expectedDocumentationCommand, 255),
+            Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 255)
+        );
+
+        $this->assertSame(111, $exitCode);
+    }
+
+    public function testExecuteWithPublishAndDocumentationFailure()
+    {
+        $expectedTestCommand = '/path/to/archer/bin/archer coverage';
+        $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
+
+        $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
+        $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
+        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
+        $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
+        $expectedWoodhouseCommand .= ' --no-interaction';
+        $expectedWoodhouseCommand .= ' --verbose';
+
+        Phake::when($this->_isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedTestCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedDocumentationCommand,
+                Phake::setReference(111)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->_isolator)
+            ->passthru(
+                $expectedWoodhouseCommand,
+                Phake::setReference(222)
+            )
+            ->thenReturn(null);
+
+        $exitCode = $this->_command->run($this->_input, $this->_output);
+
+        Phake::inOrder(
+            Phake::verify($this->_githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->_githubClient)->defaultBranch('Vendor', 'package'),
+            Phake::verify($this->_isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->_isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->_isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 

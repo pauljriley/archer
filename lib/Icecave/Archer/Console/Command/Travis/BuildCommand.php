@@ -89,6 +89,10 @@ class BuildCommand extends AbstractTravisCommand
         $testsExitCode = 255;
         $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
 
+        // Generate documentation ...
+        $documentationExitCode = 255;
+        $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
+
         // Publish artifacts ...
         $command  = $archerRoot . '/bin/woodhouse';
         $command .= ' publish %s';
@@ -116,6 +120,9 @@ class BuildCommand extends AbstractTravisCommand
 
         if ($testsExitCode !== 0) {
             return $testsExitCode;
+        }
+        if ($documentationExitCode !== 0) {
+            return $documentationExitCode;
         }
 
         return $publishExitCode;

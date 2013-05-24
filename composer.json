@@ -1,7 +1,7 @@
 {
     "name": "icecave/archer",
-    "description": "PHP testing and continuous integration by convention.",
-    "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts"],
+    "description": "PHP projects by convention.",
+    "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts", "documentation", "api", "project", "convention"],
     "homepage": "https://github.com/IcecaveStudios/archer",
     "license": "MIT",
     "authors": [
@@ -18,8 +18,12 @@
     "require": {
         "php": ">=5.3",
         "phake/phake": "~1",
+        "sami/sami": "~1",
         "symfony/console": "~2",
         "symfony/process": "~2"
+    },
+    "require-dev": {
+        "eloquent/liberator": "~1"
     },
     "suggest": {
         "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
