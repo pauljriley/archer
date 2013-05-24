@@ -39,9 +39,9 @@ class DocumentationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>Generating documentation...</info>');
-
+        $output->write('<info>Generating documentation... </info>');
         $this->generator->generate();
+        $output->writeln('done.');
     }
 
     private $generator;

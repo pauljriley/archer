@@ -53,10 +53,11 @@ class DocumentationCommandTest extends PHPUnit_Framework_TestCase
         $this->command->run($this->input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->output)->writeln(
-                '<info>Generating documentation...</info>'
+            Phake::verify($this->output)->write(
+                '<info>Generating documentation... </info>'
             ),
-            Phake::verify($this->generator)->generate()
+            Phake::verify($this->generator)->generate(),
+            Phake::verify($this->output)->writeln('done.')
         );
     }
 }
