@@ -53,6 +53,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'help',
             'list',
             'coverage',
+            'documentation',
             'test',
             'update',
         );
@@ -77,6 +78,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'help',
             'list',
             'coverage',
+            'documentation',
             'test',
             'update',
             'internal:update-binaries',
@@ -100,6 +102,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'help',
             'list',
             'coverage',
+            'documentation',
             'test',
             'update',
             'travis:build',

@@ -33,6 +33,7 @@ class Application extends SymfonyApplication
         $this->getHelperSet()->set(new Helper\HiddenInputHelper);
 
         $this->add(new Command\CoverageCommand);
+        $this->add(new Command\DocumentationCommand);
         $this->add(new Command\TestCommand);
         $this->add(new Command\UpdateCommand);
 
