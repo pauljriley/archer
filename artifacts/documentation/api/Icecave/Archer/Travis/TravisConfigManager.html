@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Icecave\Archer\Travis\TravisConfigManager | icecave/archer API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">icecave/archer API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Icecave/Archer/Travis.html">Icecave\Archer\Travis</a>\TravisConfigManager</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>TravisConfigManager</strong></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null, <a href="../../../Icecave/Archer/Configuration/ConfigurationFileFinder.html"><abbr title="Icecave\Archer\Configuration\ConfigurationFileFinder">ConfigurationFileFinder</abbr></a> $fileFinder = null, <a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a> $isolator = null)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_fileSystem">fileSystem</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Icecave/Archer/Configuration/ConfigurationFileFinder.html"><abbr title="Icecave\Archer\Configuration\ConfigurationFileFinder">ConfigurationFileFinder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_fileFinder">fileFinder</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string|null
+                </td>
+                <td class="last">
+                    <a href="#method_publicKeyCache">publicKeyCache</a>(string $packageRoot)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_setPublicKeyCache">setPublicKeyCache</a>(string $packageRoot, string|null $publicKey)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string|null
+                </td>
+                <td class="last">
+                    <a href="#method_secureEnvironmentCache">secureEnvironmentCache</a>(string $packageRoot)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_setSecureEnvironmentCache">setSecureEnvironmentCache</a>(string $packageRoot, string|null $secureEnvironment)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_updateConfig">updateConfig</a>(string $archerPackageRoot, string $packageRoot)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 15</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null, <a href="../../../Icecave/Archer/Configuration/ConfigurationFileFinder.html"><abbr title="Icecave\Archer\Configuration\ConfigurationFileFinder">ConfigurationFileFinder</abbr></a> $fileFinder = null, <a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a> $isolator = null)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a></td>
+                <td>$fileSystem</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Icecave/Archer/Configuration/ConfigurationFileFinder.html"><abbr title="Icecave\Archer\Configuration\ConfigurationFileFinder">ConfigurationFileFinder</abbr></a></td>
+                <td>$fileFinder</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a></td>
+                <td>$isolator</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fileSystem">
+        <div class="location">at line 35</div>
+        <code>            public            <a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a>
+    <strong>fileSystem</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fileFinder">
+        <div class="location">at line 43</div>
+        <code>            public            <a href="../../../Icecave/Archer/Configuration/ConfigurationFileFinder.html"><abbr title="Icecave\Archer\Configuration\ConfigurationFileFinder">ConfigurationFileFinder</abbr></a>
+    <strong>fileFinder</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Icecave/Archer/Configuration/ConfigurationFileFinder.html"><abbr title="Icecave\Archer\Configuration\ConfigurationFileFinder">ConfigurationFileFinder</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_publicKeyCache">
+        <div class="location">at line 53</div>
+        <code>            public            string|null
+    <strong>publicKeyCache</strong>(string $packageRoot)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$packageRoot</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setPublicKeyCache">
+        <div class="location">at line 69</div>
+        <code>            public            boolean
+    <strong>setPublicKeyCache</strong>(string $packageRoot, string|null $publicKey)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$packageRoot</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$publicKey</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_secureEnvironmentCache">
+        <div class="location">at line 94</div>
+        <code>            public            string|null
+    <strong>secureEnvironmentCache</strong>(string $packageRoot)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$packageRoot</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setSecureEnvironmentCache">
+        <div class="location">at line 110</div>
+        <code>            public            boolean
+    <strong>setSecureEnvironmentCache</strong>(string $packageRoot, string|null $secureEnvironment)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$packageRoot</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$secureEnvironment</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_updateConfig">
+        <div class="location">at line 136</div>
+        <code>            public            boolean
+    <strong>updateConfig</strong>(string $archerPackageRoot, string $packageRoot)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$archerPackageRoot</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$packageRoot</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

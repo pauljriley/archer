@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Icecave\Archer\Travis\TravisClient | icecave/archer API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">icecave/archer API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Icecave/Archer/Travis.html">Icecave\Archer\Travis</a>\TravisClient</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>TravisClient</strong></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null, <a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a> $isolator = null)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_fileSystem">fileSystem</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_publicKey">publicKey</a>(string $repoOwner, string $repoName)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_encryptEnvironment">encryptEnvironment</a>(string $publicKey, string $gitHubToken)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_encrypt">encrypt</a>(string $publicKey, string $plainText)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 14</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null, <a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a> $isolator = null)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a></td>
+                <td>$fileSystem</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a></td>
+                <td>$isolator</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fileSystem">
+        <div class="location">at line 29</div>
+        <code>            public            <a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a>
+    <strong>fileSystem</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_publicKey">
+        <div class="location">at line 40</div>
+        <code>            public            string
+    <strong>publicKey</strong>(string $repoOwner, string $repoName)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$repoOwner</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$repoName</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_encryptEnvironment">
+        <div class="location">at line 59</div>
+        <code>            public            string
+    <strong>encryptEnvironment</strong>(string $publicKey, string $gitHubToken)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$publicKey</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$gitHubToken</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_encrypt">
+        <div class="location">at line 73</div>
+        <code>            public            string
+    <strong>encrypt</strong>(string $publicKey, string $plainText)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$publicKey</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$plainText</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
