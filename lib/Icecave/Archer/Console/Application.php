@@ -20,7 +20,7 @@ class Application extends SymfonyApplication
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
-        parent::__construct('Archer', '0.3.1');
+        parent::__construct('Archer', '0.4.0');
 
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
@@ -33,6 +33,7 @@ class Application extends SymfonyApplication
         $this->getHelperSet()->set(new Helper\HiddenInputHelper);
 
         $this->add(new Command\CoverageCommand);
+        $this->add(new Command\DocumentationCommand);
         $this->add(new Command\TestCommand);
         $this->add(new Command\UpdateCommand);
 
