@@ -5,6 +5,7 @@ use Eloquent\Liberator\Liberator;
 use Phake;
 use PHPUnit_Framework_TestCase;
 use Sami\Sami;
+use stdClass;
 use Symfony\Component\Finder\Finder;
 
 class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
@@ -14,10 +15,14 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->composerConfigReader = Phake::mock(
+            'Icecave\Archer\Configuration\ComposerConfigurationReader'
+        );
         $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
         $this->generator = Phake::partialMock(
             __NAMESPACE__ . '\DocumentationGenerator',
             $this->fileSystem,
+            $this->composerConfigReader,
             $this->isolator
         );
 
@@ -27,11 +32,20 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         Phake::when($this->isolator)
             ->sys_get_temp_dir()
             ->thenReturn('/path/to/tmp');
+        Phake::when($this->isolator)
+            ->uniqid(Phake::anyParameters())
+            ->thenReturn('uniqid');
 
+        $this->composerConfiguration = json_decode(
+            '{"autoload": {"psr-0": {"Vendor\\\\Project\\\\SubProject": "lib"}}}'
+        );
         $this->finder = Finder::create();
         $this->sami = Phake::mock('Sami\Sami');
         $this->samiProject = Phake::mock('Sami\Project');
 
+        Phake::when($this->composerConfigReader)
+            ->read(Phake::anyParameters())
+            ->thenReturn($this->composerConfiguration);
         Phake::when($this->sami)
             ->offsetGet('project')
             ->thenReturn($this->samiProject);
@@ -40,6 +54,10 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $this->assertSame($this->fileSystem, $this->generator->fileSystem());
+        $this->assertSame(
+            $this->composerConfigReader,
+            $this->generator->composerConfigReader()
+        );
     }
 
     public function testConstructorDefaults()
@@ -49,6 +67,10 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'Icecave\Archer\FileSystem\FileSystem',
             $this->generator->fileSystem()
+        );
+        $this->assertInstanceOf(
+            'Icecave\Archer\Configuration\ComposerConfigurationReader',
+            $this->generator->composerConfigReader()
         );
     }
 
@@ -67,13 +89,13 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
         Phake::inOrder(
             Phake::verify($this->generator)->createFinder('/path/to/source'),
-            Phake::verify($this->fileSystem)->read('foo/composer.json'),
             Phake::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
-                    'title' => 'vendor/project API',
+                    'title' => 'SubProject API',
+                    'default_opened_level' => 4,
                     'build_dir' => 'foo/artifacts/documentation/api',
-                    'cache_dir' => '/path/to/tmp/archer-sami-cache',
+                    'cache_dir' => '/path/to/tmp/uniqid',
                 )
             ),
             Phake::verify($this->samiProject)->update()
@@ -95,13 +117,13 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
         Phake::inOrder(
             Phake::verify($this->generator)->createFinder('/path/to/source'),
-            Phake::verify($this->fileSystem)->read('./composer.json'),
             Phake::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
-                    'title' => 'vendor/project API',
+                    'title' => 'SubProject API',
+                    'default_opened_level' => 4,
                     'build_dir' => './artifacts/documentation/api',
-                    'cache_dir' => '/path/to/tmp/archer-sami-cache',
+                    'cache_dir' => '/path/to/tmp/uniqid',
                 )
             ),
             Phake::verify($this->samiProject)->update()
@@ -125,15 +147,64 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testProjectNameFallback()
+    {
+        $this->composerConfiguration = json_decode(
+            '{"name": "vendor/project"}'
+        );
+        $generator = Liberator::liberate($this->generator);
+
+        $this->assertSame(
+            'vendor/project',
+            $generator->projectName($this->composerConfiguration)
+        );
+    }
+
+    public function testOpenedLevelFallback()
+    {
+        $this->composerConfiguration = json_decode(
+            '{"name": "vendor/project"}'
+        );
+        $generator = Liberator::liberate($this->generator);
+
+        $this->assertSame(
+            3,
+            $generator->openedLevel($this->composerConfiguration)
+        );
+    }
+
+    public function testOpenedLevelFallbackNoEntries()
+    {
+        $this->composerConfiguration = json_decode(
+            '{"autoload": {"psr-0": {}}}'
+        );
+        $generator = Liberator::liberate($this->generator);
+
+        $this->assertSame(
+            3,
+            $generator->openedLevel($this->composerConfiguration)
+        );
+    }
+
+    public function testOpenedLevelFallbackNamespaceTooShort()
+    {
+        $this->composerConfiguration = json_decode(
+            '{"autoload": {"psr-0": {"": "lib"}}}'
+        );
+        $generator = Liberator::liberate($this->generator);
+
+        $this->assertSame(
+            3,
+            $generator->openedLevel($this->composerConfiguration)
+        );
+    }
+
     public function testProjectNameFailureUndefined()
     {
-        Phake::when($this->fileSystem)
-            ->read(Phake::anyParameters())
-            ->thenReturn('{}');
         $generator = Liberator::liberate($this->generator);
 
         $this->setExpectedException('RuntimeException');
-        $generator->projectName('foo');
+        $generator->projectName(new stdClass);
     }
 
     public function testCreateFinder()
