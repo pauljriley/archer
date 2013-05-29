@@ -121,9 +121,9 @@ class DocumentationGenerator
         $primaryNamespace = $this->primaryNamespace($composerConfiguration);
         if (null !== $primaryNamespace) {
             $namespaceAtoms = explode('\\', $primaryNamespace);
-            if (count($namespaceAtoms) > 0) {
-                $projectName = array_pop($namespaceAtoms);
-            }
+            array_shift($namespaceAtoms);
+
+            return implode(' - ', $namespaceAtoms);
         } else {
             if (!property_exists($composerConfiguration, 'name')) {
                 throw new RuntimeException(
@@ -144,13 +144,11 @@ class DocumentationGenerator
      */
     protected function openedLevel(stdClass $composerConfiguration)
     {
-        $openedLevel = 3;
+        $openedLevel = 2;
         $primaryNamespace = $this->primaryNamespace($composerConfiguration);
+
         if (null !== $primaryNamespace) {
-            $numNamespaceAtoms = count(explode('\\', $primaryNamespace));
-            if ($numNamespaceAtoms > 0) {
-                $openedLevel = $numNamespaceAtoms + 1;
-            }
+            $openedLevel = substr_count($primaryNamespace, '\\') + 1;
         }
 
         return $openedLevel;

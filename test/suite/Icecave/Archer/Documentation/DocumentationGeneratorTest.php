@@ -92,8 +92,8 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
-                    'title' => 'SubProject API',
-                    'default_opened_level' => 4,
+                    'title' => 'Project - SubProject API',
+                    'default_opened_level' => 3,
                     'build_dir' => 'foo/artifacts/documentation/api',
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
@@ -120,8 +120,8 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->generator)->createSami(
                 $this->identicalTo($this->finder),
                 array(
-                    'title' => 'SubProject API',
-                    'default_opened_level' => 4,
+                    'title' => 'Project - SubProject API',
+                    'default_opened_level' => 3,
                     'build_dir' => './artifacts/documentation/api',
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
@@ -168,7 +168,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $generator = Liberator::liberate($this->generator);
 
         $this->assertSame(
-            3,
+            2,
             $generator->openedLevel($this->composerConfiguration)
         );
     }
@@ -181,7 +181,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $generator = Liberator::liberate($this->generator);
 
         $this->assertSame(
-            3,
+            2,
             $generator->openedLevel($this->composerConfiguration)
         );
     }
@@ -194,7 +194,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $generator = Liberator::liberate($this->generator);
 
         $this->assertSame(
-            3,
+            2,
             $generator->openedLevel($this->composerConfiguration)
         );
     }
