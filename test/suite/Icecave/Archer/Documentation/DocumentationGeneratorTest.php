@@ -147,6 +147,19 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testProjectNameWithSingleNamespace()
+    {
+        $this->composerConfiguration = json_decode(
+            '{"autoload": {"psr-0": {"Project": "lib"}}}'
+        );
+        $generator = Liberator::liberate($this->generator);
+
+        $this->assertSame(
+            'Project',
+            $generator->projectName($this->composerConfiguration)
+        );
+    }
+
     public function testProjectNameFallback()
     {
         $this->composerConfiguration = json_decode(
@@ -157,6 +170,19 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertSame(
             'vendor/project',
             $generator->projectName($this->composerConfiguration)
+        );
+    }
+
+    public function testOpenedLevelWithSingleNamespace()
+    {
+        $this->composerConfiguration = json_decode(
+            '{"autoload": {"psr-0": {"Project": "lib"}}}'
+        );
+        $generator = Liberator::liberate($this->generator);
+
+        $this->assertSame(
+            1,
+            $generator->openedLevel($this->composerConfiguration)
         );
     }
 

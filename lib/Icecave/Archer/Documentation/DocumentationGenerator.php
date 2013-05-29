@@ -119,22 +119,24 @@ class DocumentationGenerator
     protected function projectName(stdClass $composerConfiguration)
     {
         $primaryNamespace = $this->primaryNamespace($composerConfiguration);
+
         if (null !== $primaryNamespace) {
             $namespaceAtoms = explode('\\', $primaryNamespace);
-            array_shift($namespaceAtoms);
 
-            return implode(' - ', $namespaceAtoms);
-        } else {
-            if (!property_exists($composerConfiguration, 'name')) {
-                throw new RuntimeException(
-                    'No project name set in Composer configuration.'
-                );
+            if (count($namespaceAtoms) > 1) {
+                array_shift($namespaceAtoms);
             }
 
-            $projectName = $composerConfiguration->name;
+            return implode(' - ', $namespaceAtoms);
         }
 
-        return $projectName;
+        if (!property_exists($composerConfiguration, 'name')) {
+            throw new RuntimeException(
+                'No project name set in Composer configuration.'
+            );
+        }
+
+        return $composerConfiguration->name;
     }
 
     /**
