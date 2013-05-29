@@ -85,6 +85,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         Phake::when($this->generator)
             ->createSami(Phake::anyParameters())
             ->thenReturn($this->sami);
+        Phake::when($this->fileSystem)
+            ->directoryExists('foo/artifacts/documentation/api')
+            ->thenReturn(true);
         $this->generator->generate('foo');
 
         Phake::inOrder(
@@ -97,6 +100,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
                     'build_dir' => 'foo/artifacts/documentation/api',
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
+            ),
+            Phake::verify($this->fileSystem)->delete(
+                'foo/artifacts/documentation/api'
             ),
             Phake::verify($this->samiProject)->update()
         );
@@ -113,6 +119,9 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
         Phake::when($this->generator)
             ->createSami(Phake::anyParameters())
             ->thenReturn($this->sami);
+        Phake::when($this->fileSystem)
+            ->directoryExists('./artifacts/documentation/api')
+            ->thenReturn(true);
         $this->generator->generate();
 
         Phake::inOrder(
@@ -126,7 +135,44 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
                     'cache_dir' => '/path/to/tmp/uniqid',
                 )
             ),
+            Phake::verify($this->fileSystem)->delete(
+                './artifacts/documentation/api'
+            ),
             Phake::verify($this->samiProject)->update()
+        );
+    }
+
+    public function testGenerateBuildDirNonExistant()
+    {
+        Phake::when($this->generator)
+            ->sourcePath(Phake::anyParameters())
+            ->thenReturn('/path/to/source');
+        Phake::when($this->generator)
+            ->createFinder(Phake::anyParameters())
+            ->thenReturn($this->finder);
+        Phake::when($this->generator)
+            ->createSami(Phake::anyParameters())
+            ->thenReturn($this->sami);
+        Phake::when($this->fileSystem)
+            ->directoryExists('foo/artifacts/documentation/api')
+            ->thenReturn(false);
+        $this->generator->generate('foo');
+
+        Phake::inOrder(
+            Phake::verify($this->generator)->createFinder('/path/to/source'),
+            Phake::verify($this->generator)->createSami(
+                $this->identicalTo($this->finder),
+                array(
+                    'title' => 'Project - SubProject API',
+                    'default_opened_level' => 3,
+                    'build_dir' => 'foo/artifacts/documentation/api',
+                    'cache_dir' => '/path/to/tmp/uniqid',
+                )
+            ),
+            Phake::verify($this->samiProject)->update()
+        );
+        Phake::verify($this->fileSystem, Phake::never())->delete(
+            'foo/artifacts/documentation/api'
         );
     }
 

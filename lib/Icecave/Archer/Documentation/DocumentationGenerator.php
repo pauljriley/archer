@@ -65,6 +65,7 @@ class DocumentationGenerator
         $composerConfiguration = $this->composerConfigReader()->read(
             $projectPath
         );
+        $buildPath = sprintf('%s/artifacts/documentation/api', $projectPath);
         $cachePath = sprintf(
             '%s/%s',
             $this->isolator->sys_get_temp_dir(),
@@ -81,13 +82,14 @@ class DocumentationGenerator
                 'default_opened_level' => $this->openedLevel(
                     $composerConfiguration
                 ),
-                'build_dir' => sprintf(
-                    '%s/artifacts/documentation/api',
-                    $projectPath
-                ),
+                'build_dir' => $buildPath,
                 'cache_dir' => $cachePath,
             )
         );
+
+        if ($this->fileSystem()->directoryExists($buildPath)) {
+            $this->fileSystem()->delete($buildPath);
+        }
 
         $handlers = $this->popErrorHandlers();
         $sami['project']->update();
