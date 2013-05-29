@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Icecave\Archer\Configuration\PHPConfigurationReader | Archer API</title>
+        <title>Icecave\Archer\Configuration\ComposerConfigurationReader | Archer API</title>
                     <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -19,10 +19,10 @@
         <div id="title">Archer API</div>
 
             <div class="type">Class</div>
-    <h1><a href="../../../Icecave/Archer/Configuration.html">Icecave\Archer\Configuration</a>\PHPConfigurationReader</h1>
+    <h1><a href="../../../Icecave/Archer/Configuration.html">Icecave\Archer\Configuration</a>\ComposerConfigurationReader</h1>
     </div>
         <div class="content">
-                <p>class    <strong>PHPConfigurationReader</strong></p>
+                <p>class    <strong>ComposerConfigurationReader</strong></p>
 
     
     
@@ -35,7 +35,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null, <a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a> $isolator = null)
+                    <a href="#method___construct">__construct</a>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null)
                     <p></p>
                 </td>
                 <td></td>
@@ -52,10 +52,10 @@
             </tr>
                     <tr>
                 <td class="type">
-                    <abbr title="Icecave\Archer\Configuration\array&lt;string,mixed&gt;">array&lt;string,mixed&gt;</abbr>
+                    <a href="http://php.net/stdClass"><abbr title="stdClass">stdClass</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_read">read</a>(array $candidatePaths)
+                    <a href="#method_read">read</a>(string $projectPath)
                     <p></p>
                 </td>
                 <td></td>
@@ -66,9 +66,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 12</div>
+        <div class="location">at line 13</div>
         <code>            public            
-    <strong>__construct</strong>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null, <a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a> $isolator = null)</code>
+    <strong>__construct</strong>(<a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a> $fileSystem = null)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -80,11 +80,6 @@
                     <tr>
                 <td><a href="../../../Icecave/Archer/FileSystem/FileSystem.html"><abbr title="Icecave\Archer\FileSystem\FileSystem">FileSystem</abbr></a></td>
                 <td>$fileSystem</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td><a href="../../../Icecave/Archer/Support/Isolator.html"><abbr title="Icecave\Archer\Support\Isolator">Isolator</abbr></a></td>
-                <td>$isolator</td>
                 <td></td>
             </tr>
             </table>
@@ -121,8 +116,8 @@
 
                 <h3 id="method_read">
         <div class="location">at line 35</div>
-        <code>            public            <abbr title="Icecave\Archer\Configuration\array&lt;string,mixed&gt;">array&lt;string,mixed&gt;</abbr>
-    <strong>read</strong>(array $candidatePaths)</code>
+        <code>            public            <a href="http://php.net/stdClass"><abbr title="stdClass">stdClass</abbr></a>
+    <strong>read</strong>(string $projectPath)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -132,8 +127,8 @@
 
                     <table>
                     <tr>
-                <td>array</td>
-                <td>$candidatePaths</td>
+                <td>string</td>
+                <td>$projectPath</td>
                 <td></td>
             </tr>
             </table>
@@ -143,7 +138,7 @@
 
                     <table>
         <tr>
-            <td><abbr title="Icecave\Archer\Configuration\array&lt;string,mixed&gt;">array&lt;string,mixed&gt;</abbr></td>
+            <td><a href="http://php.net/stdClass"><abbr title="stdClass">stdClass</abbr></a></td>
             <td></td>
         </tr>
     </table>
