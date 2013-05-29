@@ -160,7 +160,7 @@ Generating code coverage report in HTML format ... done
 
 ![Example Archer coverage report](http://icecave.com.au/archer/doc/img/example-coverage-report.png)
 
-For a live example see the [test coverage report](http://icecave.com.au/siesta/artifacts/tests/coverage/) for [Siesta].
+For a live example see the [test coverage report](http://icecave.com.au/chrono/artifacts/tests/coverage/) for [Chrono].
 
 ## API documentation
 
@@ -231,8 +231,8 @@ The directory structure is as follows:
 ##### Published test coverage report
 
 Once published, a project's test coverage report is available through GitHub's [Pages][github pages] system. As an
-example, [Siesta]'s coverage reports coverage reports are published to
-http://icecavestudios.github.com/siesta/artifacts/tests/coverage/.
+example, [Chrono]'s coverage reports coverage reports are published to
+http://icecavestudios.github.com/chrono/artifacts/tests/coverage/.
 
 Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
@@ -240,7 +240,7 @@ Note that the above URL redirects to a custom domain, but it is still served thr
 
 To quickly convey information about the quality of a project, **Archer** publishes status 'badges' (or 'shields') that
 can easily be displayed in a project's README.md or other documentation. See the
-[source](https://raw.github.com/IcecaveStudios/siesta/develop/README.md) of Seista's README.md file to see how to
+[source](https://raw.github.com/IcecaveStudios/chrono/develop/README.md) of Seista's README.md file to see how to
 display this information effectively.
 
 **Archer** currently provides status badges in two themes, courtesy of [ezzatron]'s [ci-status-images] project.
@@ -274,7 +274,7 @@ display this information effectively.
 [phpunit]: https://github.com/sebastianbergmann/phpunit
 [psr-0]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
 [sami]: https://github.com/fabpot/Sami
-[siesta]: https://github.com/IcecaveStudios/siesta
+[chrono]: https://github.com/IcecaveStudios/chrono
 [travis ci]: https://travis-ci.org
 [woodhouse]: https://github.com/IcecaveStudios/woodhouse
 [xdebug]: http://xdebug.org

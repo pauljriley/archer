@@ -1,20 +1,24 @@
 <?php
 namespace Icecave\Archer\Documentation;
 
+use Icecave\Archer\Configuration\ComposerConfigurationReader;
 use Icecave\Archer\Support\Isolator;
 use Icecave\Archer\FileSystem\FileSystem;
 use RuntimeException;
 use Sami\Sami;
+use stdClass;
 use Symfony\Component\Finder\Finder;
 
 class DocumentationGenerator
 {
     /**
-     * @param FileSystem|null $fileSystem
-     * @param Isolator|null   $isolator
+     * @param FileSystem|null                  $fileSystem
+     * @param ComposerConfigurationReader|null $composerConfigReader
+     * @param Isolator|null                    $isolator
      */
     public function __construct(
         FileSystem $fileSystem = null,
+        ComposerConfigurationReader $composerConfigReader = null,
         Isolator $isolator = null
     ) {
         $this->isolator = Isolator::get($isolator);
@@ -22,8 +26,15 @@ class DocumentationGenerator
         if (null === $fileSystem) {
             $fileSystem = new FileSystem($this->isolator);
         }
+        if (null === $composerConfigReader) {
+            $composerConfigReader = new ComposerConfigurationReader(
+                $fileSystem,
+                $this->isolator
+            );
+        }
 
         $this->fileSystem = $fileSystem;
+        $this->composerConfigReader = $composerConfigReader;
     }
 
     /**
@@ -35,6 +46,14 @@ class DocumentationGenerator
     }
 
     /**
+     * @return ComposerConfigurationReader
+     */
+    public function composerConfigReader()
+    {
+        return $this->composerConfigReader;
+    }
+
+    /**
      * @param string|null $projectPath
      */
     public function generate($projectPath = null)
@@ -43,24 +62,38 @@ class DocumentationGenerator
             $projectPath = '.';
         }
 
+        $composerConfiguration = $this->composerConfigReader()->read(
+            $projectPath
+        );
+        $cachePath = sprintf(
+            '%s/%s',
+            $this->isolator->sys_get_temp_dir(),
+            $this->isolator->uniqid('archer-sami-cache-', true)
+        );
+
         $sami = $this->createSami(
             $this->createFinder($this->sourcePath($projectPath)),
             array(
-                'title' => sprintf('%s API', $this->projectName($projectPath)),
+                'title' => sprintf(
+                    '%s API',
+                    $this->projectName($composerConfiguration)
+                ),
+                'default_opened_level' => $this->openedLevel(
+                    $composerConfiguration
+                ),
                 'build_dir' => sprintf(
                     '%s/artifacts/documentation/api',
                     $projectPath
                 ),
-                'cache_dir' => sprintf(
-                    '%s/archer-sami-cache',
-                    $this->isolator->sys_get_temp_dir()
-                ),
+                'cache_dir' => $cachePath,
             )
         );
 
         $handlers = $this->popErrorHandlers();
         $sami['project']->update();
         $this->pushErrorHandlers($handlers);
+
+        $this->fileSystem()->delete($cachePath);
     }
 
     /**
@@ -79,23 +112,74 @@ class DocumentationGenerator
     }
 
     /**
-     * @param string $projectPath
+     * @param stdClass $composerConfiguration
      *
      * @return string
      */
-    protected function projectName($projectPath)
+    protected function projectName(stdClass $composerConfiguration)
     {
-        $json = $this->fileSystem()->read(
-            sprintf('%s/composer.json', $projectPath)
-        );
-        $configuration = json_decode($json);
-        if (!property_exists($configuration, 'name')) {
+        $primaryNamespace = $this->primaryNamespace($composerConfiguration);
+
+        if (null !== $primaryNamespace) {
+            $namespaceAtoms = explode('\\', $primaryNamespace);
+
+            if (count($namespaceAtoms) > 1) {
+                array_shift($namespaceAtoms);
+            }
+
+            return implode(' - ', $namespaceAtoms);
+        }
+
+        if (!property_exists($composerConfiguration, 'name')) {
             throw new RuntimeException(
                 'No project name set in Composer configuration.'
             );
         }
 
-        return $configuration->name;
+        return $composerConfiguration->name;
+    }
+
+    /**
+     * @param stdClass $composerConfiguration
+     *
+     * @return string
+     */
+    protected function openedLevel(stdClass $composerConfiguration)
+    {
+        $openedLevel = 2;
+        $primaryNamespace = $this->primaryNamespace($composerConfiguration);
+
+        if (null !== $primaryNamespace) {
+            $openedLevel = substr_count($primaryNamespace, '\\') + 1;
+        }
+
+        return $openedLevel;
+    }
+
+    /**
+     * @param stdClass $composerConfiguration
+     *
+     * @return string|null
+     */
+    protected function primaryNamespace(stdClass $composerConfiguration)
+    {
+        if (
+            property_exists($composerConfiguration, 'autoload') &&
+            property_exists($composerConfiguration->autoload, 'psr-0')
+        ) {
+            $psr0Autoload = get_object_vars(
+                $composerConfiguration->autoload->{'psr-0'}
+            );
+            foreach ($psr0Autoload as $namespace => $path) {
+                if ('_empty_' === $namespace) {
+                    $namespace = null;
+                }
+
+                return $namespace;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -151,5 +235,6 @@ class DocumentationGenerator
     }
 
     private $fileSystem;
+    private $composerConfigReader;
     private $isolator;
 }
