@@ -119,22 +119,24 @@ class DocumentationGenerator
     protected function projectName(stdClass $composerConfiguration)
     {
         $primaryNamespace = $this->primaryNamespace($composerConfiguration);
+
         if (null !== $primaryNamespace) {
             $namespaceAtoms = explode('\\', $primaryNamespace);
-            if (count($namespaceAtoms) > 0) {
-                $projectName = array_pop($namespaceAtoms);
-            }
-        } else {
-            if (!property_exists($composerConfiguration, 'name')) {
-                throw new RuntimeException(
-                    'No project name set in Composer configuration.'
-                );
+
+            if (count($namespaceAtoms) > 1) {
+                array_shift($namespaceAtoms);
             }
 
-            $projectName = $composerConfiguration->name;
+            return implode(' - ', $namespaceAtoms);
         }
 
-        return $projectName;
+        if (!property_exists($composerConfiguration, 'name')) {
+            throw new RuntimeException(
+                'No project name set in Composer configuration.'
+            );
+        }
+
+        return $composerConfiguration->name;
     }
 
     /**
@@ -144,13 +146,11 @@ class DocumentationGenerator
      */
     protected function openedLevel(stdClass $composerConfiguration)
     {
-        $openedLevel = 3;
+        $openedLevel = 2;
         $primaryNamespace = $this->primaryNamespace($composerConfiguration);
+
         if (null !== $primaryNamespace) {
-            $numNamespaceAtoms = count(explode('\\', $primaryNamespace));
-            if ($numNamespaceAtoms > 0) {
-                $openedLevel = $numNamespaceAtoms + 1;
-            }
+            $openedLevel = substr_count($primaryNamespace, '\\') + 1;
         }
 
         return $openedLevel;

@@ -1,5 +1,10 @@
 # Archer Changelog
 
+### 0.4.1 (2013-05-29)
+
+* **[IMPROVED]** API documentation title generated from the namespace name instead of the composer package name.
+* **[IMPROVED]** API documentation menu opens to the project's root namespace level by default.
+
 ### 0.4.0 (2013-05-27)
 
 * **[NEW]** New *documentation* command uses [Sami](https://github.com/fabpot/Sami) to generate HTML API documentation
