@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 0.4.2 (2013-06-05)
+
+* **[FIXED]** Generating API documentation will now overwrite existing documentation
+
 ### 0.4.1 (2013-05-29)
 
 * **[IMPROVED]** API documentation title generated from the namespace name instead of the composer package name.
