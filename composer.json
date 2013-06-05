@@ -1,6 +1,6 @@
 {
     "name": "icecave/archer",
-    "description": "PHP projects by convention.",
+    "description": "Testing, CI and documentation of PHP projects by convention.",
     "keywords": ["testing", "phpunit", "unit", "test", "phake", "coverage", "artifacts", "documentation", "api", "project", "convention"],
     "homepage": "https://github.com/IcecaveStudios/archer",
     "license": "MIT",
