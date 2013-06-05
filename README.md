@@ -1,7 +1,7 @@
 # Archer
 
 [![Build Status]](http://travis-ci.org/IcecaveStudios/archer)
-[![Test Coverage]](http://icecavestudios.github.com/archer/artifacts/tests/coverage)
+[![Test Coverage]](http://icecavestudios.github.io/archer/artifacts/tests/coverage)
 
 **Archer** is a library for standardizing PHP unit testing, continuous integration, and documentation behavior across
 multiple projects using a [convention-over-configuration] approach. It brings together several high-quality libraries to
@@ -232,7 +232,7 @@ The directory structure is as follows:
 
 Once published, a project's test coverage report is available through GitHub's [Pages][github pages] system. As an
 example, [Chrono]'s coverage reports coverage reports are published to
-http://icecavestudios.github.com/chrono/artifacts/tests/coverage/.
+http://icecavestudios.github.io/chrono/artifacts/tests/coverage/.
 
 Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
