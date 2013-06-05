@@ -158,9 +158,9 @@ Generating code coverage report in HTML format ... done
 
 #### Example test coverage report
 
-![Example Archer coverage report](http://icecave.com.au/archer/doc/img/example-coverage-report.png)
+![Example Archer coverage report](http://icecavestudios.github.io/archer/doc/img/example-coverage-report.png)
 
-For a live example see the [test coverage report](http://icecave.com.au/chrono/artifacts/tests/coverage/) for [Chrono].
+For a live example see the [test coverage report](http://icecavestudios.github.io/chrono/artifacts/tests/coverage/) for [Chrono].
 
 ## API documentation
 
@@ -179,7 +179,7 @@ to support the search panel locally.
 
 #### Example API documentation
 
-![Example Archer API documentation](http://icecave.com.au/archer/doc/img/example-api-documentation.png)
+![Example Archer API documentation](http://icecavestudios.github.io/archer/doc/img/example-api-documentation.png)
 
 For a live example see the [API documentation](http://eloquent-software.com/pathogen/artifacts/documentation/api/) for
 [Pathogen].
