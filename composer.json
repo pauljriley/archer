@@ -20,11 +20,11 @@
         "phake/phake": "~1",
         "sami/sami": "~1",
         "symfony/console": "~2",
-        "symfony/process": "~2",
-        "symfony/event-dispatcher": "~2.1"
+        "symfony/process": "~2"
     },
     "require-dev": {
-        "eloquent/liberator": "~1"
+        "eloquent/liberator": "~1",
+        "symfony/event-dispatcher": "~2.1"
     },
     "suggest": {
         "ext-openssl": "OpenSSL is required to encrypt GitHub OAuth tokens for artifact publication."
