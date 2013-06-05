@@ -20,7 +20,8 @@
         "phake/phake": "~1",
         "sami/sami": "~1",
         "symfony/console": "~2",
-        "symfony/process": "~2"
+        "symfony/process": "~2",
+        "symfony/event-dispatcher": "~2.1"
     },
     "require-dev": {
         "eloquent/liberator": "~1"
