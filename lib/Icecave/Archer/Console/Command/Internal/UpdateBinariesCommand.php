@@ -25,7 +25,7 @@ class UpdateBinariesCommand extends AbstractInternalCommand
     {
         $content = $this->fileSystem()->read(
             sprintf(
-                'http://icecave.com.au/%s/%s',
+                'http://icecavestudios.github.io/%s/%s',
                 rawurlencode($packageName),
                 rawurlencode($packageName)
             )

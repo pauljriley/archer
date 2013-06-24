@@ -1,7 +1,7 @@
 # Archer
 
 [![Build Status]](http://travis-ci.org/IcecaveStudios/archer)
-[![Test Coverage]](http://icecavestudios.github.com/archer/artifacts/tests/coverage)
+[![Test Coverage]](http://icecavestudios.github.io/archer/artifacts/tests/coverage)
 
 **Archer** is a library for standardizing PHP unit testing, continuous integration, and documentation behavior across
 multiple projects using a [convention-over-configuration] approach. It brings together several high-quality libraries to
@@ -41,7 +41,7 @@ provides the following benefits:
 Add [icecave/archer](https://packagist.org/packages/icecave/archer) to the project's `composer.json` file as a
 development dependency:
 
-    composer require icecave/archer:~0.4 --dev
+    composer require icecave/archer:~0.5 --dev
 
 This will create a new `composer.json` file if it does not exist, and update all dependencies. The `archer`
 executable should now be available at `vendor/bin/archer`:
@@ -158,9 +158,9 @@ Generating code coverage report in HTML format ... done
 
 #### Example test coverage report
 
-![Example Archer coverage report](http://icecave.com.au/archer/doc/img/example-coverage-report.png)
+![Example Archer coverage report](http://icecavestudios.github.io/archer/doc/img/example-coverage-report.png)
 
-For a live example see the [test coverage report](http://icecave.com.au/chrono/artifacts/tests/coverage/) for [Chrono].
+For a live example see the [test coverage report](http://icecavestudios.github.io/chrono/artifacts/tests/coverage/) for [Chrono].
 
 ## API documentation
 
@@ -179,7 +179,7 @@ to support the search panel locally.
 
 #### Example API documentation
 
-![Example Archer API documentation](http://icecave.com.au/archer/doc/img/example-api-documentation.png)
+![Example Archer API documentation](http://icecavestudios.github.io/archer/doc/img/example-api-documentation.png)
 
 For a live example see the [API documentation](http://eloquent-software.com/pathogen/artifacts/documentation/api/) for
 [Pathogen].
@@ -232,7 +232,7 @@ The directory structure is as follows:
 
 Once published, a project's test coverage report is available through GitHub's [Pages][github pages] system. As an
 example, [Chrono]'s coverage reports coverage reports are published to
-http://icecavestudios.github.com/chrono/artifacts/tests/coverage/.
+http://icecavestudios.github.io/chrono/artifacts/tests/coverage/.
 
 Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
