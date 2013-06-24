@@ -1,5 +1,10 @@
 # Archer Changelog
 
+### 0.5.0 (2013-06-24)
+
+* **[NEW]** GitHub API rate-limiting headers are now output to the terminal during the Travis CI installed step
+* **[IMPROVED]** Removed PHP v5.5 from the 'allow_failures' section of the Travis CI configuration file, as it is now a stable release
+
 ### 0.4.2 (2013-06-05)
 
 * **[FIXED]** Generating API documentation will now overwrite existing documentation

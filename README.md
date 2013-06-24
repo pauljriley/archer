@@ -41,7 +41,7 @@ provides the following benefits:
 Add [icecave/archer](https://packagist.org/packages/icecave/archer) to the project's `composer.json` file as a
 development dependency:
 
-    composer require icecave/archer:~0.4 --dev
+    composer require icecave/archer:~0.5 --dev
 
 This will create a new `composer.json` file if it does not exist, and update all dependencies. The `archer`
 executable should now be available at `vendor/bin/archer`:
