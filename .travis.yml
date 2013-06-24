@@ -18,12 +18,8 @@ install:
 script:
   - ./.travis.build
 
+# Include another build in the matrix for dogfooding Archer!
 matrix:
-  # PHP 5.5 is still in alpha, so ignore build failures.
-  allow_failures:
-    - php: 5.5
-
-  # Include another build in the matrix for dogfooding Archer!
   include:
     - php: 5.4
       env:
