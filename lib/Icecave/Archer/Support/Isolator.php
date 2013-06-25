@@ -20,6 +20,11 @@ class Isolator
         }
     }
 
+    public static function className()
+    {
+        return get_class(static::get());
+    }
+
     public static function resetIsolator()
     {
         self::$instance = null;
@@ -73,6 +78,17 @@ class Isolator
     public function passthru($command, &$exitCode = null)
     {
         return passthru($command, $exitCode);
+    }
+
+    public function proc_open(
+        $command,
+        array $descriptors,
+        array &$pipes = null,
+        $workingDirectory = null,
+        array $environment = null,
+        array $options = array()
+    ) {
+        return proc_open($command, $descriptors, $pipes, $workingDirectory, $environment, $options);
     }
 
     // @codeCoverageIgnoreEnd
