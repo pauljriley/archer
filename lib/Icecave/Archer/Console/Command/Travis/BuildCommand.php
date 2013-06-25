@@ -1,6 +1,8 @@
 <?php
 namespace Icecave\Archer\Console\Command\Travis;
 
+use Icecave\Archer\Coveralls\CoverallsClient;
+use Icecave\Archer\Coveralls\CoverallsConfigManager;
 use Icecave\Archer\Support\Isolator;
 use Icecave\Archer\GitHub\GitHubClient;
 use Symfony\Component\Console\Application;
@@ -11,13 +13,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class BuildCommand extends AbstractTravisCommand
 {
-    public function __construct(GitHubClient $githubClient = null, Isolator $isolator = null)
-    {
+    public function __construct(
+        GitHubClient $githubClient = null,
+        CoverallsClient $coverallsClient = null,
+        CoverallsConfigManager $coverallsConfigManager = null,
+        Isolator $isolator = null
+    ) {
         if (null === $githubClient) {
             $githubClient = new GitHubClient;
         }
+        if (null === $coverallsClient) {
+            $coverallsClient = new CoverallsClient;
+        }
+        if (null === $coverallsConfigManager) {
+            $coverallsConfigManager = new CoverallsConfigManager;
+        }
 
         $this->githubClient = $githubClient;
+        $this->coverallsClient = $coverallsClient;
+        $this->coverallsConfigManager = $coverallsConfigManager;
 
         parent::__construct($isolator);
     }
@@ -28,6 +42,22 @@ class BuildCommand extends AbstractTravisCommand
     public function githubClient()
     {
         return $this->githubClient;
+    }
+
+    /**
+     * @return CoverallsClient
+     */
+    public function coverallsClient()
+    {
+        return $this->coverallsClient;
+    }
+
+    /**
+     * @return CoverallsConfigManager
+     */
+    public function coverallsConfigManager()
+    {
+        return $this->coverallsConfigManager;
     }
 
     /**
@@ -77,7 +107,7 @@ class BuildCommand extends AbstractTravisCommand
             $publishArtifacts = false;
         }
 
-        // Run default tests ...
+        // Run default tests
         if (!$publishArtifacts) {
             $testsExitCode = 255;
             $this->isolator->passthru($archerRoot . '/bin/archer test', $testsExitCode);
@@ -85,15 +115,23 @@ class BuildCommand extends AbstractTravisCommand
             return $testsExitCode;
         }
 
-        // Run tests with reports ...
+        // Run tests with reports
         $testsExitCode = 255;
         $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
 
-        // Generate documentation ...
+        // Generate Coveralls configuration if required
+        $hasCoveralls = $this->coverallsClient()->exists($repoOwner, $repoName);
+        if ($hasCoveralls) {
+            $coverallsConfigPath = $this
+                ->coverallsConfigManager()
+                ->createConfig($archerRoot, $packageRoot);
+        }
+
+        // Generate documentation
         $documentationExitCode = 255;
         $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
 
-        // Publish artifacts ...
+        // Publish artifacts
         $command  = $archerRoot . '/bin/woodhouse';
         $command .= ' publish %s';
         $command .= ' %s/artifacts:artifacts';
@@ -118,15 +156,33 @@ class BuildCommand extends AbstractTravisCommand
         $publishExitCode = 255;
         $this->isolator->passthru($command, $publishExitCode);
 
+        // Publish Coveralls data if required
+        if ($hasCoveralls) {
+            $coverallsExitCode = 255;
+            $this->isolator->passthru(
+                sprintf(
+                    '%s/vendor/bin/coveralls --config %s',
+                    $packageRoot,
+                    escapeshellarg($coverallsConfigPath)
+                ),
+                $coverallsExitCode
+            );
+        }
+
         if ($testsExitCode !== 0) {
             return $testsExitCode;
         }
         if ($documentationExitCode !== 0) {
             return $documentationExitCode;
         }
+        if ($publishExitCode !== 0) {
+            return $publishExitCode;
+        }
 
-        return $publishExitCode;
+        return $coverallsExitCode;
     }
 
     private $githubClient;
+    private $coverallsClient;
+    private $coverallsConfigManager;
 }
