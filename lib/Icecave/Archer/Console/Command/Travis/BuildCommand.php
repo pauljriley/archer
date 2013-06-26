@@ -100,40 +100,42 @@ class BuildCommand extends AbstractTravisCommand
 
         list($repoOwner, $repoName) = explode('/', $repoSlug);
 
-        if ($authToken && $travisPhpVersion === $publishVersion) {
+        $isPublishVersion = $travisPhpVersion === $publishVersion;
+
+        if ($authToken && $isPublishVersion) {
             $this->githubClient()->setAuthToken($authToken);
             $publishArtifacts = $this->githubClient()->defaultBranch($repoOwner, $repoName) === $currentBranch;
         } else {
             $publishArtifacts = false;
         }
 
-        // Run default tests
-        if (!$publishArtifacts) {
-            $testsExitCode = 255;
-            $this->isolator->passthru($archerRoot . '/bin/archer test', $testsExitCode);
-
-            return $testsExitCode;
+        $publishCoveralls = false;
+        if ($isPublishVersion) {
+            $output->write('Checking for Coveralls... ');
+            $publishCoveralls = $this->coverallsClient()->exists($repoOwner, $repoName);
+            if ($publishCoveralls) {
+                $output->writeln('enabled.');
+            } else {
+                $output->writeln('not enabled.');
+            }
         }
 
-        // Run tests with reports
-        $testsExitCode = 255;
-        $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
+        if ($publishArtifacts || $publishCoveralls) {
+            // Run tests with reports
+            $testsExitCode = 255;
+            $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
+        } else {
+            // Run default tests
+            $testsExitCode = 255;
+            $this->isolator->passthru($archerRoot . '/bin/archer test', $testsExitCode);
+        }
 
-        // Generate Coveralls configuration if required
-        $hasCoveralls = $this->coverallsClient()->exists($repoOwner, $repoName);
-        if ($hasCoveralls) {
+        $coverallsExitCode = 0;
+        if ($publishCoveralls) {
             $coverallsConfigPath = $this
                 ->coverallsConfigManager()
                 ->createConfig($archerRoot, $packageRoot);
-        }
 
-        // Generate documentation
-        $documentationExitCode = 255;
-        $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
-
-        // Publish Coveralls data if required
-        $coverallsExitCode = 0;
-        if ($hasCoveralls) {
             $output->write('Publishing Coveralls data... ');
 
             $coverallsExitCode = 255;
@@ -153,39 +155,47 @@ class BuildCommand extends AbstractTravisCommand
             }
         }
 
-        // Publish artifacts
-        $command  = $archerRoot . '/bin/woodhouse';
-        $command .= ' publish %s';
-        $command .= ' %s/artifacts:artifacts';
-        $command .= ' --message "Publishing artifacts from build #%d."';
-        $command .= ' --coverage-image artifacts/images/coverage.png';
-        $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $command .= ' --build-status-image artifacts/images/build-status.png';
-        $command .= ' --build-status-tap artifacts/tests/report.tap';
-        $command .= ' --auth-token-env ARCHER_TOKEN';
-        $command .= ' --image-theme travis/variable-width';
-        $command .= ' --image-theme icecave/regular';
-        $command .= ' --no-interaction';
-        $command .= ' --verbose';
+        $documentationExitCode = 0;
+        $publishExitCode = 0;
+        if ($publishArtifacts) {
+            // Generate documentation
+            $documentationExitCode = 255;
+            $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
 
-        $command = sprintf(
-            $command,
-            escapeshellarg($repoSlug),
-            $packageRoot,
-            $buildNumber
-        );
+            // Publish artifacts
+            $command  = $archerRoot . '/bin/woodhouse';
+            $command .= ' publish %s';
+            $command .= ' %s/artifacts:artifacts';
+            $command .= ' --message "Publishing artifacts from build #%d."';
+            $command .= ' --coverage-image artifacts/images/coverage.png';
+            $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+            $command .= ' --build-status-image artifacts/images/build-status.png';
+            $command .= ' --build-status-tap artifacts/tests/report.tap';
+            $command .= ' --auth-token-env ARCHER_TOKEN';
+            $command .= ' --image-theme travis/variable-width';
+            $command .= ' --image-theme icecave/regular';
+            $command .= ' --no-interaction';
+            $command .= ' --verbose';
 
-        $publishExitCode = 255;
-        $this->isolator->passthru($command, $publishExitCode);
+            $command = sprintf(
+                $command,
+                escapeshellarg($repoSlug),
+                $packageRoot,
+                $buildNumber
+            );
+
+            $publishExitCode = 255;
+            $this->isolator->passthru($command, $publishExitCode);
+        }
 
         if ($testsExitCode !== 0) {
             return $testsExitCode;
         }
-        if ($documentationExitCode !== 0) {
-            return $documentationExitCode;
-        }
         if ($coverallsExitCode !== 0) {
             return $coverallsExitCode;
+        }
+        if ($documentationExitCode !== 0) {
+            return $documentationExitCode;
         }
 
         return $publishExitCode;

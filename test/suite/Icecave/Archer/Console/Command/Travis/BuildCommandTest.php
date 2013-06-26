@@ -210,8 +210,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
+            Phake::verify($this->output)->writeln('not enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
@@ -271,8 +273,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
+            Phake::verify($this->output)->writeln('not enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
@@ -346,12 +350,14 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
+            Phake::verify($this->output)->writeln('enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->output)->write('Publishing Coveralls data... '),
             Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
             Phake::verify($this->output)->writeln('done.'),
+            Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
@@ -410,8 +416,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
+            Phake::verify($this->output)->writeln('not enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
@@ -471,8 +479,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
+            Phake::verify($this->output)->writeln('not enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
@@ -546,15 +556,69 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::inOrder(
             Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
             Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
-            Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
+            Phake::verify($this->output)->writeln('enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->output)->write('Publishing Coveralls data... '),
             Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
             Phake::verify($this->output)->writeln('failed.'),
+            Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
         $this->assertSame(222, $exitCode);
+    }
+
+    public function testExecuteWithCoverallsButNoPublish()
+    {
+        $expectedTestCommand = '/path/to/archer/bin/archer coverage';
+
+        $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
+        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
+
+        Phake::when($this->coverallsClient)
+            ->exists('Vendor', 'package')
+            ->thenReturn(true);
+
+        Phake::when($this->coverallsConfigManager)
+            ->createConfig(Phake::anyParameters())
+            ->thenReturn('/path/to/coveralls.yml');
+
+        Phake::when($this->isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->isolator)
+            ->getenv('ARCHER_TOKEN')
+            ->thenReturn('');
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedTestCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedCoverallsCommand,
+                Phake::setReference(111)
+            )
+            ->thenReturn(null);
+
+        $exitCode = $this->command->run($this->input, $this->output);
+
+        Phake::inOrder(
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
+            Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
+            Phake::verify($this->output)->writeln('enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
+            Phake::verify($this->output)->writeln('failed.')
+        );
+
+        $this->assertSame(111, $exitCode);
     }
 }
