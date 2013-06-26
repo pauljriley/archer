@@ -131,6 +131,28 @@ class BuildCommand extends AbstractTravisCommand
         $documentationExitCode = 255;
         $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
 
+        // Publish Coveralls data if required
+        $coverallsExitCode = 0;
+        if ($hasCoveralls) {
+            $output->write('Publishing Coveralls data... ');
+
+            $coverallsExitCode = 255;
+            $this->isolator->passthru(
+                sprintf(
+                    '%s/vendor/bin/coveralls --config %s',
+                    $packageRoot,
+                    escapeshellarg($coverallsConfigPath)
+                ),
+                $coverallsExitCode
+            );
+
+            if (0 === $coverallsExitCode) {
+                $output->writeln('done.');
+            } else {
+                $output->writeln('failed.');
+            }
+        }
+
         // Publish artifacts
         $command  = $archerRoot . '/bin/woodhouse';
         $command .= ' publish %s';
@@ -156,31 +178,17 @@ class BuildCommand extends AbstractTravisCommand
         $publishExitCode = 255;
         $this->isolator->passthru($command, $publishExitCode);
 
-        // Publish Coveralls data if required
-        $coverallsExitCode = 0;
-        if ($hasCoveralls) {
-            $coverallsExitCode = 255;
-            $this->isolator->passthru(
-                sprintf(
-                    '%s/vendor/bin/coveralls --config %s',
-                    $packageRoot,
-                    escapeshellarg($coverallsConfigPath)
-                ),
-                $coverallsExitCode
-            );
-        }
-
         if ($testsExitCode !== 0) {
             return $testsExitCode;
         }
         if ($documentationExitCode !== 0) {
             return $documentationExitCode;
         }
-        if ($publishExitCode !== 0) {
-            return $publishExitCode;
+        if ($coverallsExitCode !== 0) {
+            return $coverallsExitCode;
         }
 
-        return $coverallsExitCode;
+        return $publishExitCode;
     }
 
     private $githubClient;
