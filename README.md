@@ -16,6 +16,7 @@ provides the following benefits:
 * Configuration-free generation of [API documentation](#api-documentation) using [Sami].
 * Automated [configuration](#automated-configuration) of repository and [Travis CI].
 * [Build artifact publication](#build-artifact-publication) to project [GitHub Pages].
+* Configuration-free integration with [Coveralls] for excellent test coverage metrics.
 
 ## Requirements
 
@@ -162,6 +163,11 @@ Generating code coverage report in HTML format ... done
 
 For a live example see the [test coverage report](http://icecavestudios.github.io/chrono/artifacts/tests/coverage/) for [Chrono].
 
+#### Coveralls integration
+
+**Archer** provides support for [Coveralls]. There is nothing to configure; simply enable Coveralls support for the
+project, and **Archer** will publish test coverage information to Coveralls when a build occurs on [Travis CI].
+
 ## API documentation
 
 API documentation provides a useful addition to any project's overall documentation strategy. Static, searchable API
@@ -263,9 +269,10 @@ display this information effectively.
 [Build Status]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/build-status.png
 [Test Coverage]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/coverage.png
 
-[composer]: http://getcomposer.org
+[composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
-[github pages]: http://pages.github.com
+[coveralls]: https://coveralls.io/
+[github pages]: http://pages.github.com/
 [github default branch]: https://help.github.com/articles/setting-the-default-branch-for-a-repository
 [openssl]: http://php.net/openssl
 [pathogen]: https://github.com/eloquent/pathogen
@@ -275,8 +282,8 @@ display this information effectively.
 [psr-0]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
 [sami]: https://github.com/fabpot/Sami
 [chrono]: https://github.com/IcecaveStudios/chrono
-[travis ci]: https://travis-ci.org
+[travis ci]: https://travis-ci.org/
 [woodhouse]: https://github.com/IcecaveStudios/woodhouse
-[xdebug]: http://xdebug.org
+[xdebug]: http://xdebug.org/
 [ezzatron]: https://github.com/ezzatron
 [ci-status-images]: https://github.com/ezzatron/ci-status-images
