@@ -285,6 +285,9 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
         $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
+        $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
+        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
+
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
@@ -297,9 +300,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
-
-        $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -329,14 +329,14 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->isolator)
             ->passthru(
-                $expectedWoodhouseCommand,
+                $expectedCoverallsCommand,
                 Phake::setReference(0)
             )
             ->thenReturn(null);
 
         Phake::when($this->isolator)
             ->passthru(
-                $expectedCoverallsCommand,
+                $expectedWoodhouseCommand,
                 Phake::setReference(222)
             )
             ->thenReturn(null);
@@ -349,8 +349,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
-            Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255),
-            Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255)
+            Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
+            Phake::verify($this->output)->writeln('done.'),
+            Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
         $this->assertSame(222, $exitCode);
@@ -483,6 +485,9 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
         $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
+        $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
+        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
+
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
@@ -495,9 +500,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
-
-        $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -527,14 +529,14 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         Phake::when($this->isolator)
             ->passthru(
-                $expectedWoodhouseCommand,
+                $expectedCoverallsCommand,
                 Phake::setReference(222)
             )
             ->thenReturn(null);
 
         Phake::when($this->isolator)
             ->passthru(
-                $expectedCoverallsCommand,
+                $expectedWoodhouseCommand,
                 Phake::setReference(333)
             )
             ->thenReturn(null);
@@ -547,8 +549,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
-            Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255),
-            Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255)
+            Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
+            Phake::verify($this->output)->writeln('failed.'),
+            Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
         $this->assertSame(222, $exitCode);

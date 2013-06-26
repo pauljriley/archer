@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### Next version (unreleased)
+
+* **[NEW]** Integration with [Coveralls](https://coveralls.io/) for hosted test coverage reports.
+
 ### 0.5.0 (2013-06-24)
 
 * **[NEW]** GitHub API rate-limiting headers are now output to the terminal during the Travis CI installed step
