@@ -586,6 +586,14 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             ->thenReturn('/path/to/coveralls.yml');
 
         Phake::when($this->isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->isolator)
+            ->getenv('ARCHER_TOKEN')
+            ->thenReturn('');
+
+        Phake::when($this->isolator)
             ->passthru(
                 $expectedTestCommand,
                 Phake::setReference(0)

@@ -100,22 +100,27 @@ class BuildCommand extends AbstractTravisCommand
 
         list($repoOwner, $repoName) = explode('/', $repoSlug);
 
-        if ($authToken && $travisPhpVersion === $publishVersion) {
+        $isPublishVersion = $travisPhpVersion === $publishVersion;
+
+        if ($authToken && $isPublishVersion) {
             $this->githubClient()->setAuthToken($authToken);
             $publishArtifacts = $this->githubClient()->defaultBranch($repoOwner, $repoName) === $currentBranch;
         } else {
             $publishArtifacts = false;
         }
 
-        $output->write('Checking for Coveralls... ');
-        $hasCoveralls = $this->coverallsClient()->exists($repoOwner, $repoName);
-        if ($hasCoveralls) {
-            $output->writeln('enabled.');
-        } else {
-            $output->writeln('not enabled.');
+        $publishCoveralls = false;
+        if ($isPublishVersion) {
+            $output->write('Checking for Coveralls... ');
+            $publishCoveralls = $this->coverallsClient()->exists($repoOwner, $repoName);
+            if ($publishCoveralls) {
+                $output->writeln('enabled.');
+            } else {
+                $output->writeln('not enabled.');
+            }
         }
 
-        if ($publishArtifacts || $hasCoveralls) {
+        if ($publishArtifacts || $publishCoveralls) {
             // Run tests with reports
             $testsExitCode = 255;
             $this->isolator->passthru($archerRoot . '/bin/archer coverage', $testsExitCode);
@@ -126,7 +131,7 @@ class BuildCommand extends AbstractTravisCommand
         }
 
         $coverallsExitCode = 0;
-        if ($hasCoveralls) {
+        if ($publishCoveralls) {
             $coverallsConfigPath = $this
                 ->coverallsConfigManager()
                 ->createConfig($archerRoot, $packageRoot);
