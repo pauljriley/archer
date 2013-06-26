@@ -157,6 +157,7 @@ class BuildCommand extends AbstractTravisCommand
         $this->isolator->passthru($command, $publishExitCode);
 
         // Publish Coveralls data if required
+        $coverallsExitCode = 0;
         if ($hasCoveralls) {
             $coverallsExitCode = 255;
             $this->isolator->passthru(
