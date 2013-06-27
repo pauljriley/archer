@@ -1,7 +1,7 @@
 # Archer
 
 [![Build Status]](http://travis-ci.org/IcecaveStudios/archer)
-[![Test Coverage]](http://icecavestudios.github.io/archer/artifacts/tests/coverage)
+[![Test Coverage]](https://coveralls.io/r/IcecaveStudios/archer?branch=develop)
 
 **Archer** is a library for standardizing PHP unit testing, continuous integration, and documentation behavior across
 multiple projects using a [convention-over-configuration] approach. It brings together several high-quality libraries to
