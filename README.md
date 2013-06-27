@@ -1,7 +1,8 @@
 # Archer
 
-[![Build Status]](http://travis-ci.org/IcecaveStudios/archer)
+[![Build Status]](https://travis-ci.org/IcecaveStudios/archer)
 [![Test Coverage]](https://coveralls.io/r/IcecaveStudios/archer?branch=develop)
+[![SemVer]](http://semver.org)
 
 **Archer** is a library for standardizing PHP unit testing, continuous integration, and documentation behavior across
 multiple projects using a [convention-over-configuration] approach. It brings together several high-quality libraries to
@@ -268,7 +269,7 @@ display this information effectively.
 <!-- references -->
 [Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
 [Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
-
+[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=0.5.0&color=green
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
