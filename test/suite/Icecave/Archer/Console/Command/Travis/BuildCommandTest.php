@@ -165,7 +165,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
-        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
@@ -228,7 +228,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
-        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
@@ -294,7 +294,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
-        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
@@ -371,7 +371,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
-        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
@@ -434,7 +434,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
-        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
@@ -500,7 +500,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
-        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build #543."';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
         $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';

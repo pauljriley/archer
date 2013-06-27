@@ -166,7 +166,7 @@ class BuildCommand extends AbstractTravisCommand
             $command  = $archerRoot . '/bin/woodhouse';
             $command .= ' publish %s';
             $command .= ' %s/artifacts:artifacts';
-            $command .= ' --message "Publishing artifacts from build #%d."';
+            $command .= ' --message "Publishing artifacts from build %d."';
             $command .= ' --coverage-image artifacts/images/coverage.png';
             $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
             $command .= ' --build-status-image artifacts/images/build-status.png';
