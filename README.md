@@ -266,8 +266,9 @@ display this information effectively.
 - ![50% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/test-coverage/test-coverage-050.png)
 
 <!-- references -->
-[Build Status]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/build-status.png
-[Test Coverage]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/coverage.png
+[Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
+[Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
+
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
