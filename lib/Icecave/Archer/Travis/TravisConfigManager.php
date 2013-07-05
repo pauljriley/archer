@@ -1,31 +1,43 @@
 <?php
 namespace Icecave\Archer\Travis;
 
+use Composer\Package\LinkConstraint\VersionConstraint;
+use Composer\Package\Version\VersionParser;
 use Icecave\Archer\Configuration\ConfigurationFileFinder;
+use Icecave\Archer\Configuration\ComposerConfigurationReader;
 use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\Support\Isolator;
 
 class TravisConfigManager
 {
     /**
-     * @param FileSystem|null              $fileSystem
-     * @param ConfigurationFileFinder|null $fileFinder
-     * @param Isolator|null                $isolator
+     * @param FileSystem|null                  $fileSystem
+     * @param ConfigurationFileFinder|null     $fileFinder
+     * @param ComposerConfigurationReader|null $composerConfigReader
+     * @param Isolator|null                    $isolator
      */
     public function __construct(
         FileSystem $fileSystem = null,
         ConfigurationFileFinder $fileFinder = null,
+        ComposerConfigurationReader $composerConfigReader = null,
         Isolator $isolator = null
     ) {
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
         }
+
         if (null === $fileFinder) {
             $fileFinder = new ConfigurationFileFinder;
         }
 
+        if (null === $composerConfigReader) {
+            $composerConfigReader = new ComposerConfigurationReader;
+        }
+
         $this->fileSystem = $fileSystem;
         $this->fileFinder = $fileFinder;
+        $this->composerConfigReader = $composerConfigReader;
+        $this->versionParser = new VersionParser;
         $this->isolator = Isolator::get($isolator);
     }
 
@@ -43,6 +55,14 @@ class TravisConfigManager
     public function fileFinder()
     {
         return $this->fileFinder;
+    }
+
+    /**
+     * @return ComposerConfigurationReader
+     */
+    public function composerConfigReader()
+    {
+        return $this->composerConfigReader;
     }
 
     /**
@@ -148,6 +168,9 @@ class TravisConfigManager
             $tokenEnvironment = '';
         }
 
+        $phpVersions = $this->phpVersions($packageRoot);
+        $phpVersions = '["' . implode('", "', $phpVersions) . '"]';
+
         // Re-build travis.yml.
         $template = $this->fileSystem()->read(
             $this->findTemplatePath($archerPackageRoot, $packageRoot, $secureEnvironment !== null)
@@ -155,7 +178,11 @@ class TravisConfigManager
 
         $this->fileSystem()->write(
             sprintf('%s/.travis.yml', $packageRoot),
-            str_replace('{token-env}', $tokenEnvironment, $template)
+            str_replace(
+                array('{token-env}', '{php-versions}'),
+                array($tokenEnvironment, $phpVersions),
+                $template
+            )
         );
 
         // Return true if artifact publication is enabled.
@@ -219,7 +246,45 @@ class TravisConfigManager
         return 'travis.tpl.yml';
     }
 
+    protected function phpVersions($packageRoot)
+    {
+        $availableVersions = array(
+            '5.3',
+            '5.4',
+            '5.5',
+        );
+
+        $config = $this->composerConfigReader->read($packageRoot);
+
+        // If there is no constraint specified in the composer
+        // configuration then use all available versions.
+        if (!isset($config->require->php)) {
+            return $availableVersions;
+        }
+
+        // Parse the constraint ...
+        $constraint = $this->versionParser->parseConstraints($config->require->php);
+        $filteredVersions = array();
+
+        // Check each available version against the constraint ...
+        foreach ($availableVersions as $version) {
+            $provider = new VersionConstraint('=', $this->versionParser->normalize($version));
+            if ($constraint->matches($provider)) {
+                $filteredVersions[] = $version;
+            }
+        }
+
+        // No matches were found, use the latest version that travis supports ...
+        if (0 === count($filteredVersions)) {
+            return array_slice($availableVersions, -1);
+        }
+
+        return $filteredVersions;
+    }
+
     private $fileSystem;
     private $fileFinder;
+    private $composerConfigReader;
+    private $versionParser;
     private $isolator;
 }
