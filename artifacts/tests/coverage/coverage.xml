@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1373068799">
-  <project timestamp="1373068799">
+<coverage generated="1373069413">
+  <project timestamp="1373069413">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -1513,6 +1513,47 @@
         <metrics loc="97" ncloc="83" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="26" elements="30" coveredelements="30"/>
       </file>
     </package>
+    <package name="Icecave\Archer\Support\Composer\Package\LinkConstraint">
+      <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Composer/Package/LinkConstraint/EmptyConstraint.php">
+        <class name="EmptyConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
+          <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="4" coveredelements="0"/>
+        </class>
+        <metrics loc="48" ncloc="32" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+      <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Composer/Package/LinkConstraint/MultiConstraint.php">
+        <class name="MultiConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
+          <metrics methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="5" coveredelements="0"/>
+        </class>
+        <metrics loc="84" ncloc="61" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+      <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Composer/Package/LinkConstraint/SpecificConstraint.php">
+        <class name="SpecificConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
+          <metrics methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="3" coveredelements="0"/>
+        </class>
+        <line num="56" type="stmt" count="0"/>
+        <metrics loc="55" ncloc="31" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+      <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Composer/Package/LinkConstraint/VersionConstraint.php">
+        <class name="VersionConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
+          <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="4" coveredelements="0"/>
+        </class>
+        <line num="102" type="stmt" count="0"/>
+        <metrics loc="101" ncloc="61" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+    </package>
+    <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Composer/Package/LinkConstraint/LinkConstraintInterface.php">
+      <line num="27" type="stmt" count="0"/>
+      <metrics loc="26" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <package name="Icecave\Archer\Support\Composer\Package\Version">
+      <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Composer/Package/Version/VersionParser.php">
+        <class name="VersionParser" namespace="Icecave\Archer\Support\Composer\Package\Version">
+          <metrics methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="7" coveredelements="0"/>
+        </class>
+        <line num="353" type="stmt" count="0"/>
+        <metrics loc="352" ncloc="295" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+    </package>
     <package name="Icecave\Archer\Support\Liftoff\Exception">
       <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Support/Liftoff/Exception/LaunchException.php">
         <class name="LaunchException" namespace="Icecave\Archer\Support\Liftoff\Exception">
@@ -1753,6 +1794,6 @@
         <metrics loc="290" ncloc="197" classes="1" methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="98" coveredstatements="98" elements="112" coveredelements="112"/>
       </file>
     </package>
-    <metrics files="32" loc="3606" ncloc="2815" classes="32" methods="187" coveredmethods="180" conditionals="0" coveredconditionals="0" statements="1306" coveredstatements="1258" elements="1493" coveredelements="1438"/>
+    <metrics files="38" loc="4272" ncloc="3307" classes="37" methods="187" coveredmethods="180" conditionals="0" coveredconditionals="0" statements="1306" coveredstatements="1258" elements="1493" coveredelements="1438"/>
   </project>
 </coverage>

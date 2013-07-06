@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Icecave\Archer\Support\Composer\Package\Version\VersionParser | Archer API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Archer API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../../../Icecave/Archer/Support/Composer/Package/Version.html">Icecave\Archer\Support\Composer\Package\Version</a>\VersionParser</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>VersionParser</strong></p>
+
+            <div class="description">
+            <p>Version parser</p>
+            <p></p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>STABILITY_STABLE</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>STABILITY_RC</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>STABILITY_BETA</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>STABILITY_ALPHA</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>STABILITY_DEV</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_stabilities">
+                    static                                        
+                </td>
+                <td>$stabilities</td>
+                <td class="last"></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_parseStability">parseStability</a>(string $version)
+                    <p>Returns the stability of a version</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;
+                </td>
+                <td class="last">
+                    <a href="#method_normalizeStability">normalizeStability</a>($stability)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_normalize">normalize</a>(string $version, string $fullVersion = null)
+                    <p>Normalizes a version string to be able to perform comparisons on it</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_normalizeBranch">normalizeBranch</a>(string $name)
+                    <p>Normalizes a branch name to be able to perform comparisons on it</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Composer\Package\LinkConstraint\LinkConstraintInterface">LinkConstraintInterface</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_parseConstraints">parseConstraints</a>(string $constraints)
+                    <p>Parses as constraint string into LinkConstraint objects</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_parseStability">
+        <div class="location">at line 49</div>
+        <code>        static    public            string
+    <strong>parseStability</strong>(string $version)</code>
+    </h3>
+    <div class="details">
+        <p>Returns the stability of a version</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$version</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_normalizeStability">
+        <div class="location">at line 77</div>
+        <code>        static    public            
+    <strong>normalizeStability</strong>($stability)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$stability</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_normalize">
+        <div class="location">at line 91</div>
+        <code>            public            array
+    <strong>normalize</strong>(string $version, string $fullVersion = null)</code>
+    </h3>
+    <div class="details">
+        <p>Normalizes a version string to be able to perform comparisons on it</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$version</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$fullVersion</td>
+                <td>optional complete version string to give more context</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_normalizeBranch">
+        <div class="location">at line 163</div>
+        <code>            public            array
+    <strong>normalizeBranch</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Normalizes a branch name to be able to perform comparisons on it</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_parseConstraints">
+        <div class="location">at line 189</div>
+        <code>            public            <abbr title="Composer\Package\LinkConstraint\LinkConstraintInterface">LinkConstraintInterface</abbr>
+    <strong>parseConstraints</strong>(string $constraints)</code>
+    </h3>
+    <div class="details">
+        <p>Parses as constraint string into LinkConstraint objects</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$constraints</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Composer\Package\LinkConstraint\LinkConstraintInterface">LinkConstraintInterface</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
