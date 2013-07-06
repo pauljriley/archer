@@ -43,7 +43,7 @@ provides the following benefits:
 Add [icecave/archer](https://packagist.org/packages/icecave/archer) to the project's `composer.json` file as a
 development dependency:
 
-    composer require icecave/archer:~0.5 --dev
+    composer require icecave/archer:~1 --dev
 
 This will create a new `composer.json` file if it does not exist, and update all dependencies. The `archer`
 executable should now be available at `vendor/bin/archer`:
@@ -269,7 +269,7 @@ display this information effectively.
 <!-- references -->
 [Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
 [Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
-[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=0.5.0&color=green
+[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.0-alpha.1&color=yellow
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration

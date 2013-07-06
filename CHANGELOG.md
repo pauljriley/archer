@@ -1,8 +1,10 @@
 # Archer Changelog
 
-### Next version (unreleased)
+### 1.0.0-alpha.1 (TBD)
 
-* **[NEW]** Integration with [Coveralls](https://coveralls.io/) for hosted test coverage reports.
+* **[NEW]** Integration with [Coveralls](https://coveralls.io/) for hosted test coverage reports
+* **[NEW]** `--open` option on `coverage` and `documentation` commands automatically opens generated content in browser
+* **[IMPROVED]** `update` command now uses PHP version constraint in `composer.json` to limit Travis CI builds to supported versions
 
 ### 0.5.0 (2013-06-24)
 
@@ -15,7 +17,7 @@
 
 ### 0.4.1 (2013-05-29)
 
-* **[IMPROVED]** API documentation title generated from the namespace name instead of the composer package name.
+* **[IMPROVED]** API documentation title generated from the namespace name instead of the Composer package name.
 * **[IMPROVED]** API documentation menu opens to the project's root namespace level by default.
 
 ### 0.4.0 (2013-05-27)
@@ -31,7 +33,7 @@
 ### 0.3.0 (2013-03-27)
 
 * **[NEW]** Added JUnit XML reporting to PHPUnit configuration
-* **[IMPROVED]** Disabled notify-on-install in composer configuration (prevents inflated installation numbers on packagist)
+* **[IMPROVED]** Disabled notify-on-install in Composer configuration (prevents inflated installation numbers on packagist)
 
 ### 0.2.1 (2013-02-26)
 
