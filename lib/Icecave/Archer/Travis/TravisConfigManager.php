@@ -1,11 +1,11 @@
 <?php
 namespace Icecave\Archer\Travis;
 
-use Composer\Package\LinkConstraint\VersionConstraint;
-use Composer\Package\Version\VersionParser;
-use Icecave\Archer\Configuration\ConfigurationFileFinder;
 use Icecave\Archer\Configuration\ComposerConfigurationReader;
+use Icecave\Archer\Configuration\ConfigurationFileFinder;
 use Icecave\Archer\FileSystem\FileSystem;
+use Icecave\Archer\Support\Composer\Package\LinkConstraint\VersionConstraint;
+use Icecave\Archer\Support\Composer\Package\Version\VersionParser;
 use Icecave\Archer\Support\Isolator;
 
 class TravisConfigManager
