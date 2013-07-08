@@ -1,7 +1,12 @@
 #!/bin/bash
 
 if [ -z $ARCHER_TOKEN ]; then
-    phpunit
+    if [[ $TRAVIS_PHP_VERSION == "5.4" ]]; then
+        phpunit -c ./phpunit.coverage.xml
+        ./vendor/bin/coveralls
+    else
+        phpunit
+    fi
 else
     ARCHER_PUBLISH_VERSION=$TRAVIS_PHP_VERSION ./bin/archer travis:build
 fi

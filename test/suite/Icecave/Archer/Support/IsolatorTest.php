@@ -21,6 +21,13 @@ class IsolatorTest extends PHPUnit_Framework_TestCase
         $this->assertSame($singleton, Isolator::get(null));
     }
 
+    public function testClassName()
+    {
+        $isolator = Isolator::get();
+
+        $this->assertSame(get_class($isolator), Isolator::className());
+    }
+
     public function testCall()
     {
         $isolator = new Isolator;

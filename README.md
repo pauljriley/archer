@@ -1,7 +1,8 @@
 # Archer
 
-[![Build Status]](http://travis-ci.org/IcecaveStudios/archer)
-[![Test Coverage]](http://icecavestudios.github.io/archer/artifacts/tests/coverage)
+[![Build Status]](https://travis-ci.org/IcecaveStudios/archer)
+[![Test Coverage]](https://coveralls.io/r/IcecaveStudios/archer?branch=develop)
+[![SemVer]](http://semver.org)
 
 **Archer** is a library for standardizing PHP unit testing, continuous integration, and documentation behavior across
 multiple projects using a [convention-over-configuration] approach. It brings together several high-quality libraries to
@@ -16,6 +17,7 @@ provides the following benefits:
 * Configuration-free generation of [API documentation](#api-documentation) using [Sami].
 * Automated [configuration](#automated-configuration) of repository and [Travis CI].
 * [Build artifact publication](#build-artifact-publication) to project [GitHub Pages].
+* Configuration-free integration with [Coveralls] for excellent test coverage metrics.
 
 ## Requirements
 
@@ -41,7 +43,7 @@ provides the following benefits:
 Add [icecave/archer](https://packagist.org/packages/icecave/archer) to the project's `composer.json` file as a
 development dependency:
 
-    composer require icecave/archer:~0.5 --dev
+    composer require icecave/archer:~1 --dev
 
 This will create a new `composer.json` file if it does not exist, and update all dependencies. The `archer`
 executable should now be available at `vendor/bin/archer`:
@@ -162,6 +164,11 @@ Generating code coverage report in HTML format ... done
 
 For a live example see the [test coverage report](http://icecavestudios.github.io/chrono/artifacts/tests/coverage/) for [Chrono].
 
+#### Coveralls integration
+
+**Archer** provides support for [Coveralls]. There is nothing to configure; simply enable Coveralls support for the
+project, and **Archer** will publish test coverage information to Coveralls when a build occurs on [Travis CI].
+
 ## API documentation
 
 API documentation provides a useful addition to any project's overall documentation strategy. Static, searchable API
@@ -260,12 +267,14 @@ display this information effectively.
 - ![50% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/test-coverage/test-coverage-050.png)
 
 <!-- references -->
-[Build Status]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/build-status.png
-[Test Coverage]: https://raw.github.com/IcecaveStudios/archer/gh-pages/artifacts/images/icecave/regular/coverage.png
+[Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
+[Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
+[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.0-alpha.1&color=yellow
 
-[composer]: http://getcomposer.org
+[composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
-[github pages]: http://pages.github.com
+[coveralls]: https://coveralls.io/
+[github pages]: http://pages.github.com/
 [github default branch]: https://help.github.com/articles/setting-the-default-branch-for-a-repository
 [openssl]: http://php.net/openssl
 [pathogen]: https://github.com/eloquent/pathogen
@@ -275,8 +284,8 @@ display this information effectively.
 [psr-0]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
 [sami]: https://github.com/fabpot/Sami
 [chrono]: https://github.com/IcecaveStudios/chrono
-[travis ci]: https://travis-ci.org
+[travis ci]: https://travis-ci.org/
 [woodhouse]: https://github.com/IcecaveStudios/woodhouse
-[xdebug]: http://xdebug.org
+[xdebug]: http://xdebug.org/
 [ezzatron]: https://github.com/ezzatron
 [ci-status-images]: https://github.com/ezzatron/ci-status-images
