@@ -1,6 +1,6 @@
 # Archer Changelog
 
-### 1.0.0-alpha.1 (TBD)
+### 1.0.0-alpha.1 (2013-07-08)
 
 * **[NEW]** Integration with [Coveralls](https://coveralls.io/) for hosted test coverage reports
 * **[NEW]** `--open` option on `coverage` and `documentation` commands automatically opens generated content in browser
