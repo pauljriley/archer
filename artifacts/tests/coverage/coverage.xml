@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1373245359">
-  <project timestamp="1373245359">
+<coverage generated="1374895040">
+  <project timestamp="1374895040">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/lib/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -1678,26 +1678,26 @@
         <class name="TravisConfigManager" namespace="Icecave\Archer\Travis">
           <metrics methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="98" coveredstatements="98" elements="112" coveredelements="112"/>
         </class>
-        <line num="19" type="method" name="__construct" crap="4" count="16"/>
-        <line num="25" type="stmt" count="16"/>
+        <line num="19" type="method" name="__construct" crap="4" count="17"/>
+        <line num="25" type="stmt" count="17"/>
         <line num="26" type="stmt" count="1"/>
         <line num="27" type="stmt" count="1"/>
-        <line num="29" type="stmt" count="16"/>
+        <line num="29" type="stmt" count="17"/>
         <line num="30" type="stmt" count="1"/>
         <line num="31" type="stmt" count="1"/>
-        <line num="33" type="stmt" count="16"/>
+        <line num="33" type="stmt" count="17"/>
         <line num="34" type="stmt" count="1"/>
         <line num="35" type="stmt" count="1"/>
-        <line num="37" type="stmt" count="16"/>
-        <line num="38" type="stmt" count="16"/>
-        <line num="39" type="stmt" count="16"/>
-        <line num="40" type="stmt" count="16"/>
-        <line num="41" type="stmt" count="16"/>
-        <line num="42" type="stmt" count="16"/>
-        <line num="47" type="method" name="fileSystem" crap="1" count="16"/>
-        <line num="49" type="stmt" count="16"/>
-        <line num="55" type="method" name="fileFinder" crap="1" count="6"/>
-        <line num="57" type="stmt" count="6"/>
+        <line num="37" type="stmt" count="17"/>
+        <line num="38" type="stmt" count="17"/>
+        <line num="39" type="stmt" count="17"/>
+        <line num="40" type="stmt" count="17"/>
+        <line num="41" type="stmt" count="17"/>
+        <line num="42" type="stmt" count="17"/>
+        <line num="47" type="method" name="fileSystem" crap="1" count="17"/>
+        <line num="49" type="stmt" count="17"/>
+        <line num="55" type="method" name="fileFinder" crap="1" count="7"/>
+        <line num="57" type="stmt" count="7"/>
         <line num="63" type="method" name="composerConfigReader" crap="1" count="2"/>
         <line num="65" type="stmt" count="2"/>
         <line num="73" type="method" name="publicKeyCache" crap="2" count="5"/>
@@ -1714,11 +1714,11 @@
         <line num="102" type="stmt" count="1"/>
         <line num="103" type="stmt" count="1"/>
         <line num="106" type="stmt" count="2"/>
-        <line num="114" type="method" name="secureEnvironmentCache" crap="2" count="9"/>
-        <line num="116" type="stmt" count="9"/>
-        <line num="117" type="stmt" count="9"/>
+        <line num="114" type="method" name="secureEnvironmentCache" crap="2" count="10"/>
+        <line num="116" type="stmt" count="10"/>
+        <line num="117" type="stmt" count="10"/>
         <line num="118" type="stmt" count="4"/>
-        <line num="121" type="stmt" count="5"/>
+        <line num="121" type="stmt" count="6"/>
         <line num="130" type="method" name="setSecureEnvironmentCache" crap="3" count="3"/>
         <line num="132" type="stmt" count="3"/>
         <line num="135" type="stmt" count="3"/>
@@ -1728,68 +1728,68 @@
         <line num="143" type="stmt" count="1"/>
         <line num="144" type="stmt" count="1"/>
         <line num="147" type="stmt" count="2"/>
-        <line num="156" type="method" name="updateConfig" crap="2" count="4"/>
-        <line num="158" type="stmt" count="4"/>
-        <line num="159" type="stmt" count="4"/>
-        <line num="160" type="stmt" count="4"/>
-        <line num="161" type="stmt" count="4"/>
-        <line num="163" type="stmt" count="4"/>
-        <line num="165" type="stmt" count="4"/>
+        <line num="156" type="method" name="updateConfig" crap="2" count="5"/>
+        <line num="158" type="stmt" count="5"/>
+        <line num="159" type="stmt" count="5"/>
+        <line num="160" type="stmt" count="5"/>
+        <line num="161" type="stmt" count="5"/>
+        <line num="163" type="stmt" count="5"/>
+        <line num="165" type="stmt" count="5"/>
         <line num="166" type="stmt" count="1"/>
         <line num="167" type="stmt" count="1"/>
-        <line num="168" type="stmt" count="3"/>
-        <line num="171" type="stmt" count="4"/>
-        <line num="172" type="stmt" count="4"/>
-        <line num="175" type="stmt" count="4"/>
-        <line num="176" type="stmt" count="4"/>
-        <line num="177" type="stmt" count="4"/>
-        <line num="179" type="stmt" count="4"/>
-        <line num="180" type="stmt" count="4"/>
-        <line num="181" type="stmt" count="4"/>
-        <line num="182" type="stmt" count="4"/>
-        <line num="183" type="stmt" count="4"/>
-        <line num="185" type="stmt" count="4"/>
-        <line num="186" type="stmt" count="4"/>
-        <line num="189" type="stmt" count="4"/>
-        <line num="199" type="method" name="findTemplatePath" crap="1" count="4"/>
-        <line num="201" type="stmt" count="4"/>
-        <line num="202" type="stmt" count="4"/>
-        <line num="203" type="stmt" count="4"/>
-        <line num="204" type="stmt" count="4"/>
-        <line num="213" type="method" name="candidateTemplatePaths" crap="1" count="4"/>
-        <line num="216" type="stmt" count="4"/>
-        <line num="217" type="stmt" count="4"/>
-        <line num="218" type="stmt" count="4"/>
-        <line num="219" type="stmt" count="4"/>
-        <line num="220" type="stmt" count="4"/>
-        <line num="221" type="stmt" count="4"/>
-        <line num="230" type="method" name="defaultTemplatePath" crap="1" count="4"/>
-        <line num="232" type="stmt" count="4"/>
-        <line num="233" type="stmt" count="4"/>
-        <line num="234" type="stmt" count="4"/>
-        <line num="235" type="stmt" count="4"/>
-        <line num="236" type="stmt" count="4"/>
-        <line num="244" type="method" name="templateFilename" crap="1" count="4"/>
-        <line num="246" type="stmt" count="4"/>
-        <line num="249" type="method" name="phpVersions" crap="5" count="4"/>
-        <line num="252" type="stmt" count="4"/>
-        <line num="253" type="stmt" count="4"/>
-        <line num="254" type="stmt" count="4"/>
-        <line num="255" type="stmt" count="4"/>
-        <line num="257" type="stmt" count="4"/>
-        <line num="261" type="stmt" count="4"/>
+        <line num="168" type="stmt" count="4"/>
+        <line num="171" type="stmt" count="5"/>
+        <line num="172" type="stmt" count="5"/>
+        <line num="175" type="stmt" count="5"/>
+        <line num="176" type="stmt" count="5"/>
+        <line num="177" type="stmt" count="5"/>
+        <line num="179" type="stmt" count="5"/>
+        <line num="180" type="stmt" count="5"/>
+        <line num="181" type="stmt" count="5"/>
+        <line num="182" type="stmt" count="5"/>
+        <line num="183" type="stmt" count="5"/>
+        <line num="185" type="stmt" count="5"/>
+        <line num="186" type="stmt" count="5"/>
+        <line num="189" type="stmt" count="5"/>
+        <line num="199" type="method" name="findTemplatePath" crap="1" count="5"/>
+        <line num="201" type="stmt" count="5"/>
+        <line num="202" type="stmt" count="5"/>
+        <line num="203" type="stmt" count="5"/>
+        <line num="204" type="stmt" count="5"/>
+        <line num="213" type="method" name="candidateTemplatePaths" crap="1" count="5"/>
+        <line num="216" type="stmt" count="5"/>
+        <line num="217" type="stmt" count="5"/>
+        <line num="218" type="stmt" count="5"/>
+        <line num="219" type="stmt" count="5"/>
+        <line num="220" type="stmt" count="5"/>
+        <line num="221" type="stmt" count="5"/>
+        <line num="230" type="method" name="defaultTemplatePath" crap="1" count="5"/>
+        <line num="232" type="stmt" count="5"/>
+        <line num="233" type="stmt" count="5"/>
+        <line num="234" type="stmt" count="5"/>
+        <line num="235" type="stmt" count="5"/>
+        <line num="236" type="stmt" count="5"/>
+        <line num="244" type="method" name="templateFilename" crap="1" count="5"/>
+        <line num="246" type="stmt" count="5"/>
+        <line num="249" type="method" name="phpVersions" crap="5" count="5"/>
+        <line num="252" type="stmt" count="5"/>
+        <line num="253" type="stmt" count="5"/>
+        <line num="254" type="stmt" count="5"/>
+        <line num="255" type="stmt" count="5"/>
+        <line num="257" type="stmt" count="5"/>
+        <line num="261" type="stmt" count="5"/>
         <line num="262" type="stmt" count="2"/>
-        <line num="266" type="stmt" count="2"/>
-        <line num="267" type="stmt" count="2"/>
-        <line num="270" type="stmt" count="2"/>
-        <line num="271" type="stmt" count="2"/>
-        <line num="272" type="stmt" count="2"/>
-        <line num="273" type="stmt" count="1"/>
-        <line num="274" type="stmt" count="1"/>
-        <line num="275" type="stmt" count="2"/>
-        <line num="278" type="stmt" count="2"/>
+        <line num="266" type="stmt" count="3"/>
+        <line num="267" type="stmt" count="3"/>
+        <line num="270" type="stmt" count="3"/>
+        <line num="271" type="stmt" count="3"/>
+        <line num="272" type="stmt" count="3"/>
+        <line num="273" type="stmt" count="2"/>
+        <line num="274" type="stmt" count="2"/>
+        <line num="275" type="stmt" count="3"/>
+        <line num="278" type="stmt" count="3"/>
         <line num="279" type="stmt" count="1"/>
-        <line num="282" type="stmt" count="1"/>
+        <line num="282" type="stmt" count="2"/>
         <line num="291" type="stmt" count="0"/>
         <metrics loc="290" ncloc="197" classes="1" methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="98" coveredstatements="98" elements="112" coveredelements="112"/>
       </file>

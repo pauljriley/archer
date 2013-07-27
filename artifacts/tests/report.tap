@@ -208,5 +208,6 @@ ok 206 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironment
 ok 207 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfig
 ok 208 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigWithOAuth
 ok 209 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraint
-ok 210 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintNoMatches
-1..210
+ok 210 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintWithPatchVersion
+ok 211 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintNoMatches
+1..211
