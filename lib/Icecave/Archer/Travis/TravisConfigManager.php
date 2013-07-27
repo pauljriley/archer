@@ -268,7 +268,7 @@ class TravisConfigManager
 
         // Check each available version against the constraint ...
         foreach ($availableVersions as $version) {
-            $provider = new VersionConstraint('=', $this->versionParser->normalize($version));
+            $provider = new VersionConstraint('=', $this->versionParser->normalize($version . '.' . PHP_INT_MAX));
             if ($constraint->matches($provider)) {
                 $filteredVersions[] = $version;
             }
