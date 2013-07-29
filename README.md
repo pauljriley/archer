@@ -269,7 +269,7 @@ display this information effectively.
 <!-- references -->
 [Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
 [Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
-[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.0-alpha.1&color=yellow
+[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.0-alpha.2&color=yellow
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
