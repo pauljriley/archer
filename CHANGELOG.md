@@ -1,5 +1,10 @@
 # Archer Changelog
 
+### 1.0.0-alpha.2 (2013-07-30)
+
+* **[IMPROVED]** Travis CI installation script now runs `composer self-update` before installing dependencies
+* **[FIXED]** Minor PHP version constraints are now checked correctly when building Travis CI configuration file
+
 ### 1.0.0-alpha.1 (2013-07-08)
 
 * **[NEW]** Integration with [Coveralls](https://coveralls.io/) for hosted test coverage reports
