@@ -290,6 +290,34 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
         Phake::verify($this->fileSystem)->write('/path/to/project/.travis.yml', '<template content: ["5.4", "5.5"]>');
     }
 
+    /**
+     * @group regression
+     * @link https://github.com/IcecaveStudios/archer/issues/62
+     */
+    public function testUpdateConfigPhpVersionConstraintWithPatchVersion()
+    {
+        $config = new stdClass;
+        $config->require = new stdClass;
+        $config->require->php = '>=5.3.3';
+
+        Phake::when($this->composerConfigReader)
+            ->read(Phake::anyParameters())
+            ->thenReturn($config);
+
+        Phake::when($this->fileFinder)
+            ->find(Phake::anyParameters())
+            ->thenReturn('/real/path/to/template');
+
+        Phake::when($this->fileSystem)
+            ->read(Phake::anyParameters())
+            ->thenReturn('<template content: {php-versions}>');
+
+        $result = $this->manager->updateConfig('/path/to/archer', '/path/to/project');
+
+        Phake::verify($this->composerConfigReader)->read('/path/to/project');
+        Phake::verify($this->fileSystem)->write('/path/to/project/.travis.yml', '<template content: ["5.3", "5.4", "5.5"]>');
+    }
+
     public function testUpdateConfigPhpVersionConstraintNoMatches()
     {
         $config = new stdClass;
