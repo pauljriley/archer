@@ -34,7 +34,7 @@ provides the following benefits:
 **Archer** expects projects to be laid out using the directory structure below:
 
     .                # Project / git root
-    ├── lib/         # PHP source files (can alternatively be named 'src')
+    ├── src/         # PHP source files
     └── test/
         └── suite/   # PHPUnit test suite
 
@@ -118,7 +118,7 @@ For this reason it is the recommended mocking system.
 #### Autoloading of test fixture classes
 
 For some tests a test-double is not suitable and a fixture class needs to be used. For this reason, **Archer** will, at
-test time only, autoload any classes that follow the [PSR-0] standard from the `test/lib` (or `test/src`) directory, in
+test time only, autoload any classes that follow the [PSR-0] standard from the `test/src` directory, in
 addition the classes normally loaded by Composer.
 
 ## Test coverage reports

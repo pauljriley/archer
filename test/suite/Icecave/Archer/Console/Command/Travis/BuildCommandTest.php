@@ -15,7 +15,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $this->githubClient = Phake::mock('Icecave\Archer\GitHub\GitHubClient');
         $this->coverallsClient = Phake::mock('Icecave\Archer\Coveralls\CoverallsClient');
-        $this->coverallsConfigManager = Phake::mock('Icecave\Archer\Coveralls\CoverallsConfigManager');
         $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
 
         $this->application = new Application('/path/to/archer');
@@ -23,7 +22,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $this->command = new BuildCommand(
             $this->githubClient,
             $this->coverallsClient,
-            $this->coverallsConfigManager,
             $this->isolator
         );
 
@@ -61,7 +59,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame($this->githubClient, $this->command->githubClient());
         $this->assertSame($this->coverallsClient, $this->command->coverallsClient());
-        $this->assertSame($this->coverallsConfigManager, $this->command->coverallsConfigManager());
     }
 
     public function testConstructorDefaults()
@@ -72,13 +69,10 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             'Icecave\Archer\GitHub\GitHubClient',
             $this->command->githubClient()
         );
+
         $this->assertInstanceOf(
             'Icecave\Archer\Coveralls\CoverallsClient',
             $this->command->coverallsClient()
-        );
-        $this->assertInstanceOf(
-            'Icecave\Archer\Coveralls\CoverallsConfigManager',
-            $this->command->coverallsConfigManager()
         );
     }
 
@@ -290,7 +284,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
         $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
+        $expectedCoverallsCommand .= " '/path/to/archer/res/coveralls/coveralls.yml'";
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
@@ -308,10 +302,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
             ->thenReturn(true);
-
-        Phake::when($this->coverallsConfigManager)
-            ->createConfig(Phake::anyParameters())
-            ->thenReturn('/path/to/coveralls.yml');
 
         Phake::when($this->isolator)
             ->getenv('TRAVIS_PHP_VERSION')
@@ -496,7 +486,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
         $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
+        $expectedCoverallsCommand .= " '/path/to/archer/res/coveralls/coveralls.yml'";
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
@@ -514,10 +504,6 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
             ->thenReturn(true);
-
-        Phake::when($this->coverallsConfigManager)
-            ->createConfig(Phake::anyParameters())
-            ->thenReturn('/path/to/coveralls.yml');
 
         Phake::when($this->isolator)
             ->getenv('TRAVIS_PHP_VERSION')
@@ -575,15 +561,11 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
 
         $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/coveralls.yml'";
+        $expectedCoverallsCommand .= " '/path/to/archer/res/coveralls/coveralls.yml'";
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
             ->thenReturn(true);
-
-        Phake::when($this->coverallsConfigManager)
-            ->createConfig(Phake::anyParameters())
-            ->thenReturn('/path/to/coveralls.yml');
 
         Phake::when($this->isolator)
             ->getenv('TRAVIS_PHP_VERSION')

@@ -16,11 +16,9 @@ if (class_exists('Phake')) {
 }
 
 // Add an autoloader for test fixtures, if required ...
-foreach (array('lib', 'src') as $path) {
-    $projectTestFixturePath = $rootPath . '/test/' . $path;
-    if (is_dir($projectTestFixturePath)) {
-        $autoloader->add('', array($projectTestFixturePath));
-    }
+$projectTestFixturePath = $rootPath . '/test/src';
+if (is_dir($projectTestFixturePath)) {
+    $autoloader->add('', array($projectTestFixturePath));
 }
 
 // Include a project-specific bootstrap file, if present ...

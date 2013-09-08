@@ -2,7 +2,6 @@
 namespace Icecave\Archer\Console\Command\Travis;
 
 use Icecave\Archer\Coveralls\CoverallsClient;
-use Icecave\Archer\Coveralls\CoverallsConfigManager;
 use Icecave\Archer\Support\Isolator;
 use Icecave\Archer\GitHub\GitHubClient;
 use Symfony\Component\Console\Application;
@@ -16,22 +15,18 @@ class BuildCommand extends AbstractTravisCommand
     public function __construct(
         GitHubClient $githubClient = null,
         CoverallsClient $coverallsClient = null,
-        CoverallsConfigManager $coverallsConfigManager = null,
         Isolator $isolator = null
     ) {
         if (null === $githubClient) {
             $githubClient = new GitHubClient;
         }
+
         if (null === $coverallsClient) {
             $coverallsClient = new CoverallsClient;
-        }
-        if (null === $coverallsConfigManager) {
-            $coverallsConfigManager = new CoverallsConfigManager;
         }
 
         $this->githubClient = $githubClient;
         $this->coverallsClient = $coverallsClient;
-        $this->coverallsConfigManager = $coverallsConfigManager;
 
         parent::__construct($isolator);
     }
@@ -50,14 +45,6 @@ class BuildCommand extends AbstractTravisCommand
     public function coverallsClient()
     {
         return $this->coverallsClient;
-    }
-
-    /**
-     * @return CoverallsConfigManager
-     */
-    public function coverallsConfigManager()
-    {
-        return $this->coverallsConfigManager;
     }
 
     /**
@@ -132,10 +119,6 @@ class BuildCommand extends AbstractTravisCommand
 
         $coverallsExitCode = 0;
         if ($publishCoveralls) {
-            $coverallsConfigPath = $this
-                ->coverallsConfigManager()
-                ->createConfig($archerRoot, $packageRoot);
-
             $output->write('Publishing Coveralls data... ');
 
             $coverallsExitCode = 255;
@@ -143,7 +126,7 @@ class BuildCommand extends AbstractTravisCommand
                 sprintf(
                     '%s/vendor/bin/coveralls --config %s',
                     $packageRoot,
-                    escapeshellarg($coverallsConfigPath)
+                    escapeshellarg($archerRoot . '/res/coveralls/coveralls.yml')
                 ),
                 $coverallsExitCode
             );
@@ -203,5 +186,4 @@ class BuildCommand extends AbstractTravisCommand
 
     private $githubClient;
     private $coverallsClient;
-    private $coverallsConfigManager;
 }
