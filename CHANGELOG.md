@@ -6,6 +6,7 @@
 * **[BC]** Test coverage artifacts are only published if Coveralls support is disabled
 * **[BC]** Archer no longer publishes build status images (use Travis CI dynamic images instead)
 * **[NEW]** Added INI directives to enable PHP 5.5 opcode cache while running tests
+* **[IMPROVED]** Coverage badges now use the 'buckler' theme
 
 ### 1.0.0-alpha.2 (2013-07-30)
 
