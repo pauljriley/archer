@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1378613653">
-  <project timestamp="1378613653">
+<coverage generated="1378614233">
+  <project timestamp="1378614233">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
