@@ -43,8 +43,6 @@
 
     <filter>
         <whitelist>
-            <directory>../../../../../lib</directory>
-            <directory>../../../../../lib-internal</directory>
             <directory>../../../../../src</directory>
             <directory>../../../../../src-internal</directory>
         </whitelist>

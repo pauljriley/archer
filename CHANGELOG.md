@@ -1,5 +1,12 @@
 # Archer Changelog
 
+### 1.0.0-alpha.3 (2013-09-08)
+
+* **[BC]** Removed support for 'lib' folders for consistency, 'src' is now the only supported folder for source and test fixtures
+* **[BC]** Test coverage artifacts are only published if Coveralls support is disabled
+* **[BC]** Archer no longer publishes build status images (use Travis CI dynamic images instead)
+* **[NEW]** Added INI directives to enable PHP 5.5 opcode cache while running tests
+
 ### 1.0.0-alpha.2 (2013-07-30)
 
 * **[IMPROVED]** Travis CI installation script now runs `composer self-update` before installing dependencies

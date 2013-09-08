@@ -105,12 +105,7 @@ class DocumentationGenerator
      */
     protected function sourcePath($projectPath)
     {
-        $sourcePath = sprintf('%s/src', $projectPath);
-        if ($this->fileSystem()->directoryExists($sourcePath)) {
-            return $sourcePath;
-        }
-
-        return sprintf('%s/lib', $projectPath);
+        return sprintf('%s/src', $projectPath);
     }
 
     /**

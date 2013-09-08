@@ -20,7 +20,7 @@ class Application extends SymfonyApplication
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
-        parent::__construct('Archer', '1.0.0-alpha.2');
+        parent::__construct('Archer', '1.0.0-alpha.3');
 
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
@@ -39,7 +39,7 @@ class Application extends SymfonyApplication
 
         $this->add(new Command\Internal\UpdateBinariesCommand($fileSystem));
 
-        $this->add(new Command\Travis\BuildCommand(null, null, null, $isolator));
+        $this->add(new Command\Travis\BuildCommand(null, null, $fileSystem, $isolator));
     }
 
     /**

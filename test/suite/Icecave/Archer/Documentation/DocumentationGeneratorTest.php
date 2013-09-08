@@ -37,7 +37,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             ->thenReturn('uniqid');
 
         $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"Vendor\\\\Project\\\\SubProject": "lib"}}}'
+            '{"autoload": {"psr-0": {"Vendor\\\\Project\\\\SubProject": "src"}}}'
         );
         $this->finder = Finder::create();
         $this->sami = Phake::mock('Sami\Sami');
@@ -178,15 +178,6 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testSourcePath()
     {
-        Phake::when($this->fileSystem)
-            ->directoryExists(Phake::anyParameters())
-            ->thenReturn(false)
-            ->thenReturn(true);
-
-        $this->assertSame(
-            'foo/lib',
-            Liberator::liberate($this->generator)->sourcePath('foo')
-        );
         $this->assertSame(
             'foo/src',
             Liberator::liberate($this->generator)->sourcePath('foo')
@@ -196,7 +187,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     public function testProjectNameWithSingleNamespace()
     {
         $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"Project": "lib"}}}'
+            '{"autoload": {"psr-0": {"Project": "src"}}}'
         );
         $generator = Liberator::liberate($this->generator);
 
@@ -222,7 +213,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     public function testOpenedLevelWithSingleNamespace()
     {
         $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"Project": "lib"}}}'
+            '{"autoload": {"psr-0": {"Project": "src"}}}'
         );
         $generator = Liberator::liberate($this->generator);
 
@@ -261,7 +252,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
     public function testOpenedLevelFallbackNamespaceTooShort()
     {
         $this->composerConfiguration = json_decode(
-            '{"autoload": {"psr-0": {"": "lib"}}}'
+            '{"autoload": {"psr-0": {"": "src"}}}'
         );
         $generator = Liberator::liberate($this->generator);
 
