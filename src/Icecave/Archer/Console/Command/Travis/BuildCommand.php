@@ -172,8 +172,7 @@ class BuildCommand extends AbstractTravisCommand
             } else {
                 $command .= ' --coverage-image artifacts/images/coverage.png';
                 $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-                $command .= ' --image-theme travis/variable-width';
-                $command .= ' --image-theme icecave/regular';
+                $command .= ' --image-theme buckler/buckler';
             }
 
             $command = sprintf(

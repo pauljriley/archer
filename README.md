@@ -243,28 +243,13 @@ http://icecavestudios.github.io/chrono/artifacts/tests/coverage/.
 
 Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
-##### Published build status and test coverage badges
+##### Published test coverage badges
 
-To quickly convey information about the quality of a project, **Archer** publishes status 'badges' (or 'shields') that
-can easily be displayed in a project's README.md or other documentation. See the
-[source](https://raw.github.com/IcecaveStudios/chrono/develop/README.md) of Seista's README.md file to see how to
-display this information effectively.
+To quickly convey information about the quality of a project it is often desirable to use 'badges' (or 'shields') that
+can easily be displayed in a project's README.md or other documentation, such as at the top of this document.
 
-**Archer** currently provides status badges in two themes, courtesy of [ezzatron]'s [ci-status-images] project.
-
-###### Example **Icecave** theme build status images
-
-- ![passing](https://raw.github.com/ezzatron/ci-status-images/master/img/icecave/regular/build-status/build-status-passing.png)
-- ![failing](https://raw.github.com/ezzatron/ci-status-images/master/img/icecave/regular/build-status/build-status-failing.png)
-- ![100% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/icecave/regular/test-coverage/test-coverage-100.png)
-- ![50% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/icecave/regular/test-coverage/test-coverage-050.png)
-
-###### Example **Travis** theme build status images
-
-- ![passing](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/build-status/build-status-passing.png)
-- ![failing](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/build-status/build-status-failing.png)
-- ![100% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/test-coverage/test-coverage-100.png)
-- ![50% test coverage](https://raw.github.com/ezzatron/ci-status-images/master/img/travis/variable-width/test-coverage/test-coverage-050.png)
+Although [Coveralls] provides dynamic badges to convey test coverage information, **Archer** automatically
+publishes a similar badge image when [Coveralls] is not enabled.
 
 <!-- references -->
 [Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop

@@ -167,8 +167,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --verbose';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
+        $expectedWoodhouseCommand .= ' --image-theme buckler/buckler';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -228,8 +227,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --verbose';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
+        $expectedWoodhouseCommand .= ' --image-theme buckler/buckler';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -361,8 +359,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --verbose';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
+        $expectedWoodhouseCommand .= ' --image-theme buckler/buckler';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -422,8 +419,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand .= ' --verbose';
         $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
         $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
+        $expectedWoodhouseCommand .= ' --image-theme buckler/buckler';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
