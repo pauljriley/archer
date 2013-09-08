@@ -284,7 +284,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
         $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/archer/res/coveralls/coveralls.yml'";
+        $expectedCoverallsCommand .= " '/path/to/project/.coveralls.yml'";
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
@@ -345,6 +345,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->output)->writeln('enabled.'),
             Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->copy('/path/to/archer/res/coveralls/coveralls.yml', '/path/to/project/.coveralls.yml'),
             Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
             Phake::verify($this->output)->writeln('done.'),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
@@ -486,7 +487,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
 
         $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/archer/res/coveralls/coveralls.yml'";
+        $expectedCoverallsCommand .= " '/path/to/project/.coveralls.yml'";
 
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
@@ -547,6 +548,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->output)->writeln('enabled.'),
             Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->copy('/path/to/archer/res/coveralls/coveralls.yml', '/path/to/project/.coveralls.yml'),
             Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
             Phake::verify($this->output)->writeln('failed.'),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
@@ -561,7 +563,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';
 
         $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
-        $expectedCoverallsCommand .= " '/path/to/archer/res/coveralls/coveralls.yml'";
+        $expectedCoverallsCommand .= " '/path/to/project/.coveralls.yml'";
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -597,6 +599,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->output)->writeln('enabled.'),
             Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
             Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->copy('/path/to/archer/res/coveralls/coveralls.yml', '/path/to/project/.coveralls.yml'),
             Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
             Phake::verify($this->output)->writeln('failed.')
         );

@@ -120,13 +120,18 @@ class BuildCommand extends AbstractTravisCommand
         $coverallsExitCode = 0;
         if ($publishCoveralls) {
             $output->write('Publishing Coveralls data... ');
+            $coverallsConfigPath = $packageRoot . '/.coveralls.yml';
+
+            if (!$this->isolator->file_exists($coverallsConfigPath)) {
+                $this->isolator->copy($archerRoot . '/res/coveralls/coveralls.yml', $coverallsConfigPath);
+            }
 
             $coverallsExitCode = 255;
             $this->isolator->passthru(
                 sprintf(
                     '%s/vendor/bin/coveralls --config %s',
                     $packageRoot,
-                    escapeshellarg($archerRoot . '/res/coveralls/coveralls.yml')
+                    escapeshellarg($coverallsConfigPath)
                 ),
                 $coverallsExitCode
             );
