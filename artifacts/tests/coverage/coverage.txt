@@ -1,12 +1,12 @@
 
 
 Code Coverage Report 
-  2013-09-08 04:23:53
+  2013-09-08 04:29:00
 
  Summary: 
   Classes: 94.44% (34/36)
   Methods: 96.09% (172/179)
-  Lines:   96.18% (1207/1255)
+  Lines:   96.19% (1211/1259)
 
 \Icecave\Archer\Configuration::ComposerConfigurationReader
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 12/ 12)
@@ -29,7 +29,7 @@ Code Coverage Report
 \Icecave\Archer\Console\Command\Travis::AbstractTravisCommand
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  4/  4)
 \Icecave\Archer\Console\Command\Travis::BuildCommand
-  Methods: 100.00% ( 6/ 6)   Lines: 100.00% (106/106)
+  Methods: 100.00% ( 6/ 6)   Lines: 100.00% (110/110)
 \Icecave\Archer\Console\Helper::HiddenInputHelper
   Methods: 100.00% ( 8/ 8)   Lines: 100.00% ( 46/ 46)
 \Icecave\Archer\Coveralls::CoverallsClient
