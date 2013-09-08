@@ -2,8 +2,9 @@
 namespace Icecave\Archer\Console\Command\Travis;
 
 use Icecave\Archer\Coveralls\CoverallsClient;
-use Icecave\Archer\Support\Isolator;
+use Icecave\Archer\FileSystem\FileSystem;
 use Icecave\Archer\GitHub\GitHubClient;
+use Icecave\Archer\Support\Isolator;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,6 +16,7 @@ class BuildCommand extends AbstractTravisCommand
     public function __construct(
         GitHubClient $githubClient = null,
         CoverallsClient $coverallsClient = null,
+        FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
         if (null === $githubClient) {
@@ -25,8 +27,13 @@ class BuildCommand extends AbstractTravisCommand
             $coverallsClient = new CoverallsClient;
         }
 
+        if (null === $fileSystem) {
+            $fileSystem = new FileSystem;
+        }
+
         $this->githubClient = $githubClient;
         $this->coverallsClient = $coverallsClient;
+        $this->fileSystem = $fileSystem;
 
         parent::__construct($isolator);
     }
@@ -155,15 +162,19 @@ class BuildCommand extends AbstractTravisCommand
             $command .= ' publish %s';
             $command .= ' %s/artifacts:artifacts';
             $command .= ' --message "Publishing artifacts from build %d."';
-            $command .= ' --coverage-image artifacts/images/coverage.png';
-            $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-            $command .= ' --build-status-image artifacts/images/build-status.png';
-            $command .= ' --build-status-tap artifacts/tests/report.tap';
             $command .= ' --auth-token-env ARCHER_TOKEN';
-            $command .= ' --image-theme travis/variable-width';
-            $command .= ' --image-theme icecave/regular';
             $command .= ' --no-interaction';
             $command .= ' --verbose';
+
+            if ($publishCoveralls) {
+                // Remove test artifacts if coveralls is being used ...
+                $this->fileSystem->delete($packageRoot . '/artifacts/tests');
+            } else {
+                $command .= ' --coverage-image artifacts/images/coverage.png';
+                $command .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+                $command .= ' --image-theme travis/variable-width';
+                $command .= ' --image-theme icecave/regular';
+            }
 
             $command = sprintf(
                 $command,
@@ -191,4 +202,5 @@ class BuildCommand extends AbstractTravisCommand
 
     private $githubClient;
     private $coverallsClient;
+    private $fileSystem;
 }

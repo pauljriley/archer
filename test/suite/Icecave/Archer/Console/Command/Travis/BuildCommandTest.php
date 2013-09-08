@@ -15,6 +15,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
 
         $this->githubClient = Phake::mock('Icecave\Archer\GitHub\GitHubClient');
         $this->coverallsClient = Phake::mock('Icecave\Archer\Coveralls\CoverallsClient');
+        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
         $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
 
         $this->application = new Application('/path/to/archer');
@@ -22,6 +23,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $this->command = new BuildCommand(
             $this->githubClient,
             $this->coverallsClient,
+            $this->fileSystem,
             $this->isolator
         );
 
@@ -160,15 +162,13 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
-        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
-        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
-        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -223,15 +223,13 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
-        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
-        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
-        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -289,13 +287,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
-        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
-        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
-        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
 
@@ -349,6 +341,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
             Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
             Phake::verify($this->output)->writeln('done.'),
             Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
+            Phake::verify($this->fileSystem)->delete('/path/to/project/artifacts/tests'),
             Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
         );
 
@@ -363,15 +356,13 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
-        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
-        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
-        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -426,15 +417,13 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
-        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
-        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
-        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
+        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
 
         Phake::when($this->coverallsClient)
             ->exists('Vendor', 'package')
@@ -492,13 +481,7 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
         $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
         $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
-        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
-        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
-        $expectedWoodhouseCommand .= ' --build-status-image artifacts/images/build-status.png';
-        $expectedWoodhouseCommand .= ' --build-status-tap artifacts/tests/report.tap';
         $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
-        $expectedWoodhouseCommand .= ' --image-theme travis/variable-width';
-        $expectedWoodhouseCommand .= ' --image-theme icecave/regular';
         $expectedWoodhouseCommand .= ' --no-interaction';
         $expectedWoodhouseCommand .= ' --verbose';
 
