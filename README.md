@@ -273,5 +273,3 @@ publishes a similar badge image when [Coveralls] is not enabled.
 [travis ci]: https://travis-ci.org/
 [woodhouse]: https://github.com/IcecaveStudios/woodhouse
 [xdebug]: http://xdebug.org/
-[ezzatron]: https://github.com/ezzatron
-[ci-status-images]: https://github.com/ezzatron/ci-status-images
