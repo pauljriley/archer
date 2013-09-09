@@ -24,7 +24,7 @@ provides the following benefits:
 * [PHPUnit] **must** be available in the user's PATH.
 * Projects **must** use [Composer].
 * Projects **must** conform to the [expected project layout](#expected-project-layout).
-* Projects **must** use a PHP namespace with a vendor and project prefix, for example: "Icecave\Archer".
+* Projects **must** use a PHP namespace with a vendor and project prefix, for example `Icecave\Archer`.
 * The [Xdebug] PHP extension is required for [test coverage reports](#test-coverage-reports).
 * The [openssl] PHP extension is required for [build artifact publication](#build-artifact-publication).
 
@@ -255,7 +255,7 @@ publishes a similar badge image when [Coveralls] is not enabled.
 <!-- references -->
 [Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
 [Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
-[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.0-alpha.3&color=yellow
+[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.0&color=green
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
@@ -273,5 +273,3 @@ publishes a similar badge image when [Coveralls] is not enabled.
 [travis ci]: https://travis-ci.org/
 [woodhouse]: https://github.com/IcecaveStudios/woodhouse
 [xdebug]: http://xdebug.org/
-[ezzatron]: https://github.com/ezzatron
-[ci-status-images]: https://github.com/ezzatron/ci-status-images
