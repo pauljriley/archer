@@ -73,6 +73,25 @@ EOD;
         );
     }
 
+    public function testIsGitHubRepository()
+    {
+        $this->assertTrue($this->_reader->isGitHubRepository());
+    }
+
+    public function testIsGitHubRepositoryNonGitHubURL()
+    {
+        $configuration = <<<EOD
+remote.origin.url=derp
+
+EOD;
+        Phake::when($this->_process)
+            ->getOutput(Phake::anyParameters())
+            ->thenReturn($configuration)
+        ;
+
+        $this->assertFalse($this->_reader->isGitHubRepository());
+    }
+
     public function testGet()
     {
         $this->assertSame('Test Ease', $this->_reader->get('user.name'));

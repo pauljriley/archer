@@ -49,6 +49,10 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
 
         $this->_output = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
 
+        Phake::when($this->_configReader)
+            ->isGitHubRepository()
+            ->thenReturn(true);
+
         Phake::when($this->_dotFilesManager)
             ->updateDotFiles(Phake::anyParameters())
             ->thenReturn(array('.gitignore' => true, '.gitattributes' => false));
@@ -147,6 +151,26 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
         Phake::verifyNoInteraction($this->_travisClient);
     }
 
+    public function testExecuteWithNonGitHubRepository()
+    {
+        Phake::when($this->_configReader)
+            ->isGitHubRepository()
+            ->thenReturn(false);
+
+        $input = new StringInput('update /path/to/project');
+
+        $this->_command->run($input, $this->_output);
+
+        Phake::inOrder(
+            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.')
+        );
+
+        Phake::verifyNoInteraction($this->_travisClient);
+        Phake::verifyNoInteraction($this->_travisConfigManager);
+        Phake::verifyNoInteraction($this->_processFactory);
+    }
+
     public function testExecuteWithoutArtifactSupport()
     {
         Phake::when($this->_travisConfigManager)
@@ -178,9 +202,9 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->_command->run($input, $this->_output);
 
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)),
             Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)),
             Phake::verify($this->_configReader)->repositoryOwner(),
             Phake::verify($this->_configReader)->repositoryName(),
             Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
@@ -225,10 +249,10 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->_command->run($input, $this->_output);
 
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)->when($this->contains('github:list-auth'))),
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processBArguments)->when($this->contains('github:create-auth'))),
             Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)->when($this->contains('github:list-auth'))),
+            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processBArguments)->when($this->contains('github:create-auth'))),
             Phake::verify($this->_configReader)->repositoryOwner(),
             Phake::verify($this->_configReader)->repositoryName(),
             Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
@@ -289,9 +313,9 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->_command->run($input, $this->_output);
 
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)),
             Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
             Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)),
             Phake::verify($this->_configReader)->repositoryOwner(),
             Phake::verify($this->_configReader)->repositoryName(),
             Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
