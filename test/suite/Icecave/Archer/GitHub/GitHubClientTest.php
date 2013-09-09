@@ -11,8 +11,8 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->_client = Phake::partialMock(__NAMESPACE__ . '\GitHubClient', $this->_isolator);
+        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
+        $this->client = Phake::partialMock(__NAMESPACE__ . '\GitHubClient', $this->isolator);
     }
 
     public function testValidateToken()
@@ -38,13 +38,13 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
         $response->default_branch = 'branch-name';
         $response->master_branch = 'not-branch-name';
 
-        Phake::when($this->_client)
+        Phake::when($this->client)
             ->apiGet(Phake::anyParameters())
             ->thenReturn($response);
 
-        $this->assertSame('branch-name', $this->_client->defaultBranch('bar', 'baz'));
+        $this->assertSame('branch-name', $this->client->defaultBranch('bar', 'baz'));
 
-        Phake::verify($this->_client)->apiGet('repos/%s/%s', 'bar', 'baz');
+        Phake::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
     }
 
     public function testDefaultBranchUsingMasterBranch()
@@ -52,83 +52,83 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
         $response = new stdClass;
         $response->master_branch = 'branch-name';
 
-        Phake::when($this->_client)
+        Phake::when($this->client)
             ->apiGet(Phake::anyParameters())
             ->thenReturn($response);
 
-        $this->assertSame('branch-name', $this->_client->defaultBranch('bar', 'baz'));
+        $this->assertSame('branch-name', $this->client->defaultBranch('bar', 'baz'));
 
-        Phake::verify($this->_client)->apiGet('repos/%s/%s', 'bar', 'baz');
+        Phake::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
     }
 
     public function testDefaultBranchFallback()
     {
-        Phake::when($this->_client)
+        Phake::when($this->client)
             ->apiGet(Phake::anyParameters())
             ->thenReturn(new stdClass);
 
-        $this->assertSame('master', $this->_client->defaultBranch('bar', 'baz'));
+        $this->assertSame('master', $this->client->defaultBranch('bar', 'baz'));
 
-        Phake::verify($this->_client)->apiGet('repos/%s/%s', 'bar', 'baz');
+        Phake::verify($this->client)->apiGet('repos/%s/%s', 'bar', 'baz');
     }
 
     public function testSetAuthToken()
     {
-        $this->assertNull($this->_client->authToken());
+        $this->assertNull($this->client->authToken());
 
         $token = 'b1a94b90073382b330f601ef198bb0729b0168aa';
 
-        $this->_client->setAuthToken($token);
+        $this->client->setAuthToken($token);
 
-        $this->assertSame($token, $this->_client->authToken());
+        $this->assertSame($token, $this->client->authToken());
     }
 
     public function testSetAuthTokenFailure()
     {
-        $this->assertNull($this->_client->authToken());
+        $this->assertNull($this->client->authToken());
 
         $this->setExpectedException('InvalidArgumentException', 'Invalid auth token.');
-        $this->_client->setAuthToken('invalid-token');
+        $this->client->setAuthToken('invalid-token');
     }
 
     public function testSetUserAgent()
     {
-        $this->assertNull($this->_client->userAgent());
+        $this->assertNull($this->client->userAgent());
 
-        $this->_client->setUserAgent('test-agent');
+        $this->client->setUserAgent('test-agent');
 
-        $this->assertSame('test-agent', $this->_client->userAgent());
+        $this->assertSame('test-agent', $this->client->userAgent());
     }
 
     public function testApiGet()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->file_get_contents(Phake::anyParameters())
             ->thenReturn('{ "result" : true }');
 
-        $response = $this->_client->apiGet('foo/%s', 'bar');
+        $response = $this->client->apiGet('foo/%s', 'bar');
 
         $expected = new stdClass;
         $expected->result = true;
 
         $this->assertEquals($expected, $response);
 
-        Phake::verify($this->_isolator)->file_get_contents('https://api.github.com/foo/bar', false, null);
+        Phake::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, null);
     }
 
     public function testApiGetWithUserAgent()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->file_get_contents(Phake::anyParameters())
             ->thenReturn('{ "result" : true }');
 
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->stream_context_create(Phake::anyParameters())
             ->thenReturn('<context>');
 
-        $this->_client->setUserAgent('test-agent');
+        $this->client->setUserAgent('test-agent');
 
-        $response = $this->_client->apiGet('foo/%s', 'bar');
+        $response = $this->client->apiGet('foo/%s', 'bar');
 
         $expected = new stdClass;
         $expected->result = true;
@@ -141,23 +141,23 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        Phake::verify($this->_isolator)->stream_context_create($contextOptions);
-        Phake::verify($this->_isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
+        Phake::verify($this->isolator)->stream_context_create($contextOptions);
+        Phake::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
     }
 
     public function testApiGetWithAuthToken()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->file_get_contents(Phake::anyParameters())
             ->thenReturn('{ "result" : true }');
 
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->stream_context_create(Phake::anyParameters())
             ->thenReturn('<context>');
 
-        $this->_client->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa');
+        $this->client->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa');
 
-        $response = $this->_client->apiGet('foo/%s', 'bar');
+        $response = $this->client->apiGet('foo/%s', 'bar');
 
         $expected = new stdClass;
         $expected->result = true;
@@ -170,7 +170,7 @@ class GitHubClientTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        Phake::verify($this->_isolator)->stream_context_create($contextOptions);
-        Phake::verify($this->_isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
+        Phake::verify($this->isolator)->stream_context_create($contextOptions);
+        Phake::verify($this->isolator)->file_get_contents('https://api.github.com/foo/bar', false, '<context>');
     }
 }

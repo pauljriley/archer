@@ -10,45 +10,45 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->_fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->_client = new TravisClient(
-            $this->_fileSystem,
-            $this->_isolator
+        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
+        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->client = new TravisClient(
+            $this->fileSystem,
+            $this->isolator
         );
     }
 
     public function testConstructor()
     {
-        $this->assertSame($this->_fileSystem, $this->_client->fileSystem());
+        $this->assertSame($this->fileSystem, $this->client->fileSystem());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_client = new TravisClient;
+        $this->client = new TravisClient;
 
         $this->assertInstanceOf(
             'Icecave\Archer\FileSystem\FileSystem',
-            $this->_client->fileSystem()
+            $this->client->fileSystem()
         );
     }
 
     public function testPublicKey()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->read(Phake::anyParameters())
             ->thenReturn('{"key": "foo"}')
         ;
 
-        $this->assertSame('foo', $this->_client->publicKey('bar', 'baz'));
-        Phake::verify($this->_fileSystem)
+        $this->assertSame('foo', $this->client->publicKey('bar', 'baz'));
+        Phake::verify($this->fileSystem)
             ->read('https://api.travis-ci.org/repos/bar/baz/key')
         ;
     }
 
     public function testEncryptEnvironment()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->openssl_public_encrypt(
                 'ARCHER_TOKEN="bar"',
                 Phake::setReference('baz'),
@@ -56,11 +56,11 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
             )
             ->thenReturn(true)
         ;
-        $actual = $this->_client->encryptEnvironment('RSA PUBLIC KEY foo', 'bar');
+        $actual = $this->client->encryptEnvironment('RSA PUBLIC KEY foo', 'bar');
         $expected = base64_encode('baz');
 
         $this->assertSame($expected, $actual);
-        Phake::verify($this->_isolator)->openssl_public_encrypt(
+        Phake::verify($this->isolator)->openssl_public_encrypt(
             'ARCHER_TOKEN="bar"',
             null,
             'PUBLIC KEY foo'
@@ -69,7 +69,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
 
     public function testEncrypt()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->openssl_public_encrypt(
                 'bar',
                 Phake::setReference('baz'),
@@ -77,11 +77,11 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
             )
             ->thenReturn(true)
         ;
-        $actual = $this->_client->encrypt('RSA PUBLIC KEY foo', 'bar');
+        $actual = $this->client->encrypt('RSA PUBLIC KEY foo', 'bar');
         $expected = base64_encode('baz');
 
         $this->assertSame($expected, $actual);
-        Phake::verify($this->_isolator)->openssl_public_encrypt(
+        Phake::verify($this->isolator)->openssl_public_encrypt(
             'bar',
             null,
             'PUBLIC KEY foo'
@@ -90,7 +90,7 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
 
     public function testEncryptFailure()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->openssl_public_encrypt(Phake::anyParameters())
             ->thenReturn(false)
         ;
@@ -99,6 +99,6 @@ class TravisClientTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Encryption failed.'
         );
-        $this->_client->encrypt('RSA PUBLIC KEY foo', 'bar');
+        $this->client->encrypt('RSA PUBLIC KEY foo', 'bar');
     }
 }

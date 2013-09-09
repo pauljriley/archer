@@ -11,8 +11,8 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_isolator = Phake::mock(__NAMESPACE__ . '\Isolator');
-        $this->_asplode  = new Asplode($this->_isolator);
+        $this->isolator = Phake::mock(__NAMESPACE__ . '\Isolator');
+        $this->asplode  = new Asplode($this->isolator);
     }
 
     public function testInstance()
@@ -22,37 +22,37 @@ class AsplodeTest extends PHPUnit_Framework_TestCase
 
     public function testInstall()
     {
-        $this->_asplode->install();
+        $this->asplode->install();
 
-        Phake::verify($this->_isolator)->set_error_handler(array($this->_asplode, 'handleError'));
+        Phake::verify($this->isolator)->set_error_handler(array($this->asplode, 'handleError'));
     }
 
     public function testInstallFailure()
     {
-        $this->_asplode->install();
+        $this->asplode->install();
 
         $this->setExpectedException('RuntimeException', 'Already installed.');
-        $this->_asplode->install();
+        $this->asplode->install();
     }
 
     public function testUninstall()
     {
-        $this->_asplode->install();
-        $this->_asplode->uninstall();
+        $this->asplode->install();
+        $this->asplode->uninstall();
 
-        Phake::verify($this->_isolator)->restore_error_handler();
+        Phake::verify($this->isolator)->restore_error_handler();
     }
 
     public function testUninstallFailure()
     {
         $this->setExpectedException('RuntimeException', 'Not installed.');
-        $this->_asplode->uninstall();
+        $this->asplode->uninstall();
     }
 
     public function testHandleError()
     {
         try {
-            $this->_asplode->handleError(1, 'Message.', 'foo.php', 20);
+            $this->asplode->handleError(1, 'Message.', 'foo.php', 20);
             $this->fail('Expected exception was not thrown.');
         } catch (ErrorException $e) {
             $this->assertSame(1, $e->getSeverity());

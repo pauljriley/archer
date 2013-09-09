@@ -55,6 +55,17 @@ class GitConfigReader
     }
 
     /**
+     * @return boolean
+     */
+    public function isGitHubRepository()
+    {
+        return 0 !== preg_match(
+            self::GITHUB_URL_PATTERN,
+            $this->get('remote.origin.url', '')
+        );
+    }
+
+    /**
      * @return string
      */
     public function repositoryOwner()
@@ -80,7 +91,7 @@ class GitConfigReader
     protected function parseOriginRepositoryUrl()
     {
         $url = $this->get('remote.origin.url', '');
-        if (!preg_match('{github.com[/:](.+?)/(.+?).git$}i', $url, $matches)) {
+        if (!preg_match(self::GITHUB_URL_PATTERN, $url, $matches)) {
             throw new RuntimeException('Origin URL "' . $url . '" is not a GitHub repository.');
         }
 
@@ -114,6 +125,8 @@ class GitConfigReader
 
         $this->config = $config;
     }
+
+    const GITHUB_URL_PATTERN = '{github.com[/:](.+?)/(.+?).git$}i';
 
     private $repositoryPath;
     private $processFactory;

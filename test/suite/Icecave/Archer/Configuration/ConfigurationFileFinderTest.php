@@ -10,75 +10,75 @@ class ConfigurationFileFinderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->_finder = new ConfigurationFileFinder($this->_fileSystem);
+        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->finder = new ConfigurationFileFinder($this->fileSystem);
     }
 
     public function testConstructor()
     {
-        $this->assertSame($this->_fileSystem, $this->_finder->fileSystem());
+        $this->assertSame($this->fileSystem, $this->finder->fileSystem());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_finder = new ConfigurationFileFinder;
+        $this->finder = new ConfigurationFileFinder;
 
         $this->assertInstanceOf(
             'Icecave\Archer\FileSystem\FileSystem',
-            $this->_finder->fileSystem()
+            $this->finder->fileSystem()
         );
     }
 
     public function testFindFirst()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->fileExists(Phake::anyParameters())
             ->thenReturn(true)
         ;
-        $actual = $this->_finder->find(
+        $actual = $this->finder->find(
             array('foo', 'bar'),
             'baz'
         );
 
         $this->assertSame('foo', $actual);
-        Phake::verify($this->_fileSystem)->fileExists('foo');
-        Phake::verify($this->_fileSystem, Phake::never())->fileExists('bar');
+        Phake::verify($this->fileSystem)->fileExists('foo');
+        Phake::verify($this->fileSystem, Phake::never())->fileExists('bar');
     }
 
     public function testFindLast()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->fileExists(Phake::anyParameters())
             ->thenReturn(false)
             ->thenReturn(true)
         ;
-        $actual = $this->_finder->find(
+        $actual = $this->finder->find(
             array('foo', 'bar'),
             'baz'
         );
 
         $this->assertSame('bar', $actual);
         Phake::inOrder(
-            Phake::verify($this->_fileSystem)->fileExists('foo'),
-            Phake::verify($this->_fileSystem)->fileExists('bar')
+            Phake::verify($this->fileSystem)->fileExists('foo'),
+            Phake::verify($this->fileSystem)->fileExists('bar')
         );
     }
 
     public function testFindDefault()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->fileExists(Phake::anyParameters())
             ->thenReturn(false)
         ;
-        $actual = $this->_finder->find(
+        $actual = $this->finder->find(
             array('foo', 'bar'),
             'baz'
         );
 
         $this->assertSame('baz', $actual);
         Phake::inOrder(
-            Phake::verify($this->_fileSystem)->fileExists('foo'),
-            Phake::verify($this->_fileSystem)->fileExists('bar')
+            Phake::verify($this->fileSystem)->fileExists('foo'),
+            Phake::verify($this->fileSystem)->fileExists('bar')
         );
     }
 }

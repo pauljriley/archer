@@ -11,39 +11,39 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_executableFinder = Phake::mock(
+        $this->executableFinder = Phake::mock(
             'Symfony\Component\Process\ExecutableFinder'
         );
-        $this->_processFactory = Phake::mock(
+        $this->processFactory = Phake::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->_isolator = Phake::mock(
+        $this->isolator = Phake::mock(
             'Icecave\Archer\Support\Isolator'
         );
-        $this->_finder = new PHPUnitExecutableFinder(
-            $this->_executableFinder,
-            $this->_processFactory,
-            $this->_isolator
+        $this->finder = new PHPUnitExecutableFinder(
+            $this->executableFinder,
+            $this->processFactory,
+            $this->isolator
         );
     }
 
     public function testConstructor()
     {
-        $this->assertSame($this->_executableFinder, $this->_finder->executableFinder());
-        $this->assertSame($this->_processFactory, $this->_finder->processFactory());
+        $this->assertSame($this->executableFinder, $this->finder->executableFinder());
+        $this->assertSame($this->processFactory, $this->finder->processFactory());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_finder = new PHPUnitExecutableFinder;
+        $this->finder = new PHPUnitExecutableFinder;
 
         $this->assertInstanceOf(
             'Symfony\Component\Process\ExecutableFinder',
-            $this->_finder->executableFinder()
+            $this->finder->executableFinder()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Process\ProcessFactory',
-            $this->_finder->processFactory()
+            $this->finder->processFactory()
         );
     }
 
@@ -51,28 +51,28 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
     {
         $server = $_SERVER;
         unset($_SERVER['TRAVIS']);
-        Phake::when($this->_executableFinder)
+        Phake::when($this->executableFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('foo')
         ;
-        $actual = $this->_finder->find();
+        $actual = $this->finder->find();
         $_SERVER = $server;
 
         $this->assertSame('foo', $actual);
-        Phake::verify($this->_executableFinder)->find('phpunit');
+        Phake::verify($this->executableFinder)->find('phpunit');
     }
 
     public function testFindGenericFailure()
     {
         $server = $_SERVER;
         unset($_SERVER['TRAVIS']);
-        Phake::when($this->_executableFinder)
+        Phake::when($this->executableFinder)
             ->find(Phake::anyParameters())
             ->thenReturn(null)
         ;
         $error = null;
         try {
-            $this->_finder->find();
+            $this->finder->find();
         } catch (RuntimeException $error) {
         }
         $_SERVER = $server;
@@ -86,7 +86,7 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         $server = $_SERVER;
         $_SERVER['TRAVIS'] = 'true';
         $process = Phake::mock('Symfony\Component\Process\Process');
-        Phake::when($this->_processFactory)
+        Phake::when($this->processFactory)
             ->create(Phake::anyParameters())
             ->thenReturn($process)
         ;
@@ -98,12 +98,12 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
             ->getOutput(Phake::anyParameters())
             ->thenReturn('foo')
         ;
-        $actual = $this->_finder->find();
+        $actual = $this->finder->find();
         $_SERVER = $server;
 
         $this->assertSame('foo', $actual);
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->create('rbenv', 'which', 'phpunit'),
+            Phake::verify($this->processFactory)->create('rbenv', 'which', 'phpunit'),
             Phake::verify($process)->isSuccessful(),
             Phake::verify($process)->getOutput()
         );
@@ -114,11 +114,11 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         $server = $_SERVER;
         $_SERVER['TRAVIS'] = 'true';
         $process = Phake::mock('Symfony\Component\Process\Process');
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->getenv(Phake::anyParameters())
             ->thenReturn('true')
         ;
-        Phake::when($this->_processFactory)
+        Phake::when($this->processFactory)
             ->create(Phake::anyParameters())
             ->thenReturn($process)
         ;
@@ -132,7 +132,7 @@ class PHPUnitExecutableFinderTest extends PHPUnit_Framework_TestCase
         ;
         $error = null;
         try {
-            $this->_finder->find();
+            $this->finder->find();
         } catch (RuntimeException $error) {
         }
         $_SERVER = $server;

@@ -1,11 +1,16 @@
 # Archer Changelog
 
+### 1.0.0 (2013-09-09)
+
+* **[FIXED]** The update command no longer fails when run against a non-GitHub repository (however only dotfile updates are supported)
+
 ### 1.0.0-alpha.3 (2013-09-08)
 
 * **[BC]** Removed support for 'lib' folders for consistency, 'src' is now the only supported folder for source and test fixtures
 * **[BC]** Test coverage artifacts are only published if Coveralls support is disabled
 * **[BC]** Archer no longer publishes build status images (use Travis CI dynamic images instead)
 * **[NEW]** Added INI directives to enable PHP 5.5 opcode cache while running tests
+* **[IMPROVED]** Coverage badges now use the 'buckler' theme
 
 ### 1.0.0-alpha.2 (2013-07-30)
 

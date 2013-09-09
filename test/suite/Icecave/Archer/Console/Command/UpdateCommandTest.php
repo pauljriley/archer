@@ -13,116 +13,120 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_dotFilesManager      = Phake::mock('Icecave\Archer\Git\GitDotFilesManager');
-        $this->_configReader         = Phake::mock('Icecave\Archer\Git\GitConfigReader');
-        $this->_configReaderFactory  = Phake::mock('Icecave\Archer\Git\GitConfigReaderFactory');
-        $this->_travisClient         = Phake::mock('Icecave\Archer\Travis\TravisClient');
-        $this->_travisConfigManager  = Phake::mock('Icecave\Archer\Travis\TravisConfigManager');
-        $this->_processA             = Phake::mock('Symfony\Component\Process\Process');
-        $this->_processB             = Phake::mock('Symfony\Component\Process\Process');
-        $this->_processFactory       = Phake::mock('Icecave\Archer\Process\ProcessFactory');
+        $this->dotFilesManager      = Phake::mock('Icecave\Archer\Git\GitDotFilesManager');
+        $this->configReader         = Phake::mock('Icecave\Archer\Git\GitConfigReader');
+        $this->configReaderFactory  = Phake::mock('Icecave\Archer\Git\GitConfigReaderFactory');
+        $this->travisClient         = Phake::mock('Icecave\Archer\Travis\TravisClient');
+        $this->travisConfigManager  = Phake::mock('Icecave\Archer\Travis\TravisConfigManager');
+        $this->processA             = Phake::mock('Symfony\Component\Process\Process');
+        $this->processB             = Phake::mock('Symfony\Component\Process\Process');
+        $this->processFactory       = Phake::mock('Icecave\Archer\Process\ProcessFactory');
 
-        $this->_application = new Application('/path/to/archer');
+        $this->application = new Application('/path/to/archer');
 
-        $this->_helperSet = Phake::mock('Symfony\Component\Console\Helper\HelperSet');
-        $this->_dialogHelper = Phake::mock('Symfony\Component\Console\Helper\DialogHelper');
-        $this->_hiddenInputHelper = Phake::mock('Icecave\Archer\Console\Helper\HiddenInputHelper');
-        Phake::when($this->_helperSet)
+        $this->helperSet = Phake::mock('Symfony\Component\Console\Helper\HelperSet');
+        $this->dialogHelper = Phake::mock('Symfony\Component\Console\Helper\DialogHelper');
+        $this->hiddenInputHelper = Phake::mock('Icecave\Archer\Console\Helper\HiddenInputHelper');
+        Phake::when($this->helperSet)
             ->get('dialog')
-            ->thenReturn($this->_dialogHelper)
+            ->thenReturn($this->dialogHelper)
         ;
-        Phake::when($this->_helperSet)
+        Phake::when($this->helperSet)
             ->get('hidden-input')
-            ->thenReturn($this->_hiddenInputHelper)
+            ->thenReturn($this->hiddenInputHelper)
         ;
 
-        $this->_command = new UpdateCommand(
-            $this->_dotFilesManager,
-            $this->_configReaderFactory,
-            $this->_travisClient,
-            $this->_travisConfigManager,
-            $this->_processFactory
+        $this->command = new UpdateCommand(
+            $this->dotFilesManager,
+            $this->configReaderFactory,
+            $this->travisClient,
+            $this->travisConfigManager,
+            $this->processFactory
         );
 
-        $this->_command->setApplication($this->_application);
-        $this->_command->setHelperSet($this->_helperSet);
+        $this->command->setApplication($this->application);
+        $this->command->setHelperSet($this->helperSet);
 
-        $this->_output = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
+        $this->output = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
 
-        Phake::when($this->_dotFilesManager)
+        Phake::when($this->configReader)
+            ->isGitHubRepository()
+            ->thenReturn(true);
+
+        Phake::when($this->dotFilesManager)
             ->updateDotFiles(Phake::anyParameters())
             ->thenReturn(array('.gitignore' => true, '.gitattributes' => false));
 
-        Phake::when($this->_configReaderFactory)
+        Phake::when($this->configReaderFactory)
             ->create(Phake::anyParameters())
-            ->thenReturn($this->_configReader);
+            ->thenReturn($this->configReader);
 
-        Phake::when($this->_configReader)
+        Phake::when($this->configReader)
             ->repositoryOwner()
             ->thenReturn('owner');
 
-        Phake::when($this->_configReader)
+        Phake::when($this->configReader)
             ->repositoryName()
             ->thenReturn('repo-name');
 
-        Phake::when($this->_travisConfigManager)
+        Phake::when($this->travisConfigManager)
             ->updateConfig(Phake::anyParameters())
             ->thenReturn(true);
 
-        Phake::when($this->_travisClient)
+        Phake::when($this->travisClient)
             ->publicKey(Phake::anyParameters())
             ->thenReturn('<key data>');
 
-        Phake::when($this->_travisClient)
+        Phake::when($this->travisClient)
             ->encryptEnvironment(Phake::anyParameters())
             ->thenReturn('<env data>');
 
-        Phake::when($this->_processFactory)
+        Phake::when($this->processFactory)
             ->createFromArray(Phake::anyParameters())
-            ->thenReturn($this->_processA)
-            ->thenReturn($this->_processB);
+            ->thenReturn($this->processA)
+            ->thenReturn($this->processB);
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->isSuccessful(Phake::anyParameters())
             ->thenReturn(true);
 
-        Phake::when($this->_processB)
+        Phake::when($this->processB)
             ->isSuccessful(Phake::anyParameters())
             ->thenReturn(true);
     }
 
     public function testConstructor()
     {
-        $this->assertSame($this->_dotFilesManager, $this->_command->dotFilesManager());
-        $this->assertSame($this->_configReaderFactory, $this->_command->configReaderFactory());
-        $this->assertSame($this->_travisClient, $this->_command->travisClient());
-        $this->assertSame($this->_travisConfigManager, $this->_command->travisConfigManager());
-        $this->assertSame($this->_processFactory, $this->_command->processFactory());
+        $this->assertSame($this->dotFilesManager, $this->command->dotFilesManager());
+        $this->assertSame($this->configReaderFactory, $this->command->configReaderFactory());
+        $this->assertSame($this->travisClient, $this->command->travisClient());
+        $this->assertSame($this->travisConfigManager, $this->command->travisConfigManager());
+        $this->assertSame($this->processFactory, $this->command->processFactory());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_command = new UpdateCommand;
+        $this->command = new UpdateCommand;
 
         $this->assertInstanceOf(
             'Icecave\Archer\Git\GitDotFilesManager',
-            $this->_command->dotFilesManager()
+            $this->command->dotFilesManager()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Git\GitConfigReaderFactory',
-            $this->_command->configReaderFactory()
+            $this->command->configReaderFactory()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Travis\TravisClient',
-            $this->_command->travisClient()
+            $this->command->travisClient()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Travis\TravisConfigManager',
-            $this->_command->travisConfigManager()
+            $this->command->travisConfigManager()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Process\ProcessFactory',
-            $this->_command->processFactory()
+            $this->command->processFactory()
         );
     }
 
@@ -130,70 +134,90 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update /path/to/project');
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
 
-        Phake::verifyNoInteraction($this->_travisClient);
+        Phake::verifyNoInteraction($this->travisClient);
+    }
+
+    public function testExecuteWithNonGitHubRepository()
+    {
+        Phake::when($this->configReader)
+            ->isGitHubRepository()
+            ->thenReturn(false);
+
+        $input = new StringInput('update /path/to/project');
+
+        $this->command->run($input, $this->output);
+
+        Phake::inOrder(
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.')
+        );
+
+        Phake::verifyNoInteraction($this->travisClient);
+        Phake::verifyNoInteraction($this->travisConfigManager);
+        Phake::verifyNoInteraction($this->processFactory);
     }
 
     public function testExecuteWithoutArtifactSupport()
     {
-        Phake::when($this->_travisConfigManager)
+        Phake::when($this->travisConfigManager)
             ->updateConfig(Phake::anyParameters())
             ->thenReturn(false);
 
         $input = new StringInput('update /path/to/project');
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('<comment>Artifact publication is not available as no GitHub OAuth token has been configured.</comment>'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.')
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('<comment>Artifact publication is not available as no GitHub OAuth token has been configured.</comment>'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.')
         );
 
-        Phake::verifyNoInteraction($this->_travisClient);
+        Phake::verifyNoInteraction($this->travisClient);
     }
 
     public function testExecuteWithAuthorizeExistingToken()
     {
         $input = new StringInput('update --authorize --username foo --password bar /path/to/project');
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->getOutput(Phake::anyParameters())
             ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n")
         ;
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)),
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
-            Phake::verify($this->_travisClient)->publicKey('owner', 'repo-name'),
-            Phake::verify($this->_travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
-            Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
-            Phake::verify($this->_travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
-            Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->processFactory)->createFromArray(Phake::capture($processAArguments)),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
+            Phake::verify($this->travisClient)->publicKey('owner', 'repo-name'),
+            Phake::verify($this->travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
+            Phake::verify($this->output)->writeln('Encrypting OAuth token.'),
+            Phake::verify($this->travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
         $this->assertSame(array(
             '/path/to/archer/bin/woodhouse',
@@ -213,35 +237,35 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update --authorize --username foo --password bar /path/to/project');
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->getOutput(Phake::anyParameters())
             ->thenReturn("\n")
         ;
-        Phake::when($this->_processB)
+        Phake::when($this->processB)
             ->getOutput(Phake::anyParameters())
             ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n")
         ;
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)->when($this->contains('github:list-auth'))),
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processBArguments)->when($this->contains('github:create-auth'))),
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
-            Phake::verify($this->_travisClient)->publicKey('owner', 'repo-name'),
-            Phake::verify($this->_travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
-            Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
-            Phake::verify($this->_travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
-            Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->processFactory)->createFromArray(Phake::capture($processAArguments)->when($this->contains('github:list-auth'))),
+            Phake::verify($this->processFactory)->createFromArray(Phake::capture($processBArguments)->when($this->contains('github:create-auth'))),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
+            Phake::verify($this->travisClient)->publicKey('owner', 'repo-name'),
+            Phake::verify($this->travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
+            Phake::verify($this->output)->writeln('Encrypting OAuth token.'),
+            Phake::verify($this->travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
         $this->assertSame(array(
             '/path/to/archer/bin/woodhouse',
@@ -273,38 +297,38 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update --authorize /path/to/project');
 
-        Phake::when($this->_dialogHelper)
+        Phake::when($this->dialogHelper)
             ->ask(Phake::anyParameters())
             ->thenReturn('foo')
         ;
-        Phake::when($this->_hiddenInputHelper)
+        Phake::when($this->hiddenInputHelper)
             ->askHiddenResponse(Phake::anyParameters())
             ->thenReturn('bar')
         ;
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->getOutput(Phake::anyParameters())
             ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n")
         ;
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_processFactory)->createFromArray(Phake::capture($processAArguments)),
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
-            Phake::verify($this->_travisClient)->publicKey('owner', 'repo-name'),
-            Phake::verify($this->_travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
-            Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
-            Phake::verify($this->_travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
-            Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->processFactory)->createFromArray(Phake::capture($processAArguments)),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
+            Phake::verify($this->travisClient)->publicKey('owner', 'repo-name'),
+            Phake::verify($this->travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
+            Phake::verify($this->output)->writeln('Encrypting OAuth token.'),
+            Phake::verify($this->travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
         $this->assertSame(array(
             '/path/to/archer/bin/woodhouse',
@@ -324,7 +348,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update --authorize --username foo --password bar /path/to/project');
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->getOutput(Phake::anyParameters())
             ->thenReturn(
                 "1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [repo] https://github.com/IcecaveStudios/archer\n" .
@@ -336,14 +360,14 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Mutiple Archer GitHub authorizations found. Delete redundant authorizations before continuing.'
         );
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
     }
 
     public function testExecuteWithAuthorizeFailureIncorrectScope()
     {
         $input = new StringInput('update --authorize --username foo --password bar /path/to/project');
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->getOutput(Phake::anyParameters())
             ->thenReturn("1584201: b1a94b90073382b330f601ef198bb0729b0168aa Archer (API) [user, repo] https://github.com/IcecaveStudios/archer\n")
         ;
@@ -352,14 +376,14 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Archer GitHub authorization has incorrect scope. Expected [repo], but actual token scope is [user, repo].'
         );
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
     }
 
     public function testExecuteWithAuthorizeFailureParseError()
     {
         $input = new StringInput('update --authorize --username foo --password bar /path/to/project');
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->getOutput(Phake::anyParameters())
             ->thenReturn('baz')
         ;
@@ -368,14 +392,14 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Unable to parse authorization token.'
         );
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
     }
 
     public function testExecuteWithAuthorizeFailureWoodhouseError()
     {
         $input = new StringInput('update --authorize --username foo --password bar /path/to/project');
 
-        Phake::when($this->_processA)
+        Phake::when($this->processA)
             ->isSuccessful(Phake::anyParameters())
             ->thenReturn(false)
         ;
@@ -384,57 +408,57 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Failed to execute authorization management command (github:list-auth).'
         );
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
     }
 
     public function testExecuteWithSuppliedToken()
     {
         $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa /path/to/project');
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
-            Phake::verify($this->_travisClient)->publicKey('owner', 'repo-name'),
-            Phake::verify($this->_travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
-            Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
-            Phake::verify($this->_travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
-            Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
+            Phake::verify($this->travisClient)->publicKey('owner', 'repo-name'),
+            Phake::verify($this->travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
+            Phake::verify($this->output)->writeln('Encrypting OAuth token.'),
+            Phake::verify($this->travisClient)->encryptEnvironment('<key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 
     public function testExecuteWithSuppliedTokenAndExistingKey()
     {
-        Phake::when($this->_travisConfigManager)
+        Phake::when($this->travisConfigManager)
             ->publicKeyCache(Phake::anyParameters())
             ->thenReturn('<cached key data>');
 
         $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa /path/to/project');
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_output)->writeln('Encrypting OAuth token.'),
-            Phake::verify($this->_travisClient)->encryptEnvironment('<cached key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
-            Phake::verify($this->_travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->output)->writeln('Encrypting OAuth token.'),
+            Phake::verify($this->travisClient)->encryptEnvironment('<cached key data>', 'b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->travisConfigManager)->setSecureEnvironmentCache('/path/to/project', '<env data>'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 
@@ -442,21 +466,21 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa --update-public-key /path/to/project');
 
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
 
         Phake::inOrder(
-            Phake::verify($this->_dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.gitignore</info>.'),
-            Phake::verify($this->_configReader)->repositoryOwner(),
-            Phake::verify($this->_configReader)->repositoryName(),
-            Phake::verify($this->_travisConfigManager)->publicKeyCache('/path/to/project'),
-            Phake::verify($this->_output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
-            Phake::verify($this->_travisClient)->publicKey('owner', 'repo-name'),
-            Phake::verify($this->_travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
-            Phake::verify($this->_travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
-            Phake::verify($this->_output)->writeln('Updated <info>.travis.yml</info>.'),
-            Phake::verify($this->_output)->writeln('Configuration updated successfully.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->dotFilesManager)->updateDotFiles('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.gitignore</info>.'),
+            Phake::verify($this->configReader)->repositoryOwner(),
+            Phake::verify($this->configReader)->repositoryName(),
+            Phake::verify($this->travisConfigManager)->publicKeyCache('/path/to/project'),
+            Phake::verify($this->output)->writeln('Fetching public key for <info>owner/repo-name</info>.'),
+            Phake::verify($this->travisClient)->publicKey('owner', 'repo-name'),
+            Phake::verify($this->travisConfigManager)->setPublicKeyCache('/path/to/project', '<key data>'),
+            Phake::verify($this->travisConfigManager)->updateConfig('/path/to/archer', '/path/to/project'),
+            Phake::verify($this->output)->writeln('Updated <info>.travis.yml</info>.'),
+            Phake::verify($this->output)->writeln('Configuration updated successfully.'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 
@@ -464,7 +488,7 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update --auth-token b1a94b90073382b330f601ef198bb0729b0168aa --update-public-key /path/to/project');
 
-        Phake::when($this->_travisClient)
+        Phake::when($this->travisClient)
             ->publicKey(Phake::anyParameters())
             ->thenThrow(new ReadException('foo'));
 
@@ -472,20 +496,20 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Unable to retrieve the public key for repository owner/repo-name. Check that the repository has been synced to Travis CI.'
         );
-        $this->_command->run($input, $this->_output);
+        $this->command->run($input, $this->output);
     }
 
     public function testExecuteWithInvalidToken()
     {
         $input = new StringInput('update --auth-token XXX');
 
-        $exitCode = $this->_command->run($input, $this->_output);
+        $exitCode = $this->command->run($input, $this->output);
 
         $this->assertSame(1, $exitCode);
 
         Phake::inOrder(
-            Phake::verify($this->_output)->writeln('Invalid GitHub OAuth token <comment>"XXX"</comment>.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->output)->writeln('Invalid GitHub OAuth token <comment>"XXX"</comment>.'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 
@@ -493,13 +517,13 @@ class UpdateCommandTest extends PHPUnit_Framework_TestCase
     {
         $input = new StringInput('update --update-public-key');
 
-        $exitCode = $this->_command->run($input, $this->_output);
+        $exitCode = $this->command->run($input, $this->output);
 
         $this->assertSame(1, $exitCode);
 
         Phake::inOrder(
-            Phake::verify($this->_output)->writeln('Can not update public key without --authorize or --auth-token.'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->output)->writeln('Can not update public key without --authorize or --auth-token.'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 }

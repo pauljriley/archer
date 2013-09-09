@@ -148,6 +148,23 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $archerRoot  = $this->getApplication()->packageRoot();
+        $packageRoot = $input->getArgument('path');
+
+        // Update Git dotfiles ...
+        foreach ($this->dotFilesManager()->updateDotFiles($archerRoot, $packageRoot) as $filename => $updated) {
+            if ($updated) {
+                $output->writeln(sprintf('Updated <info>%s</info>.', $filename));
+            }
+        }
+
+        $configReader = $this->configReaderFactory()->create($packageRoot);
+
+        // All the remaining operations are only relevant to GitHub repositories ...
+        if (!$configReader->isGitHubRepository()) {
+            return 0;
+        }
+
         // Fetch the OAuth token if necessary.
         $token = $input->getOption('auth-token');
         if (null === $token && $input->getOption('authorize')) {
@@ -182,18 +199,7 @@ class UpdateCommand extends Command
             return 1;
         }
 
-        $archerRoot  = $this->getApplication()->packageRoot();
-        $packageRoot = $input->getArgument('path');
-
-        // Update Git dotfiles ...
-        foreach ($this->dotFilesManager()->updateDotFiles($archerRoot, $packageRoot) as $filename => $updated) {
-            if ($updated) {
-                $output->writeln(sprintf('Updated <info>%s</info>.', $filename));
-            }
-        }
-
         // Fetch the public key ...
-        $configReader = $this->configReaderFactory()->create($packageRoot);
         $repoOwner    = $configReader->repositoryOwner();
         $repoName     = $configReader->repositoryName();
         $publicKey    = $this->travisConfigManager()->publicKeyCache($packageRoot);

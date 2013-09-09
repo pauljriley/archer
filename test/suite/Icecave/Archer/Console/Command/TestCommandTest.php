@@ -17,48 +17,48 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_fileSystem = Phake::mock(
+        $this->fileSystem = Phake::mock(
             'Icecave\Archer\FileSystem\FileSystem'
         );
-        $this->_phpFinder = Phake::mock(
+        $this->phpFinder = Phake::mock(
             'Symfony\Component\Process\PhpExecutableFinder'
         );
-        $this->_phpunitFinder = Phake::mock(
+        $this->phpunitFinder = Phake::mock(
             'Icecave\Archer\Process\PHPUnitExecutableFinder'
         );
-        $this->_phpConfigurationReader = Phake::mock(
+        $this->phpConfigurationReader = Phake::mock(
             'Icecave\Archer\Configuration\PHPConfigurationReader'
         );
-        $this->_configurationFileFinder = Phake::mock(
+        $this->configurationFileFinder = Phake::mock(
             'Icecave\Archer\Configuration\ConfigurationFileFinder'
         );
-        $this->_processFactory = Phake::mock(
+        $this->processFactory = Phake::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->_command = Phake::partialMock(
+        $this->command = Phake::partialMock(
             __NAMESPACE__ . '\TestCommand',
-            $this->_fileSystem,
-            $this->_phpFinder,
-            $this->_phpunitFinder,
-            $this->_phpConfigurationReader,
-            $this->_configurationFileFinder,
-            $this->_processFactory
+            $this->fileSystem,
+            $this->phpFinder,
+            $this->phpunitFinder,
+            $this->phpConfigurationReader,
+            $this->configurationFileFinder,
+            $this->processFactory
         );
 
-        $this->_application = Phake::mock('Icecave\Archer\Console\Application');
-        $this->_process = Phake::mock('Symfony\Component\Process\Process');
+        $this->application = Phake::mock('Icecave\Archer\Console\Application');
+        $this->process = Phake::mock('Symfony\Component\Process\Process');
 
-        Phake::when($this->_command)
+        Phake::when($this->command)
             ->getApplication(Phake::anyParameters())
-            ->thenReturn($this->_application)
+            ->thenReturn($this->application)
         ;
 
-        Phake::when($this->_application)
+        Phake::when($this->application)
             ->rawArguments(Phake::anyParameters())
             ->thenReturn(array('foo', 'bar'))
         ;
 
-        Phake::when($this->_phpConfigurationReader)
+        Phake::when($this->phpConfigurationReader)
             ->read(Phake::anyParameters())
             ->thenReturn(array(
                 'baz' => 'qux',
@@ -66,70 +66,70 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
             ))
         ;
 
-        Phake::when($this->_configurationFileFinder)
+        Phake::when($this->configurationFileFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('/path/to/phpunit.xml')
         ;
 
-        Phake::when($this->_processFactory)
+        Phake::when($this->processFactory)
             ->createFromArray(Phake::anyParameters())
-            ->thenReturn($this->_process)
+            ->thenReturn($this->process)
         ;
 
-        Phake::when($this->_phpFinder)
+        Phake::when($this->phpFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('/path/to/php')
         ;
 
-        Phake::when($this->_phpunitFinder)
+        Phake::when($this->phpunitFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('/path/to/phpunit')
         ;
 
-        $this->_reflector = new ReflectionObject($this->_command);
-        $this->_executeMethod = $this->_reflector->getMethod('execute');
-        $this->_executeMethod->setAccessible(true);
+        $this->reflector = new ReflectionObject($this->command);
+        $this->executeMethod = $this->reflector->getMethod('execute');
+        $this->executeMethod->setAccessible(true);
 
-        $this->_input = Phake::mock('Symfony\Component\Console\Input\InputInterface');
+        $this->input = Phake::mock('Symfony\Component\Console\Input\InputInterface');
 
         // used for closures
         $that = $this;
 
-        $this->_stdErr = '';
-        $this->_errorOutput = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
-        Phake::when($this->_errorOutput)
+        $this->stdErr = '';
+        $this->errorOutput = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
+        Phake::when($this->errorOutput)
             ->write(Phake::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
-                    $that->_stdErr .= $data;
+                    $that->stdErr .= $data;
                 }
             )
         ;
 
-        $this->_stdOut = '';
-        $this->_output = Phake::mock('Symfony\Component\Console\Output\ConsoleOutputInterface');
-        Phake::when($this->_output)
+        $this->stdOut = '';
+        $this->output = Phake::mock('Symfony\Component\Console\Output\ConsoleOutputInterface');
+        Phake::when($this->output)
             ->write(Phake::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
-                    $that->_stdOut .= $data;
+                    $that->stdOut .= $data;
                 }
             )
         ;
-        Phake::when($this->_output)
+        Phake::when($this->output)
             ->writeln(Phake::anyParameters())
             ->thenGetReturnByLambda(
                 function ($data) use ($that) {
-                    $that->_stdOut .= $data . "\n";
+                    $that->stdOut .= $data . "\n";
                 }
             )
         ;
-        Phake::when($this->_output)
+        Phake::when($this->output)
             ->getErrorOutput(Phake::anyParameters())
-            ->thenReturn($this->_errorOutput)
+            ->thenReturn($this->errorOutput)
         ;
 
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->run(Phake::anyParameters())
             ->thenGetReturnByLambda(
                 function ($callback) {
@@ -151,23 +151,23 @@ class TestCommandTest extends PHPUnit_Framework_TestCase
             'Argument(s) to pass to PHPUnit.'
         ));
 
-        $this->assertSame('test', $this->_command->getName());
+        $this->assertSame('test', $this->command->getName());
         $this->assertSame(
             'Run the test suite for a project.',
-            $this->_command->getDescription()
+            $this->command->getDescription()
         );
         $this->assertEquals(
             $expectedInputDefinition,
-            $this->_command->getDefinition()
+            $this->command->getDefinition()
         );
     }
 
     public function testExecute()
     {
-        $exitCode = $this->_executeMethod->invoke(
-            $this->_command,
-            $this->_input,
-            $this->_output
+        $exitCode = $this->executeMethod->invoke(
+            $this->command,
+            $this->input,
+            $this->output
         );
         $expectedStdout = <<<'EOD'
 <info>Using PHP:</info> /path/to/php
@@ -183,23 +183,23 @@ err
 EOD;
 
         $this->assertSame(111, $exitCode);
-        $this->assertSame($expectedStdout, $this->_stdOut);
-        $this->assertSame($expectedStderr, $this->_stdErr);
+        $this->assertSame($expectedStdout, $this->stdOut);
+        $this->assertSame($expectedStderr, $this->stdErr);
         Phake::inOrder(
-            Phake::verify($this->_phpFinder)->find(),
-            Phake::verify($this->_phpunitFinder)->find(),
-            Phake::verify($this->_phpConfigurationReader)
+            Phake::verify($this->phpFinder)->find(),
+            Phake::verify($this->phpunitFinder)->find(),
+            Phake::verify($this->phpConfigurationReader)
                 ->read(Phake::capture($actualPhpConfigurationPaths)),
-            Phake::verify($this->_configurationFileFinder)->find(
+            Phake::verify($this->configurationFileFinder)->find(
                 Phake::capture($actualPhpunitConfigurationPaths),
                 './vendor/icecave/archer/res/phpunit/phpunit.xml'
             ),
-            Phake::verify($this->_processFactory)
+            Phake::verify($this->processFactory)
                 ->createFromArray(Phake::capture($actualArguments)),
-            Phake::verify($this->_process)->setTimeout(null),
-            Phake::verify($this->_command)->passthru(
-                $this->identicalTo($this->_process),
-                $this->identicalTo($this->_output)
+            Phake::verify($this->process)->setTimeout(null),
+            Phake::verify($this->command)->passthru(
+                $this->identicalTo($this->process),
+                $this->identicalTo($this->output)
             )
         );
         $this->assertSame(array(
