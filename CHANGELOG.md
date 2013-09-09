@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 1.0.0 (2013-09-09)
+
+* **[FIXED]** The update command no longer fails when run against a non-GitHub repository (however only dotfile updates are supported)
+
 ### 1.0.0-alpha.3 (2013-09-08)
 
 * **[BC]** Removed support for 'lib' folders for consistency, 'src' is now the only supported folder for source and test fixtures

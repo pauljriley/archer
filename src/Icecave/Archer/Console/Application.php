@@ -20,7 +20,7 @@ class Application extends SymfonyApplication
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
-        parent::__construct('Archer', '1.0.0-alpha.3');
+        parent::__construct('Archer', '1.0.0');
 
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;
