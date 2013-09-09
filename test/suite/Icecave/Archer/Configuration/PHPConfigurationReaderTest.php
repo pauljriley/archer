@@ -10,95 +10,95 @@ class PHPConfigurationReaderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
-        $this->_isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->_reader = new PHPConfigurationReader(
-            $this->_fileSystem,
-            $this->_isolator
+        $this->fileSystem = Phake::mock('Icecave\Archer\FileSystem\FileSystem');
+        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
+        $this->reader = new PHPConfigurationReader(
+            $this->fileSystem,
+            $this->isolator
         );
     }
 
     public function testConstructor()
     {
-        $this->assertSame($this->_fileSystem, $this->_reader->fileSystem());
+        $this->assertSame($this->fileSystem, $this->reader->fileSystem());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_reader = new PHPConfigurationReader;
+        $this->reader = new PHPConfigurationReader;
 
         $this->assertInstanceOf(
             'Icecave\Archer\FileSystem\FileSystem',
-            $this->_reader->fileSystem()
+            $this->reader->fileSystem()
         );
     }
 
     public function testReadSingle()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->fileExists(Phake::anyParameters())
             ->thenReturn(true)
             ->thenReturn(false)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->parse_ini_file(Phake::anyParameters())
             ->thenReturn(array('foo' => 'bar'))
             ->thenReturn(array('baz' => 'qux'))
         ;
-        $actual = $this->_reader->read(array('doom', 'splat'));
+        $actual = $this->reader->read(array('doom', 'splat'));
         $expected = array('foo' => 'bar');
 
         $this->assertSame($expected, $actual);
         Phake::inOrder(
-            Phake::verify($this->_fileSystem)->fileExists('doom'),
-            Phake::verify($this->_isolator)->parse_ini_file('doom'),
-            Phake::verify($this->_fileSystem)->fileExists('splat')
+            Phake::verify($this->fileSystem)->fileExists('doom'),
+            Phake::verify($this->isolator)->parse_ini_file('doom'),
+            Phake::verify($this->fileSystem)->fileExists('splat')
         );
-        Phake::verify($this->_isolator, Phake::never())->parse_ini_file('splat');
+        Phake::verify($this->isolator, Phake::never())->parse_ini_file('splat');
     }
 
     public function testReadMultiple()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->fileExists(Phake::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->parse_ini_file(Phake::anyParameters())
             ->thenReturn(array('foo' => 'bar'))
             ->thenReturn(array('baz' => 'qux'))
         ;
-        $actual = $this->_reader->read(array('doom', 'splat'));
+        $actual = $this->reader->read(array('doom', 'splat'));
         $expected = array('foo' => 'bar', 'baz' => 'qux');
 
         $this->assertSame($expected, $actual);
         Phake::inOrder(
-            Phake::verify($this->_fileSystem)->fileExists('doom'),
-            Phake::verify($this->_isolator)->parse_ini_file('doom'),
-            Phake::verify($this->_fileSystem)->fileExists('splat'),
-            Phake::verify($this->_isolator)->parse_ini_file('splat')
+            Phake::verify($this->fileSystem)->fileExists('doom'),
+            Phake::verify($this->isolator)->parse_ini_file('doom'),
+            Phake::verify($this->fileSystem)->fileExists('splat'),
+            Phake::verify($this->isolator)->parse_ini_file('splat')
         );
     }
 
     public function testReadNone()
     {
-        Phake::when($this->_fileSystem)
+        Phake::when($this->fileSystem)
             ->fileExists(Phake::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->parse_ini_file(Phake::anyParameters())
             ->thenReturn(array('foo' => 'bar'))
             ->thenReturn(array('baz' => 'qux'))
         ;
-        $actual = $this->_reader->read(array('doom', 'splat'));
+        $actual = $this->reader->read(array('doom', 'splat'));
         $expected = array();
 
         $this->assertSame($expected, $actual);
         Phake::inOrder(
-            Phake::verify($this->_fileSystem)->fileExists('doom'),
-            Phake::verify($this->_fileSystem)->fileExists('splat')
+            Phake::verify($this->fileSystem)->fileExists('doom'),
+            Phake::verify($this->fileSystem)->fileExists('splat')
         );
-        Phake::verify($this->_isolator, Phake::never())->parse_ini_file(Phake::anyParameters());
+        Phake::verify($this->isolator, Phake::never())->parse_ini_file(Phake::anyParameters());
     }
 }

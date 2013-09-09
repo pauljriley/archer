@@ -9,20 +9,20 @@ class AbstractTravisCommandTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $this->_isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->_command  = Phake::partialMock(__NAMESPACE__ . '\AbstractTravisCommand', $this->_isolator, 'travis:abstract');
+        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
+        $this->command  = Phake::partialMock(__NAMESPACE__ . '\AbstractTravisCommand', $this->isolator, 'travis:abstract');
 
         parent::setUp();
     }
 
     public function testIsEnabled()
     {
-        $this->assertFalse($this->_command->isEnabled());
+        $this->assertFalse($this->command->isEnabled());
 
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->getenv('TRAVIS')
             ->thenReturn('true');
 
-        $this->assertTrue($this->_command->isEnabled());
+        $this->assertTrue($this->command->isEnabled());
     }
 }

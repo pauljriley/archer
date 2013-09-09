@@ -11,54 +11,54 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_fileSystem = Phake::mock(
+        $this->fileSystem = Phake::mock(
             'Icecave\Archer\FileSystem\FileSystem'
         );
-        $this->_phpFinder = Phake::mock(
+        $this->phpFinder = Phake::mock(
             'Symfony\Component\Process\PhpExecutableFinder'
         );
-        $this->_phpunitFinder = Phake::mock(
+        $this->phpunitFinder = Phake::mock(
             'Icecave\Archer\Process\PHPUnitExecutableFinder'
         );
-        $this->_phpConfigurationReader = Phake::mock(
+        $this->phpConfigurationReader = Phake::mock(
             'Icecave\Archer\Configuration\PHPConfigurationReader'
         );
-        $this->_configurationFileFinder = Phake::mock(
+        $this->configurationFileFinder = Phake::mock(
             'Icecave\Archer\Configuration\ConfigurationFileFinder'
         );
-        $this->_processFactory = Phake::mock(
+        $this->processFactory = Phake::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->_command = Phake::partialMock(
+        $this->command = Phake::partialMock(
             __NAMESPACE__ . '\AbstractPHPUnitCommand',
-            $this->_fileSystem,
-            $this->_phpFinder,
-            $this->_phpunitFinder,
-            $this->_phpConfigurationReader,
-            $this->_configurationFileFinder,
-            $this->_processFactory,
+            $this->fileSystem,
+            $this->phpFinder,
+            $this->phpunitFinder,
+            $this->phpConfigurationReader,
+            $this->configurationFileFinder,
+            $this->processFactory,
             'cmd'
         );
 
-        $this->_application = Phake::mock('Icecave\Archer\Console\Application');
-        $this->_process = Phake::mock('Symfony\Component\Process\Process');
+        $this->application = Phake::mock('Icecave\Archer\Console\Application');
+        $this->process = Phake::mock('Symfony\Component\Process\Process');
 
-        Phake::when($this->_command)
+        Phake::when($this->command)
             ->getApplication(Phake::anyParameters())
-            ->thenReturn($this->_application)
+            ->thenReturn($this->application)
         ;
 
-        Phake::when($this->_processFactory)
+        Phake::when($this->processFactory)
             ->create(Phake::anyParameters())
-            ->thenReturn($this->_process)
+            ->thenReturn($this->process)
         ;
 
-        Phake::when($this->_phpFinder)
+        Phake::when($this->phpFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('/path/to/php')
         ;
 
-        Phake::when($this->_phpunitFinder)
+        Phake::when($this->phpunitFinder)
             ->find(Phake::anyParameters())
             ->thenReturn('/path/to/phpunit')
         ;
@@ -66,19 +66,19 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        Phake::verify($this->_command)->ignoreValidationErrors();
+        Phake::verify($this->command)->ignoreValidationErrors();
 
-        $this->assertSame($this->_fileSystem, $this->_command->fileSystem());
-        $this->assertSame($this->_phpFinder, $this->_command->phpFinder());
-        $this->assertSame($this->_phpunitFinder, $this->_command->phpunitFinder());
-        $this->assertSame($this->_phpConfigurationReader, $this->_command->phpConfigurationReader());
-        $this->assertSame($this->_configurationFileFinder, $this->_command->configurationFileFinder());
-        $this->assertSame($this->_processFactory, $this->_command->processFactory());
+        $this->assertSame($this->fileSystem, $this->command->fileSystem());
+        $this->assertSame($this->phpFinder, $this->command->phpFinder());
+        $this->assertSame($this->phpunitFinder, $this->command->phpunitFinder());
+        $this->assertSame($this->phpConfigurationReader, $this->command->phpConfigurationReader());
+        $this->assertSame($this->configurationFileFinder, $this->command->configurationFileFinder());
+        $this->assertSame($this->processFactory, $this->command->processFactory());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_command = Phake::partialMock(
+        $this->command = Phake::partialMock(
             __NAMESPACE__ . '\AbstractPHPUnitCommand',
             null,
             null,
@@ -91,33 +91,33 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Icecave\Archer\FileSystem\FileSystem',
-            $this->_command->fileSystem()
+            $this->command->fileSystem()
         );
         $this->assertInstanceOf(
             'Symfony\Component\Process\PhpExecutableFinder',
-            $this->_command->phpFinder()
+            $this->command->phpFinder()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Process\PHPUnitExecutableFinder',
-            $this->_command->phpunitFinder()
+            $this->command->phpunitFinder()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Configuration\PHPConfigurationReader',
-            $this->_command->phpConfigurationReader()
+            $this->command->phpConfigurationReader()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Configuration\ConfigurationFileFinder',
-            $this->_command->configurationFileFinder()
+            $this->command->configurationFileFinder()
         );
         $this->assertInstanceOf(
             'Icecave\Archer\Process\ProcessFactory',
-            $this->_command->processFactory()
+            $this->command->processFactory()
         );
     }
 
     public function testGetHelp()
     {
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->run(Phake::anyParameters())
             ->thenGetReturnByLambda(
                 function ($callback) {
@@ -130,15 +130,15 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
         $expectedHelp .= PHP_EOL;
         $expectedHelp .= '<phpunit help>';
 
-        $result = $this->_command->getHelp();
+        $result = $this->command->getHelp();
 
         $shim = null;
 
         Phake::inOrder(
-            Phake::verify($this->_phpFinder)->find(),
-            Phake::verify($this->_phpunitFinder)->find(),
-            Phake::verify($this->_processFactory)->create('/path/to/php', '/path/to/phpunit', '--help'),
-            Phake::verify($this->_process)->run($this->isInstanceOf('Closure'))
+            Phake::verify($this->phpFinder)->find(),
+            Phake::verify($this->phpunitFinder)->find(),
+            Phake::verify($this->processFactory)->create('/path/to/php', '/path/to/phpunit', '--help'),
+            Phake::verify($this->process)->run($this->isInstanceOf('Closure'))
         );
 
         $this->assertSame($expectedHelp, $result);
@@ -146,19 +146,19 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateArgumentsFiltering()
     {
-        Phake::when($this->_command)
+        Phake::when($this->command)
             ->phpConfigurationArguments()
             ->thenReturn(array());
 
-        Phake::when($this->_command)
+        Phake::when($this->command)
             ->readPHPConfiguration()
             ->thenReturn(array());
 
-        Phake::when($this->_command)
+        Phake::when($this->command)
             ->findPHPUnitConfiguration()
             ->thenReturn('/path/to/config.xml');
 
-        $reflector = new ReflectionObject($this->_command);
+        $reflector = new ReflectionObject($this->command);
         $method = $reflector->getMethod('generateArguments');
         $method->setAccessible(true);
 
@@ -181,7 +181,7 @@ class AbstractPHPUnitCommandTest extends PHPUnit_Framework_TestCase
             '--color'
         );
 
-        $result = $method->invoke($this->_command, '/path/to/php', '/path/to/phpunit', $input);
+        $result = $method->invoke($this->command, '/path/to/php', '/path/to/phpunit', $input);
 
         $this->assertSame($expected, $result);
     }

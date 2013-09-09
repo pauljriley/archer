@@ -9,11 +9,11 @@ class GitConfigReaderFactoryTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_factory = new GitConfigReaderFactory;
+        $this->factory = new GitConfigReaderFactory;
     }
 
     public function testCreate()
     {
-        $this->assertEquals(new GitConfigReader('foo'), $this->_factory->create('foo'));
+        $this->assertEquals(new GitConfigReader('foo'), $this->factory->create('foo'));
     }
 }

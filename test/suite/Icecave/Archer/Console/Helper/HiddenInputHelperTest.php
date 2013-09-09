@@ -11,114 +11,114 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_isolator = Phake::mock('Icecave\Archer\Support\Isolator');
-        $this->_helper = new HiddenInputHelper(
+        $this->isolator = Phake::mock('Icecave\Archer\Support\Isolator');
+        $this->helper = new HiddenInputHelper(
             'foo',
-            $this->_isolator
+            $this->isolator
         );
 
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->sys_get_temp_dir(Phake::anyParameters())
             ->thenReturn('doom')
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->uniqid(Phake::anyParameters())
             ->thenReturn('splat')
         ;
 
-        $this->_output = Phake::mock(
+        $this->output = Phake::mock(
             'Symfony\Component\Console\Output\OutputInterface'
         );
     }
 
     public function testConstructor()
     {
-        $this->assertSame('hidden-input', $this->_helper->getName());
-        $this->assertSame('foo', $this->_helper->hiddenInputPath());
+        $this->assertSame('hidden-input', $this->helper->getName());
+        $this->assertSame('foo', $this->helper->hiddenInputPath());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_helper = new HiddenInputHelper;
+        $this->helper = new HiddenInputHelper;
         $expectedHiddenInputPath = __DIR__;
         for ($i = 0; $i < 6; $i ++) {
             $expectedHiddenInputPath = dirname($expectedHiddenInputPath);
         }
         $expectedHiddenInputPath .= '/src/Icecave/Archer/Console/Helper/../../../../../res/bin/hiddeninput.exe';
 
-        $this->assertSame($expectedHiddenInputPath, $this->_helper->hiddenInputPath());
+        $this->assertSame($expectedHiddenInputPath, $this->helper->hiddenInputPath());
     }
 
     public function testAskHiddenResponseStty()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->defined(Phake::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->shell_exec(Phake::anyParameters())
             ->thenReturn('baz')
             ->thenReturn('')
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->fgets(Phake::anyParameters())
             ->thenReturn('qux')
         ;
-        $actual = $this->_helper->askHiddenResponse($this->_output, 'bar');
+        $actual = $this->helper->askHiddenResponse($this->output, 'bar');
 
         $this->assertSame('qux', $actual);
         Phake::inOrder(
-            Phake::verify($this->_isolator)->defined('PHP_WINDOWS_VERSION_BUILD'),
-            Phake::verify($this->_output)->write('bar'),
-            Phake::verify($this->_isolator)->shell_exec('stty -g'),
-            Phake::verify($this->_isolator)->shell_exec('stty -echo'),
-            Phake::verify($this->_isolator)->fgets(STDIN),
-            Phake::verify($this->_isolator)->shell_exec('stty baz'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->isolator)->defined('PHP_WINDOWS_VERSION_BUILD'),
+            Phake::verify($this->output)->write('bar'),
+            Phake::verify($this->isolator)->shell_exec('stty -g'),
+            Phake::verify($this->isolator)->shell_exec('stty -echo'),
+            Phake::verify($this->isolator)->fgets(STDIN),
+            Phake::verify($this->isolator)->shell_exec('stty baz'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 
     public function testAskHiddenResponseSttyFailureFgets()
     {
         $errorException = Phake::mock('ErrorException');
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->defined(Phake::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->shell_exec(Phake::anyParameters())
             ->thenReturn('baz')
             ->thenReturn('')
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->fgets(Phake::anyParameters())
             ->thenThrow($errorException)
         ;
         $actual = null;
         try {
-            $this->_helper->askHiddenResponse($this->_output, 'bar');
+            $this->helper->askHiddenResponse($this->output, 'bar');
         } catch (RuntimeException $actual) {
         }
         $expected = new RuntimeException('Unable to read response.', 0, $errorException);
 
         $this->assertEquals($expected, $actual);
         Phake::inOrder(
-            Phake::verify($this->_isolator)->defined('PHP_WINDOWS_VERSION_BUILD'),
-            Phake::verify($this->_output)->write('bar'),
-            Phake::verify($this->_isolator)->shell_exec('stty -g'),
-            Phake::verify($this->_isolator)->shell_exec('stty -echo'),
-            Phake::verify($this->_isolator)->fgets(STDIN),
-            Phake::verify($this->_isolator)->shell_exec('stty baz')
+            Phake::verify($this->isolator)->defined('PHP_WINDOWS_VERSION_BUILD'),
+            Phake::verify($this->output)->write('bar'),
+            Phake::verify($this->isolator)->shell_exec('stty -g'),
+            Phake::verify($this->isolator)->shell_exec('stty -echo'),
+            Phake::verify($this->isolator)->fgets(STDIN),
+            Phake::verify($this->isolator)->shell_exec('stty baz')
         );
     }
 
     public function testAskHiddenResponseSttyFailureExecute()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->defined(Phake::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->shell_exec(Phake::anyParameters())
             ->thenReturn(false)
         ;
@@ -127,38 +127,38 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Unable to create or read hidden input dialog.'
         );
-        $this->_helper->askHiddenResponse($this->_output, 'bar');
+        $this->helper->askHiddenResponse($this->output, 'bar');
     }
 
     public function testAskHiddenResponseWindows()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->defined(Phake::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->shell_exec(Phake::anyParameters())
             ->thenReturn('baz')
         ;
-        $actual = $this->_helper->askHiddenResponse($this->_output, 'bar');
+        $actual = $this->helper->askHiddenResponse($this->output, 'bar');
 
         $this->assertSame('baz', $actual);
         Phake::inOrder(
-            Phake::verify($this->_isolator)->defined('PHP_WINDOWS_VERSION_BUILD'),
-            Phake::verify($this->_output)->write('bar'),
-            Phake::verify($this->_isolator)->copy('foo', 'doom/hiddeninput-splat.exe'),
-            Phake::verify($this->_isolator)->shell_exec('doom/hiddeninput-splat.exe'),
-            Phake::verify($this->_output)->writeln('')
+            Phake::verify($this->isolator)->defined('PHP_WINDOWS_VERSION_BUILD'),
+            Phake::verify($this->output)->write('bar'),
+            Phake::verify($this->isolator)->copy('foo', 'doom/hiddeninput-splat.exe'),
+            Phake::verify($this->isolator)->shell_exec('doom/hiddeninput-splat.exe'),
+            Phake::verify($this->output)->writeln('')
         );
     }
 
     public function testAskHiddenResponseWindowsFailureExecute()
     {
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->defined(Phake::anyParameters())
             ->thenReturn(true)
         ;
-        Phake::when($this->_isolator)
+        Phake::when($this->isolator)
             ->shell_exec(Phake::anyParameters())
             ->thenReturn(false)
         ;
@@ -167,6 +167,6 @@ class HiddenInputHelperTest extends PHPUnit_Framework_TestCase
             'RuntimeException',
             'Unable to create or read hidden input dialog.'
         );
-        $this->_helper->askHiddenResponse($this->_output, 'bar');
+        $this->helper->askHiddenResponse($this->output, 'bar');
     }
 }

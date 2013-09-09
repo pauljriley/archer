@@ -10,20 +10,20 @@ class GitConfigReaderTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_process = Phake::mock('Symfony\Component\Process\Process');
-        $this->_processFactory = Phake::mock(
+        $this->process = Phake::mock('Symfony\Component\Process\Process');
+        $this->processFactory = Phake::mock(
             'Icecave\Archer\Process\ProcessFactory'
         );
-        $this->_reader = new GitConfigReader(
+        $this->reader = new GitConfigReader(
             'foo',
-            $this->_processFactory
+            $this->processFactory
         );
 
-        Phake::when($this->_processFactory)
+        Phake::when($this->processFactory)
             ->create(Phake::anyParameters())
-            ->thenReturn($this->_process)
+            ->thenReturn($this->process)
         ;
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->isSuccessful(Phake::anyParameters())
             ->thenReturn(true)
         ;
@@ -49,7 +49,7 @@ branch.3.0.0.remote=origin
 branch.3.0.0.merge=refs/heads/3.0.0
 
 EOD;
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->getOutput(Phake::anyParameters())
             ->thenReturn($configuration)
         ;
@@ -57,25 +57,25 @@ EOD;
 
     public function testConstructor()
     {
-        $this->assertSame('foo', $this->_reader->repositoryPath());
-        $this->assertSame($this->_processFactory, $this->_reader->processFactory());
+        $this->assertSame('foo', $this->reader->repositoryPath());
+        $this->assertSame($this->processFactory, $this->reader->processFactory());
     }
 
     public function testConstructorDefaults()
     {
-        $this->_reader = new GitConfigReader(
+        $this->reader = new GitConfigReader(
             'foo'
         );
 
         $this->assertInstanceOf(
             'Icecave\Archer\Process\ProcessFactory',
-            $this->_reader->processFactory()
+            $this->reader->processFactory()
         );
     }
 
     public function testIsGitHubRepository()
     {
-        $this->assertTrue($this->_reader->isGitHubRepository());
+        $this->assertTrue($this->reader->isGitHubRepository());
     }
 
     public function testIsGitHubRepositoryNonGitHubURL()
@@ -84,25 +84,25 @@ EOD;
 remote.origin.url=derp
 
 EOD;
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->getOutput(Phake::anyParameters())
             ->thenReturn($configuration)
         ;
 
-        $this->assertFalse($this->_reader->isGitHubRepository());
+        $this->assertFalse($this->reader->isGitHubRepository());
     }
 
     public function testGet()
     {
-        $this->assertSame('Test Ease', $this->_reader->get('user.name'));
-        $this->assertSame('testease@gmail.com', $this->_reader->get('user.email'));
-        $this->assertSame('ambiguous', $this->_reader->get('user.gender', 'ambiguous'));
-        $this->assertNull($this->_reader->get('user.gender'));
+        $this->assertSame('Test Ease', $this->reader->get('user.name'));
+        $this->assertSame('testease@gmail.com', $this->reader->get('user.email'));
+        $this->assertSame('ambiguous', $this->reader->get('user.gender', 'ambiguous'));
+        $this->assertNull($this->reader->get('user.gender'));
     }
 
     public function testRepositoryOwner()
     {
-        $this->assertSame('IcecaveStudios', $this->_reader->repositoryOwner());
+        $this->assertSame('IcecaveStudios', $this->reader->repositoryOwner());
     }
 
     public function testRepositoryOwnerFailure()
@@ -111,7 +111,7 @@ EOD;
 remote.origin.url=derp
 
 EOD;
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->getOutput(Phake::anyParameters())
             ->thenReturn($configuration)
         ;
@@ -120,12 +120,12 @@ EOD;
             'RuntimeException',
             'Origin URL "derp" is not a GitHub repository.'
         );
-        $this->_reader->repositoryOwner();
+        $this->reader->repositoryOwner();
     }
 
     public function testRepositoryName()
     {
-        $this->assertSame('archer', $this->_reader->repositoryName());
+        $this->assertSame('archer', $this->reader->repositoryName());
     }
 
     public function testRepositoryNameFailure()
@@ -134,7 +134,7 @@ EOD;
 remote.origin.url=derp
 
 EOD;
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->getOutput(Phake::anyParameters())
             ->thenReturn($configuration)
         ;
@@ -143,16 +143,16 @@ EOD;
             'RuntimeException',
             'Origin URL "derp" is not a GitHub repository.'
         );
-        $this->_reader->repositoryName();
+        $this->reader->repositoryName();
     }
 
     public function testParseFailure()
     {
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->isSuccessful(Phake::anyParameters())
             ->thenReturn(false)
         ;
-        Phake::when($this->_process)
+        Phake::when($this->process)
             ->getErrorOutput(Phake::anyParameters())
             ->thenReturn('Bar.')
         ;
@@ -161,6 +161,6 @@ EOD;
             'RuntimeException',
             'Unable to read git configuration: Bar.'
         );
-        $this->_reader->get('user.name');
+        $this->reader->get('user.name');
     }
 }
