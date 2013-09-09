@@ -24,7 +24,7 @@ provides the following benefits:
 * [PHPUnit] **must** be available in the user's PATH.
 * Projects **must** use [Composer].
 * Projects **must** conform to the [expected project layout](#expected-project-layout).
-* Projects **must** use a PHP namespace with a vendor and project prefix, for example: "Icecave\Archer".
+* Projects **must** use a PHP namespace with a vendor and project prefix, for example `Icecave\Archer`.
 * The [Xdebug] PHP extension is required for [test coverage reports](#test-coverage-reports).
 * The [openssl] PHP extension is required for [build artifact publication](#build-artifact-publication).
 
