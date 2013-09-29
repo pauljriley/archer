@@ -129,7 +129,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $this->application->add($command);
         $this->application->setAutoExit(false);
         $input = new ArrayInput(array());
-        $output = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
+        $output = Phake::partialMock('Symfony\Component\Console\Output\NullOutput');
         $this->application->run($input, $output);
         $expectedInput = new ArrayInput(array('command' => $commandName));
 
