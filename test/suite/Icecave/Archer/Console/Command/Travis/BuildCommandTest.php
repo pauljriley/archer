@@ -346,6 +346,80 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $this->assertSame(222, $exitCode);
     }
 
+    public function testExecuteWithAlwaysPublishFlag()
+    {
+        $expectedTestCommand = '/path/to/archer/bin/archer coverage';
+        $expectedDocumentationCommand = '/path/to/archer/bin/archer documentation';
+
+        $expectedCoverallsCommand = '/path/to/project/vendor/bin/coveralls --config';
+        $expectedCoverallsCommand .= " '/path/to/project/.coveralls.yml'";
+
+        $expectedWoodhouseCommand  = "/path/to/archer/bin/woodhouse publish 'Vendor/package'";
+        $expectedWoodhouseCommand .= ' /path/to/project/artifacts:artifacts';
+        $expectedWoodhouseCommand .= ' --message "Publishing artifacts from build 543."';
+        $expectedWoodhouseCommand .= ' --auth-token-env ARCHER_TOKEN';
+        $expectedWoodhouseCommand .= ' --no-interaction';
+        $expectedWoodhouseCommand .= ' --verbose';
+        $expectedWoodhouseCommand .= ' --coverage-image artifacts/images/coverage.png';
+        $expectedWoodhouseCommand .= ' --coverage-phpunit artifacts/tests/coverage/coverage.txt';
+        $expectedWoodhouseCommand .= ' --image-theme buckler/buckler';
+
+        Phake::when($this->coverallsClient)
+            ->exists('Vendor', 'package')
+            ->thenReturn(true);
+
+        Phake::when($this->isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedTestCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedDocumentationCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedCoverallsCommand,
+                Phake::setReference(0)
+            )
+            ->thenReturn(null);
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedWoodhouseCommand,
+                Phake::setReference(222)
+            )
+            ->thenReturn(null);
+
+        $input = new StringInput('travis:build /path/to/project --always-publish');
+        $exitCode = $this->command->run($input, $this->output);
+
+        Phake::inOrder(
+            Phake::verify($this->githubClient)->setAuthToken('b1a94b90073382b330f601ef198bb0729b0168aa'),
+            Phake::verify($this->githubClient)->defaultBranch('Vendor', 'package'),
+            Phake::verify($this->output)->write('Checking for Coveralls... '),
+            Phake::verify($this->coverallsClient)->exists('Vendor', 'package'),
+            Phake::verify($this->output)->writeln('enabled.'),
+            Phake::verify($this->isolator)->passthru($expectedTestCommand, 255),
+            Phake::verify($this->output)->write('Publishing Coveralls data... '),
+            Phake::verify($this->isolator)->copy('/path/to/archer/res/coveralls/coveralls.yml', '/path/to/project/.coveralls.yml'),
+            Phake::verify($this->isolator)->passthru($expectedCoverallsCommand, 255),
+            Phake::verify($this->output)->writeln('done.'),
+            Phake::verify($this->isolator)->passthru($expectedDocumentationCommand, 255),
+            Phake::verify($this->isolator)->passthru($expectedWoodhouseCommand, 255)
+        );
+
+        $this->assertSame(222, $exitCode);
+    }
     public function testExecuteWithPublishAndTestFailure()
     {
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';

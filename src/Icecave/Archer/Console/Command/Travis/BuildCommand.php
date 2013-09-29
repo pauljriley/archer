@@ -9,6 +9,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class BuildCommand extends AbstractTravisCommand
@@ -78,6 +79,13 @@ class BuildCommand extends AbstractTravisCommand
             InputArgument::OPTIONAL,
             'The path to the root of the project.',
             '.'
+        );
+
+        $this->addOption(
+            'always-publish',
+            'a',
+            InputOption::VALUE_NONE,
+            'Always publish test artifacts, even when using Coveralls.'
         );
     }
 
@@ -166,7 +174,7 @@ class BuildCommand extends AbstractTravisCommand
             $command .= ' --no-interaction';
             $command .= ' --verbose';
 
-            if ($publishCoveralls) {
+            if ($publishCoveralls && !$input->getOption('always-publish')) {
                 // Remove test artifacts if coveralls is being used ...
                 $this->fileSystem->delete($packageRoot . '/artifacts/tests');
             } else {
