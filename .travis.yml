@@ -16,7 +16,7 @@ php:
 install:
   - ./.travis.install
 script:
-  - ./.travis.build --always-publish
+  - ./.travis.build
 
 # Include another build in the matrix for dogfooding Archer!
 matrix:
