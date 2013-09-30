@@ -14,4 +14,10 @@
             <directory>test/suite</directory>
         </testsuite>
     </testsuites>
+
+    <groups>
+        <exclude>
+            <group>exclude-by-default</group>
+        </exclude>
+    </groups>
 </phpunit>
