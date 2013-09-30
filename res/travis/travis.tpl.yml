@@ -12,7 +12,7 @@ php: {php-versions}
 
 env:
   global:
-    - ARCHER_PUBLISH_VERSION=5.4
+    - ARCHER_PUBLISH_VERSION={php-publish-version}
     {token-env}
 
 install:
