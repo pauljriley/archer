@@ -3,7 +3,7 @@
 ### 1.1.0 (???)
 
 * **[FIXED]** The `update` command now configures Travis CI to publish artifacts under the most recent support PHP version.
-* **[IMPROVED]** Increased timeouts for medium and large tests when running coverage reports.
+* **[IMPROVED]** Increased timeouts rather generously when running coverage reports.
 * **[NEW]** Added test groups `exclude-by-default` and `exclude-from-coverage` to PHPUnit configuration files.
 
 ### 1.0.1 (2013-10-01)
