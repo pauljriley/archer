@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 1.0.1 (2013-10-01)
+
+* *[WORKAROUND]* Pinned `symfony/process` below version 2.3.5 to work around issues with strict error reporting and error suppression.
+
 ### 1.0.0 (2013-09-09)
 
 * **[FIXED]** The update command no longer fails when run against a non-GitHub repository (however only dotfile updates are supported)
