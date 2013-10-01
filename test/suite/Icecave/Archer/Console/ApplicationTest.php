@@ -29,7 +29,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $this->assertSame('Archer', $this->application->getName());
-        $this->assertSame('1.0.0', $this->application->getVersion());
+        $this->assertSame('1.0.1', $this->application->getVersion());
 
         $this->assertSame('foo', $this->application->packageRoot());
         $this->assertSame($this->fileSystem, $this->application->fileSystem());
@@ -129,7 +129,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $this->application->add($command);
         $this->application->setAutoExit(false);
         $input = new ArrayInput(array());
-        $output = Phake::mock('Symfony\Component\Console\Output\OutputInterface');
+        $output = Phake::partialMock('Symfony\Component\Console\Output\NullOutput');
         $this->application->run($input, $output);
         $expectedInput = new ArrayInput(array('command' => $commandName));
 
