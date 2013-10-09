@@ -30,6 +30,9 @@ class Asplode
         if ($this->installed) {
             throw new RuntimeException('Already installed.');
         }
+        if (0 === $this->isolator->error_reporting()) {
+            throw new RuntimeException('Error reporting misconfigured.');
+        }
 
         $this->isolator->set_error_handler(array($this, 'handleError'));
         $this->installed = true;
@@ -47,6 +50,14 @@ class Asplode
 
     public function handleError($severity, $message, $filename, $lineno)
     {
+        if (
+            E_DEPRECATED === $severity ||
+            E_USER_DEPRECATED === $severity ||
+            0 === $this->isolator->error_reporting()
+        ) {
+            return false;
+        }
+
         throw new ErrorException($message, 0, $severity, $filename, $lineno);
     }
 
