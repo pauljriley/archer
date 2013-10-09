@@ -5,9 +5,9 @@ $rootPath = __DIR__ . '/../../../../..';
 // Install the composer autoloader ...
 $autoloader = require_once $rootPath . '/vendor/autoload.php';
 
-// Setup asplode for strict error reporting ...
+// Assert error handler configuration
 if (class_exists('Eloquent\Asplode\Asplode')) {
-    Eloquent\Asplode\Asplode::instance()->install();
+    Eloquent\Asplode\Asplode::assertCompatibleHandler();
 }
 
 // Setup Phake/PHPUnit integration ...

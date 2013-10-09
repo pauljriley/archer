@@ -22,7 +22,7 @@
         "sami/sami": "~1",
         "satooshi/php-coveralls": "~0.6",
         "symfony/console": "~2",
-        "symfony/process": "~2,<2.3.5"
+        "symfony/process": "~2"
     },
     "require-dev": {
         "eloquent/liberator": "~1",
