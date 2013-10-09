@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1380600780">
-  <project timestamp="1380600780">
+<coverage generated="1381291648">
+  <project timestamp="1381291648">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -1343,29 +1343,36 @@
     <package name="Icecave\Archer\Support">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Asplode.php">
         <class name="Asplode" namespace="Icecave\Archer\Support">
-          <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="19" coveredelements="19"/>
+          <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="26" coveredelements="26"/>
         </class>
         <line num="18" type="method" name="instance" crap="1" count="1"/>
         <line num="20" type="stmt" count="1"/>
-        <line num="23" type="method" name="__construct" crap="1" count="6"/>
-        <line num="25" type="stmt" count="6"/>
-        <line num="26" type="stmt" count="6"/>
-        <line num="28" type="method" name="install" crap="2" count="3"/>
-        <line num="30" type="stmt" count="3"/>
+        <line num="23" type="method" name="__construct" crap="1" count="8"/>
+        <line num="25" type="stmt" count="8"/>
+        <line num="26" type="stmt" count="8"/>
+        <line num="28" type="method" name="install" crap="3" count="4"/>
+        <line num="30" type="stmt" count="4"/>
         <line num="31" type="stmt" count="1"/>
-        <line num="34" type="stmt" count="3"/>
-        <line num="35" type="stmt" count="3"/>
-        <line num="36" type="stmt" count="3"/>
-        <line num="38" type="method" name="uninstall" crap="2" count="2"/>
-        <line num="40" type="stmt" count="2"/>
-        <line num="41" type="stmt" count="1"/>
+        <line num="33" type="stmt" count="4"/>
+        <line num="34" type="stmt" count="1"/>
+        <line num="37" type="stmt" count="3"/>
+        <line num="38" type="stmt" count="3"/>
+        <line num="39" type="stmt" count="3"/>
+        <line num="41" type="method" name="uninstall" crap="2" count="2"/>
+        <line num="43" type="stmt" count="2"/>
         <line num="44" type="stmt" count="1"/>
-        <line num="45" type="stmt" count="1"/>
-        <line num="46" type="stmt" count="1"/>
-        <line num="48" type="method" name="handleError" crap="1" count="1"/>
-        <line num="50" type="stmt" count="1"/>
-        <line num="56" type="stmt" count="0"/>
-        <metrics loc="55" ncloc="46" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="19" coveredelements="19"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="49" type="stmt" count="1"/>
+        <line num="51" type="method" name="handleError" crap="4" count="2"/>
+        <line num="54" type="stmt" count="2"/>
+        <line num="55" type="stmt" count="2"/>
+        <line num="56" type="stmt" count="2"/>
+        <line num="57" type="stmt" count="2"/>
+        <line num="58" type="stmt" count="1"/>
+        <line num="61" type="stmt" count="1"/>
+        <line num="67" type="stmt" count="0"/>
+        <metrics loc="66" ncloc="57" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="26" coveredelements="26"/>
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Isolator.php">
         <class name="Isolator" namespace="Icecave\Archer\Support">
@@ -1679,6 +1686,6 @@
         <metrics loc="291" ncloc="198" classes="1" methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="107"/>
       </file>
     </package>
-    <metrics files="37" loc="4168" ncloc="3232" classes="36" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1205" coveredstatements="1158" elements="1385" coveredelements="1330"/>
+    <metrics files="37" loc="4179" ncloc="3243" classes="36" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1212" coveredstatements="1165" elements="1392" coveredelements="1337"/>
   </project>
 </coverage>

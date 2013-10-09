@@ -166,51 +166,53 @@ ok 164 - Icecave\Archer\Process\PHPUnitExecutableFinderTest::testFindTravisFailu
 ok 165 - Icecave\Archer\Process\ProcessFactoryTest::testFactory
 ok 166 - Icecave\Archer\Support\AsplodeTest::testInstance
 ok 167 - Icecave\Archer\Support\AsplodeTest::testInstall
-ok 168 - Icecave\Archer\Support\AsplodeTest::testInstallFailure
-ok 169 - Icecave\Archer\Support\AsplodeTest::testUninstall
-ok 170 - Icecave\Archer\Support\AsplodeTest::testUninstallFailure
-ok 171 - Icecave\Archer\Support\AsplodeTest::testHandleError
-ok 172 - Icecave\Archer\Support\IsolatorTest::testGet
-ok 173 - Icecave\Archer\Support\IsolatorTest::testClassName
-ok 174 - Icecave\Archer\Support\IsolatorTest::testCall
-ok 175 - Icecave\Archer\Support\IsolatorTest::testEcho
-ok 176 - Icecave\Archer\Support\IsolatorTest::testEval
-ok 177 - Icecave\Archer\Support\IsolatorTest::testInclude
-ok 178 - Icecave\Archer\Support\IsolatorTest::testIncludeOnce
-ok 179 - Icecave\Archer\Support\IsolatorTest::testRequire
-ok 180 - Icecave\Archer\Support\IsolatorTest::testRequireOnce
-ok 181 - Icecave\Archer\Support\Liftoff\Exception\LauncherTest::testException
-ok 182 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "OSX" ('Darwin', '/path/to/file', NULL, 'open \'/path/to/file\'')
-ok 183 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "OSX with arguments" ('Darwin', '/path/to/file', array('--foo', 'bar'), 'open \'/path/to/file\' \'--args\' \'--foo\' \'bar\'')
-ok 184 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Windows" ('Windows NT', '/path/to/file', NULL, 'start \'liftoff\' \'/path/to/file\'')
-ok 185 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Windows with arguments" ('Windows NT', '/path/to/file', array('--foo', 'bar'), 'start \'liftoff\' \'/path/to/file\' \'--foo\' \'bar\'')
-ok 186 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Unix" ('Linux', '/path/to/file', NULL, 'xdg-open \'/path/to/file\'')
-ok 187 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Unix with arguments" ('Linux', '/path/to/file', array('--foo', 'bar'), 'xdg-open \'/path/to/file\' \'--foo\' \'bar\'')
-ok 188 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunchFailure
-ok 189 - Icecave\Archer\Travis\TravisClientTest::testConstructor
-ok 190 - Icecave\Archer\Travis\TravisClientTest::testConstructorDefaults
-ok 191 - Icecave\Archer\Travis\TravisClientTest::testPublicKey
-ok 192 - Icecave\Archer\Travis\TravisClientTest::testEncryptEnvironment
-ok 193 - Icecave\Archer\Travis\TravisClientTest::testEncrypt
-ok 194 - Icecave\Archer\Travis\TravisClientTest::testEncryptFailure
-ok 195 - Icecave\Archer\Travis\TravisConfigManagerTest::testConstructor
-ok 196 - Icecave\Archer\Travis\TravisConfigManagerTest::testConstructorDefaults
-ok 197 - Icecave\Archer\Travis\TravisConfigManagerTest::testPublicKeyCache
-ok 198 - Icecave\Archer\Travis\TravisConfigManagerTest::testPublicKeyCacheExists
-ok 199 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetPublicKeyCache
-ok 200 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetPublicKeyCacheSame
-ok 201 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetPublicKeyCacheDelete
-ok 202 - Icecave\Archer\Travis\TravisConfigManagerTest::testSecureEnvironmentCache
-ok 203 - Icecave\Archer\Travis\TravisConfigManagerTest::testSecureEnvironmentCacheExists
-ok 204 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironmentCache
-ok 205 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironmentCacheSame
-ok 206 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironmentCacheDelete
-ok 207 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfig
-ok 208 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigWithOAuth
-ok 209 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraint
-ok 210 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintWithPatchVersion
-ok 211 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintNoMatches
-ok 212 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpPublishVersion with data set #0 ('>=5.3', '5.5')
-ok 213 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpPublishVersion with data set #1 ('<=5.5', '5.4')
-ok 214 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpPublishVersion with data set #2 ('>=6.0', '5.5')
-1..214
+ok 168 - Icecave\Archer\Support\AsplodeTest::testInstallFailureAlreadyInstalled
+ok 169 - Icecave\Archer\Support\AsplodeTest::testInstallFailureMisconfigured
+ok 170 - Icecave\Archer\Support\AsplodeTest::testUninstall
+ok 171 - Icecave\Archer\Support\AsplodeTest::testUninstallFailure
+ok 172 - Icecave\Archer\Support\AsplodeTest::testHandleError
+ok 173 - Icecave\Archer\Support\AsplodeTest::testHandleErrorIgnored
+ok 174 - Icecave\Archer\Support\IsolatorTest::testGet
+ok 175 - Icecave\Archer\Support\IsolatorTest::testClassName
+ok 176 - Icecave\Archer\Support\IsolatorTest::testCall
+ok 177 - Icecave\Archer\Support\IsolatorTest::testEcho
+ok 178 - Icecave\Archer\Support\IsolatorTest::testEval
+ok 179 - Icecave\Archer\Support\IsolatorTest::testInclude
+ok 180 - Icecave\Archer\Support\IsolatorTest::testIncludeOnce
+ok 181 - Icecave\Archer\Support\IsolatorTest::testRequire
+ok 182 - Icecave\Archer\Support\IsolatorTest::testRequireOnce
+ok 183 - Icecave\Archer\Support\Liftoff\Exception\LauncherTest::testException
+ok 184 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "OSX" ('Darwin', '/path/to/file', NULL, 'open \'/path/to/file\'')
+ok 185 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "OSX with arguments" ('Darwin', '/path/to/file', array('--foo', 'bar'), 'open \'/path/to/file\' \'--args\' \'--foo\' \'bar\'')
+ok 186 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Windows" ('Windows NT', '/path/to/file', NULL, 'start \'liftoff\' \'/path/to/file\'')
+ok 187 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Windows with arguments" ('Windows NT', '/path/to/file', array('--foo', 'bar'), 'start \'liftoff\' \'/path/to/file\' \'--foo\' \'bar\'')
+ok 188 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Unix" ('Linux', '/path/to/file', NULL, 'xdg-open \'/path/to/file\'')
+ok 189 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Unix with arguments" ('Linux', '/path/to/file', array('--foo', 'bar'), 'xdg-open \'/path/to/file\' \'--foo\' \'bar\'')
+ok 190 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunchFailure
+ok 191 - Icecave\Archer\Travis\TravisClientTest::testConstructor
+ok 192 - Icecave\Archer\Travis\TravisClientTest::testConstructorDefaults
+ok 193 - Icecave\Archer\Travis\TravisClientTest::testPublicKey
+ok 194 - Icecave\Archer\Travis\TravisClientTest::testEncryptEnvironment
+ok 195 - Icecave\Archer\Travis\TravisClientTest::testEncrypt
+ok 196 - Icecave\Archer\Travis\TravisClientTest::testEncryptFailure
+ok 197 - Icecave\Archer\Travis\TravisConfigManagerTest::testConstructor
+ok 198 - Icecave\Archer\Travis\TravisConfigManagerTest::testConstructorDefaults
+ok 199 - Icecave\Archer\Travis\TravisConfigManagerTest::testPublicKeyCache
+ok 200 - Icecave\Archer\Travis\TravisConfigManagerTest::testPublicKeyCacheExists
+ok 201 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetPublicKeyCache
+ok 202 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetPublicKeyCacheSame
+ok 203 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetPublicKeyCacheDelete
+ok 204 - Icecave\Archer\Travis\TravisConfigManagerTest::testSecureEnvironmentCache
+ok 205 - Icecave\Archer\Travis\TravisConfigManagerTest::testSecureEnvironmentCacheExists
+ok 206 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironmentCache
+ok 207 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironmentCacheSame
+ok 208 - Icecave\Archer\Travis\TravisConfigManagerTest::testSetSecureEnvironmentCacheDelete
+ok 209 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfig
+ok 210 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigWithOAuth
+ok 211 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraint
+ok 212 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintWithPatchVersion
+ok 213 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpVersionConstraintNoMatches
+ok 214 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpPublishVersion with data set #0 ('>=5.3', '5.5')
+ok 215 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpPublishVersion with data set #1 ('<=5.5', '5.4')
+ok 216 - Icecave\Archer\Travis\TravisConfigManagerTest::testUpdateConfigPhpPublishVersion with data set #2 ('>=6.0', '5.5')
+1..216
