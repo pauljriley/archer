@@ -5,15 +5,16 @@ $rootPath = __DIR__ . '/../../../../..';
 // Install the composer autoloader ...
 $autoloader = require_once $rootPath . '/vendor/autoload.php';
 
-// Assert error handler configuration
-if (class_exists('Eloquent\Asplode\Asplode')) {
-    Eloquent\Asplode\Asplode::assertCompatibleHandler();
+// Install Asplode if available
+if (is_callable('Eloquent\Asplode\Asplode::install')) {
+    $installMethod = new ReflectionMethod('Eloquent\Asplode\Asplode::install');
+    if ($installMethod->isStatic()) {
+        Eloquent\Asplode\Asplode::install();
+    }
 }
 
 // Setup Phake/PHPUnit integration ...
-if (class_exists('Phake')) {
-    Phake::setClient(Phake::CLIENT_PHPUNIT);
-}
+Phake::setClient(Phake::CLIENT_PHPUNIT);
 
 // Add an autoloader for test fixtures, if required ...
 $projectTestFixturePath = $rootPath . '/test/src';
