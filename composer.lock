@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "756f737d2817da818aa7b5f3e3d51060",
+    "hash": "5cf70e01c334423fd850cf408ccdc807",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -66,21 +66,21 @@
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.7.3",
+            "version": "v3.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "0f16aad385528b5cf790392cb4a4d16cf600e944"
+                "reference": "b170b028c6bb5799640e46c8803015b0f9a45ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/0f16aad385528b5cf790392cb4a4d16cf600e944",
-                "reference": "0f16aad385528b5cf790392cb4a4d16cf600e944",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b170b028c6bb5799640e46c8803015b0f9a45ed9",
+                "reference": "b170b028c6bb5799640e46c8803015b0f9a45ed9",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=5.3.2",
+                "php": ">=5.3.3",
                 "symfony/event-dispatcher": ">=2.1"
             },
             "replace": {
@@ -154,7 +154,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-09-08 21:09:18"
+            "time": "2013-10-02 20:47:00"
         },
         {
             "name": "nikic/php-parser",
@@ -704,17 +704,17 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.3.4",
+            "version": "v2.3.5",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "1e91553e1cedd0b8fb1da6ea4f89b02e21713d5b"
+                "reference": "e35e3cea61c851ece0967d8d26b926633e65535a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/1e91553e1cedd0b8fb1da6ea4f89b02e21713d5b",
-                "reference": "1e91553e1cedd0b8fb1da6ea4f89b02e21713d5b",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/e35e3cea61c851ece0967d8d26b926633e65535a",
+                "reference": "e35e3cea61c851ece0967d8d26b926633e65535a",
                 "shasum": ""
             },
             "require": {
@@ -747,7 +747,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-22 06:42:25"
+            "time": "2013-09-19 09:45:20"
         },
         {
             "name": "symfony/stopwatch",
@@ -845,16 +845,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.13.2",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "6d6a1009427d1f398c9d40904147bf9f723d5755"
+                "reference": "224fc55635d544a2ec8edb3592be18db5a093f59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/6d6a1009427d1f398c9d40904147bf9f723d5755",
-                "reference": "6d6a1009427d1f398c9d40904147bf9f723d5755",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/224fc55635d544a2ec8edb3592be18db5a093f59",
+                "reference": "224fc55635d544a2ec8edb3592be18db5a093f59",
                 "shasum": ""
             },
             "require": {
@@ -863,7 +863,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.14-dev"
                 }
             },
             "autoload": {
@@ -890,7 +890,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-08-03 15:35:31"
+            "time": "2013-10-03 06:41:20"
         }
     ],
     "packages-dev": [
