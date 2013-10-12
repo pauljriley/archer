@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "fb8e6ab98840f97d90e91ab0e9266890",
+    "hash": "1fb4ec01633240204714b6fcd43b7d83",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -995,7 +995,12 @@
         }
     ],
     "aliases": [
-
+        {
+            "alias": "1.2",
+            "alias_normalized": "1.2.0.0",
+            "version": "dev-default-opened-level",
+            "package": "sami/sami"
+        }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
