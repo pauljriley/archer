@@ -19,7 +19,7 @@
     "require": {
         "php": ">=5.3",
         "phake/phake": "~1",
-        "sami/sami": "~1",
+        "sami/sami": "dev-default-opened-level",
         "satooshi/php-coveralls": "~0.6",
         "symfony/console": "~2",
         "symfony/process": "~2"
@@ -44,5 +44,11 @@
         "post-update-cmd": [
             "bin/archer internal:update-binaries"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jmalloc/Sami.git"
+        }
+    ]
 }
