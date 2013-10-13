@@ -1,12 +1,12 @@
 
 
 Code Coverage Report 
-  2013-10-09 04:07:28
+  2013-10-13 23:58:27
 
  Summary: 
   Classes: 91.67% (33/36)
   Methods: 95.56% (172/180)
-  Lines:   96.12% (1165/1212)
+  Lines:   96.12% (1164/1211)
 
 \Icecave\Archer\Configuration::ComposerConfigurationReader
   Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 12/ 12)
@@ -35,7 +35,7 @@ Code Coverage Report
 \Icecave\Archer\Coveralls::CoverallsClient
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 14/ 14)
 \Icecave\Archer\Documentation::DocumentationGenerator
-  Methods: 100.00% (13/13)   Lines: 100.00% ( 93/ 93)
+  Methods: 100.00% (13/13)   Lines: 100.00% ( 92/ 92)
 \Icecave\Archer\FileSystem::FileSystem
   Methods: 100.00% (13/13)   Lines: 100.00% ( 67/ 67)
 \Icecave\Archer\FileSystem\Exception::ReadException
