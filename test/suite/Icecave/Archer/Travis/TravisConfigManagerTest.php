@@ -21,6 +21,18 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
             $this->composerConfigReader,
             $this->isolator
         );
+
+        Phake::when($this->fileFinder)
+            ->find(Phake::anyParameters())
+            ->thenReturn('/real/path/to/template');
+
+        $this->composerConfig = new stdClass;
+        $this->composerConfig->require = new stdClass;
+        $this->composerConfig->require->php = '>=5.3';
+
+        Phake::when($this->composerConfigReader)
+            ->read(Phake::anyParameters())
+            ->thenReturn($this->composerConfig);
     }
 
     public function testConstructor()
@@ -214,10 +226,6 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateConfig()
     {
-        Phake::when($this->fileFinder)
-            ->find(Phake::anyParameters())
-            ->thenReturn('/real/path/to/template');
-
         Phake::when($this->fileSystem)
             ->read(Phake::anyParameters())
             ->thenReturn('<template content: {token-env}, {php-versions}>');
@@ -245,10 +253,6 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
             ->read('/path/to/project/.travis.env')
             ->thenReturn('<env data>');
 
-        Phake::when($this->fileFinder)
-            ->find(Phake::anyParameters())
-            ->thenReturn('/real/path/to/template');
-
         Phake::when($this->fileSystem)
             ->read('/real/path/to/template')
             ->thenReturn('<template content: {token-env}>');
@@ -268,17 +272,7 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateConfigPhpVersionConstraint()
     {
-        $config = new stdClass;
-        $config->require = new stdClass;
-        $config->require->php = '>=5.4';
-
-        Phake::when($this->composerConfigReader)
-            ->read(Phake::anyParameters())
-            ->thenReturn($config);
-
-        Phake::when($this->fileFinder)
-            ->find(Phake::anyParameters())
-            ->thenReturn('/real/path/to/template');
+        $this->composerConfig->require->php = '>=5.4';
 
         Phake::when($this->fileSystem)
             ->read(Phake::anyParameters())
@@ -296,17 +290,7 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateConfigPhpVersionConstraintWithPatchVersion()
     {
-        $config = new stdClass;
-        $config->require = new stdClass;
-        $config->require->php = '>=5.3.3';
-
-        Phake::when($this->composerConfigReader)
-            ->read(Phake::anyParameters())
-            ->thenReturn($config);
-
-        Phake::when($this->fileFinder)
-            ->find(Phake::anyParameters())
-            ->thenReturn('/real/path/to/template');
+        $this->composerConfig->require->php = '>=5.3.3';
 
         Phake::when($this->fileSystem)
             ->read(Phake::anyParameters())
@@ -320,17 +304,7 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateConfigPhpVersionConstraintNoMatches()
     {
-        $config = new stdClass;
-        $config->require = new stdClass;
-        $config->require->php = '>=6.0';
-
-        Phake::when($this->composerConfigReader)
-            ->read(Phake::anyParameters())
-            ->thenReturn($config);
-
-        Phake::when($this->fileFinder)
-            ->find(Phake::anyParameters())
-            ->thenReturn('/real/path/to/template');
+        $this->composerConfig->require->php = '>=6.0';
 
         Phake::when($this->fileSystem)
             ->read(Phake::anyParameters())
@@ -340,5 +314,31 @@ class TravisConfigManagerTest extends PHPUnit_Framework_TestCase
 
         Phake::verify($this->composerConfigReader)->read('/path/to/project');
         Phake::verify($this->fileSystem)->write('/path/to/project/.travis.yml', '<template content: ["5.5"]>');
+    }
+
+    /**
+     * @dataProvider getPublishVersionData
+     */
+    public function testUpdateConfigPhpPublishVersion($versionConstraint, $expectedVersion)
+    {
+        $this->composerConfig->require->php = $versionConstraint;
+
+        Phake::when($this->fileSystem)
+            ->read(Phake::anyParameters())
+            ->thenReturn('<template content: {php-publish-version}>');
+
+        $result = $this->manager->updateConfig('/path/to/archer', '/path/to/project');
+
+        Phake::verify($this->composerConfigReader)->read('/path/to/project');
+        Phake::verify($this->fileSystem)->write('/path/to/project/.travis.yml', '<template content: ' . $expectedVersion . '>');
+    }
+
+    public function getPublishVersionData()
+    {
+        return array(
+            array('>=5.3',  '5.5'),
+            array('<=5.5',  '5.4'),
+            array('>=6.0',  '5.5'),
+        );
     }
 }

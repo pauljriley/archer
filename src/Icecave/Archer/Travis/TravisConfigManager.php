@@ -169,6 +169,7 @@ class TravisConfigManager
         }
 
         $phpVersions = $this->phpVersions($packageRoot);
+        $phpPublishVersion = end($phpVersions);
         $phpVersions = '["' . implode('", "', $phpVersions) . '"]';
 
         // Re-build travis.yml.
@@ -179,8 +180,8 @@ class TravisConfigManager
         $this->fileSystem()->write(
             sprintf('%s/.travis.yml', $packageRoot),
             str_replace(
-                array('{token-env}', '{php-versions}'),
-                array($tokenEnvironment, $phpVersions),
+                array('{token-env}', '{php-versions}', '{php-publish-version}'),
+                array($tokenEnvironment, $phpVersions, $phpPublishVersion),
                 $template
             )
         );

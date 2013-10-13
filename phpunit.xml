@@ -7,11 +7,16 @@
     mapTestClassNameToCoveredClassName="true"
     verbose="true"
     colors="true"
-    timeoutForSmallTests="60"
 >
     <testsuites>
         <testsuite>
             <directory>test/suite</directory>
         </testsuite>
     </testsuites>
+
+    <groups>
+        <exclude>
+            <group>exclude-by-default</group>
+        </exclude>
+    </groups>
 </phpunit>

@@ -8,6 +8,8 @@
     verbose="true"
     colors="true"
     timeoutForSmallTests="60"
+    timeoutForMediumTests="120"
+    timeoutForLargeTests="300"
 >
     <testsuites>
         <testsuite>
@@ -47,4 +49,11 @@
             <directory>../../../../../src-internal</directory>
         </whitelist>
     </filter>
+
+    <groups>
+        <exclude>
+            <group>exclude-by-default</group>
+            <group>exclude-from-coverage</group>
+        </exclude>
+    </groups>
 </phpunit>

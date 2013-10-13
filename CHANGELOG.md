@@ -1,8 +1,16 @@
 # Archer Changelog
 
+### 1.1.0 (2013-10-14)
+
+* **[FIXED]** The `update` command now configures Travis CI to publish artifacts under the most recent PHP version supported
+* **[FIXED]** Updated bundled [Asplode](https://github.com/eloquent/asplode) to latest version, this fixes issues with `symfony/process` 2.3.5+
+* **[IMPROVED]** Increased timeouts rather generously when running coverage reports
+* **[NEW]** Added test groups `exclude-by-default` and `exclude-from-coverage` to PHPUnit configuration files
+* **[NEW]** Added `--always-publish` optiont to `travis:build` to force publication of test artificats even when Coveralls is enabled
+
 ### 1.0.1 (2013-10-01)
 
-* *[WORKAROUND]* Pinned `symfony/process` below version 2.3.5 to work around issues with strict error reporting and error suppression.
+* **[WORKAROUND]** Pinned `symfony/process` below version 2.3.5 to work around issues with strict error reporting and error suppression
 
 ### 1.0.0 (2013-09-09)
 

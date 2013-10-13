@@ -163,7 +163,7 @@ Generating code coverage report in HTML format ... done
 
 ![Example Archer coverage report](http://icecavestudios.github.io/archer/doc/img/example-coverage-report.png)
 
-For a live example see the [test coverage report](http://icecavestudios.github.io/chrono/artifacts/tests/coverage/) for [Chrono].
+For a live example see the [test coverage report](http://icecavestudios.github.io/archer/artifacts/tests/coverage/) for **Archer's** own test suite.
 
 #### Coveralls integration
 
@@ -239,8 +239,7 @@ The directory structure is as follows:
 ##### Published test coverage report
 
 Once published, a project's test coverage report is available through GitHub's [Pages][github pages] system. As an
-example, [Chrono]'s coverage reports coverage reports are published to
-http://icecavestudios.github.io/chrono/artifacts/tests/coverage/.
+example, **Archer's** own coverage reports are published to http://icecavestudios.github.io/archer/artifacts/tests/coverage/.
 
 Note that the above URL redirects to a custom domain, but it is still served through GitHub Pages.
 
@@ -255,7 +254,7 @@ publishes a similar badge image when [Coveralls] is not enabled.
 <!-- references -->
 [Build Status]: https://travis-ci.org/IcecaveStudios/archer.png?branch=develop
 [Test Coverage]: https://coveralls.io/repos/IcecaveStudios/archer/badge.png?branch=develop
-[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.0.1&color=green
+[SemVer]: http://calm-shore-6115.herokuapp.com/?label=semver&value=1.1.0&color=green
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
@@ -269,7 +268,6 @@ publishes a similar badge image when [Coveralls] is not enabled.
 [phpunit]: https://github.com/sebastianbergmann/phpunit
 [psr-0]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md
 [sami]: https://github.com/fabpot/Sami
-[chrono]: https://github.com/IcecaveStudios/chrono
 [travis ci]: https://travis-ci.org/
 [woodhouse]: https://github.com/IcecaveStudios/woodhouse
 [xdebug]: http://xdebug.org/

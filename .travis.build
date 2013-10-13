@@ -8,5 +8,5 @@ if [ -z $ARCHER_TOKEN ]; then
         phpunit
     fi
 else
-    ARCHER_PUBLISH_VERSION=$TRAVIS_PHP_VERSION ./bin/archer travis:build
+    ARCHER_PUBLISH_VERSION=$TRAVIS_PHP_VERSION ./bin/archer travis:build --always-publish
 fi
