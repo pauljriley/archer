@@ -7,7 +7,6 @@
     mapTestClassNameToCoveredClassName="true"
     verbose="true"
     colors="true"
-    timeoutForSmallTests="60"
 >
     <testsuites>
         <testsuite>

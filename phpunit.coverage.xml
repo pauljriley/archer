@@ -8,8 +8,8 @@
     verbose="true"
     colors="true"
     timeoutForSmallTests="60"
-    timeoutForMediumTests="90"
-    timeoutForLargeTests="120"
+    timeoutForMediumTests="120"
+    timeoutForLargeTests="300"
 >
     <testsuites>
         <testsuite>
