@@ -1,5 +1,5 @@
 var tree = [["Icecave",,"",
-                [["Archer",,"",
+                [["Archer","Icecave\/Archer.html","",
                 [["Configuration","Icecave\/Archer\/Configuration.html","",
                 [["ComposerConfigurationReader","Icecave\/Archer\/Configuration\/ComposerConfigurationReader.html","",
                 [        ]],["ConfigurationFileFinder","Icecave\/Archer\/Configuration\/ConfigurationFileFinder.html","",
@@ -58,5 +58,6 @@ var tree = [["Icecave",,"",
                 [        ]]        ]],["Travis","Icecave\/Archer\/Travis.html","",
                 [["TravisClient","Icecave\/Archer\/Travis\/TravisClient.html","",
                 [        ]],["TravisConfigManager","Icecave\/Archer\/Travis\/TravisConfigManager.html","",
-                [        ]]        ]]        ]]        ]]        ]
+                [        ]]        ]],["PackageInfo","Icecave\/Archer\/PackageInfo.html","",
+                [        ]]        ]]        ]]        ]
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1381708707">
-  <project timestamp="1381708707">
+<coverage generated="1382323340">
+  <project timestamp="1382323340">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -1280,6 +1280,14 @@
         <metrics loc="116" ncloc="88" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="34" coveredstatements="34" elements="42" coveredelements="42"/>
       </file>
     </package>
+    <package name="Icecave\Archer">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/PackageInfo.php">
+        <class name="PackageInfo" namespace="Icecave\Archer">
+          <metrics methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+        </class>
+        <metrics loc="8" ncloc="8" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+    </package>
     <package name="Icecave\Archer\Process">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Process/PHPUnitExecutableFinder.php">
         <class name="PHPUnitExecutableFinder" namespace="Icecave\Archer\Process">
@@ -1684,6 +1692,6 @@
         <metrics loc="291" ncloc="198" classes="1" methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="107"/>
       </file>
     </package>
-    <metrics files="37" loc="4179" ncloc="3243" classes="36" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1211" coveredstatements="1164" elements="1391" coveredelements="1336"/>
+    <metrics files="38" loc="4187" ncloc="3251" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1211" coveredstatements="1164" elements="1391" coveredelements="1336"/>
   </project>
 </coverage>
