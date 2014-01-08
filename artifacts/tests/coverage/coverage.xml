@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1382323340">
-  <project timestamp="1382323340">
+<coverage generated="1389148782">
+  <project timestamp="1389148782">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -237,7 +237,7 @@
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/CoverageCommand.php">
         <class name="CoverageCommand" namespace="Icecave\Archer\Console\Command">
-          <metrics methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="60" elements="68" coveredelements="68"/>
+          <metrics methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="65" coveredstatements="65" elements="73" coveredelements="73"/>
         </class>
         <line num="0" type="stmt" count="0"/>
         <line num="29" type="method" name="__construct" crap="2" count="6"/>
@@ -302,8 +302,13 @@
         <line num="156" type="stmt" count="3"/>
         <line num="157" type="stmt" count="1"/>
         <line num="160" type="stmt" count="3"/>
+        <line num="162" type="stmt" count="3"/>
+        <line num="164" type="stmt" count="3"/>
+        <line num="165" type="stmt" count="3"/>
+        <line num="166" type="stmt" count="3"/>
+        <line num="168" type="stmt" count="3"/>
         <line num="173" type="stmt" count="0"/>
-        <metrics loc="172" ncloc="141" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="55" coveredstatements="55" elements="63" coveredelements="63"/>
+        <metrics loc="172" ncloc="141" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="60" elements="68" coveredelements="68"/>
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/DocumentationCommand.php">
         <class name="DocumentationCommand" namespace="Icecave\Archer\Console\Command">
@@ -1692,6 +1697,6 @@
         <metrics loc="291" ncloc="198" classes="1" methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="107"/>
       </file>
     </package>
-    <metrics files="38" loc="4187" ncloc="3251" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1211" coveredstatements="1164" elements="1391" coveredelements="1336"/>
+    <metrics files="38" loc="4187" ncloc="3251" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1216" coveredstatements="1169" elements="1396" coveredelements="1341"/>
   </project>
 </coverage>
