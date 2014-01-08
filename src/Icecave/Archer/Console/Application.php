@@ -2,6 +2,7 @@
 namespace Icecave\Archer\Console;
 
 use Icecave\Archer\FileSystem\FileSystem;
+use Icecave\Archer\PackageInfo;
 use Icecave\Archer\Support\Isolator;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -20,7 +21,7 @@ class Application extends SymfonyApplication
         FileSystem $fileSystem = null,
         Isolator $isolator = null
     ) {
-        parent::__construct('Archer', '1.1.0');
+        parent::__construct(PackageInfo::NAME, PackageInfo::VERSION);
 
         if (null === $fileSystem) {
             $fileSystem = new FileSystem;

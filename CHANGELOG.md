@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 1.1.1 (2014-01-08)
+
+* **[FIXED]** Updated to [Woodhouse 0.5.1](https://github.com/IcecaveStudios/woodhouse/releases/tag/0.5.1), which includes some minor fixes
+
 ### 1.1.0 (2013-10-14)
 
 * **[FIXED]** The `update` command now configures Travis CI to publish artifacts under the most recent PHP version supported
@@ -14,7 +18,7 @@
 
 ### 1.0.0 (2013-09-09)
 
-* **[FIXED]** The update command no longer fails when run against a non-GitHub repository (however only dotfile updates are supported)
+* **[FIXED]** The `update` command no longer fails when run against a non-GitHub repository (however only dotfile updates are supported)
 
 ### 1.0.0-alpha.3 (2013-09-08)
 
@@ -51,7 +55,7 @@
 
 ### 0.4.0 (2013-05-27)
 
-* **[NEW]** New *documentation* command uses [Sami](https://github.com/fabpot/Sami) to generate HTML API documentation
+* **[NEW]** New `documentation` command uses [Sami](https://github.com/fabpot/Sami) to generate HTML API documentation
 * **[NEW]** HTML API documentation is published along with coverage information when building under Travis CI
 
 ### 0.3.1 (2013-04-30)
@@ -76,11 +80,11 @@
 
 ### 0.1.2 (2013-02-17)
 
-* **[FIXED]** Updated to Woodhouse 0.4.2, allows automatic creation of gh-pages branch
+* **[FIXED]** Updated to [Woodhouse 0.4.2](https://github.com/IcecaveStudios/woodhouse/releases/tag/0.4.2), allows automatic creation of gh-pages branch
 
 ### 0.1.1 (2013-02-16)
 
-* **[FIXED]** Updated to Woodhouse 0.4.1, adds user.name/user.email to git config
+* **[FIXED]** Updated to [Woodhouse 0.4.1](https://github.com/IcecaveStudios/woodhouse/releases/tag/0.4.1), adds user.name/user.email to git config
 
 ### 0.1.0 (2013-02-14)
 
