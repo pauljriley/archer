@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1389148782">
-  <project timestamp="1389148782">
+<coverage generated="1389150393">
+  <project timestamp="1389150393">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -76,40 +76,41 @@
           <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="33" coveredelements="33"/>
         </class>
         <line num="0" type="stmt" count="0"/>
-        <line num="18" type="method" name="__construct" crap="2" count="8"/>
-        <line num="23" type="stmt" count="8"/>
-        <line num="25" type="stmt" count="8"/>
-        <line num="26" type="stmt" count="1"/>
-        <line num="29" type="stmt" count="8"/>
+        <line num="19" type="method" name="__construct" crap="2" count="8"/>
+        <line num="24" type="stmt" count="8"/>
+        <line num="26" type="stmt" count="8"/>
+        <line num="27" type="stmt" count="1"/>
+        <line num="28" type="stmt" count="1"/>
         <line num="30" type="stmt" count="8"/>
         <line num="31" type="stmt" count="8"/>
-        <line num="33" type="stmt" count="8"/>
-        <line num="35" type="stmt" count="8"/>
+        <line num="32" type="stmt" count="8"/>
+        <line num="34" type="stmt" count="8"/>
         <line num="36" type="stmt" count="8"/>
         <line num="37" type="stmt" count="8"/>
         <line num="38" type="stmt" count="8"/>
-        <line num="40" type="stmt" count="8"/>
-        <line num="42" type="stmt" count="8"/>
+        <line num="39" type="stmt" count="8"/>
+        <line num="41" type="stmt" count="8"/>
         <line num="43" type="stmt" count="8"/>
-        <line num="48" type="method" name="packageRoot" crap="1" count="8"/>
-        <line num="50" type="stmt" count="8"/>
-        <line num="56" type="method" name="fileSystem" crap="1" count="2"/>
-        <line num="58" type="stmt" count="2"/>
-        <line num="67" type="method" name="doRun" crap="2" count="1"/>
-        <line num="69" type="stmt" count="1"/>
+        <line num="44" type="stmt" count="8"/>
+        <line num="49" type="method" name="packageRoot" crap="1" count="8"/>
+        <line num="51" type="stmt" count="8"/>
+        <line num="57" type="method" name="fileSystem" crap="1" count="2"/>
+        <line num="59" type="stmt" count="2"/>
+        <line num="68" type="method" name="doRun" crap="2" count="1"/>
         <line num="70" type="stmt" count="1"/>
         <line num="71" type="stmt" count="1"/>
-        <line num="73" type="stmt" count="1"/>
-        <line num="75" type="stmt" count="1"/>
-        <line num="78" type="stmt" count="1"/>
-        <line num="84" type="method" name="rawArguments" crap="1" count="1"/>
-        <line num="86" type="stmt" count="1"/>
+        <line num="72" type="stmt" count="1"/>
+        <line num="74" type="stmt" count="1"/>
+        <line num="76" type="stmt" count="1"/>
+        <line num="79" type="stmt" count="1"/>
+        <line num="85" type="method" name="rawArguments" crap="1" count="1"/>
         <line num="87" type="stmt" count="1"/>
-        <line num="89" type="stmt" count="1"/>
-        <line num="95" type="method" name="defaultCommandName" crap="1" count="1"/>
-        <line num="97" type="stmt" count="1"/>
-        <line num="104" type="stmt" count="0"/>
-        <metrics loc="103" ncloc="80" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="33" coveredelements="33"/>
+        <line num="88" type="stmt" count="1"/>
+        <line num="90" type="stmt" count="1"/>
+        <line num="96" type="method" name="defaultCommandName" crap="1" count="1"/>
+        <line num="98" type="stmt" count="1"/>
+        <line num="105" type="stmt" count="0"/>
+        <metrics loc="104" ncloc="81" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="33" coveredelements="33"/>
       </file>
     </package>
     <package name="Icecave\Archer\Console\Command">
@@ -1290,6 +1291,7 @@
         <class name="PackageInfo" namespace="Icecave\Archer">
           <metrics methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
         </class>
+        <line num="9" type="stmt" count="0"/>
         <metrics loc="8" ncloc="8" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </file>
     </package>
@@ -1697,6 +1699,6 @@
         <metrics loc="291" ncloc="198" classes="1" methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="107"/>
       </file>
     </package>
-    <metrics files="38" loc="4187" ncloc="3251" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1216" coveredstatements="1169" elements="1396" coveredelements="1341"/>
+    <metrics files="38" loc="4188" ncloc="3252" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1216" coveredstatements="1169" elements="1396" coveredelements="1341"/>
   </project>
 </coverage>
