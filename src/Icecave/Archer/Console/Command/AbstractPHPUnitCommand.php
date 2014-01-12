@@ -219,8 +219,14 @@ abstract class AbstractPHPUnitCommand extends Command
             )
         );
 
+        $arguments = array($phpPath);
+
+        if ('hhvm' === substr($phpPath, -4)) {
+            $arguments[] = '--php';
+        }
+
         return array_merge(
-            array($phpPath),
+            $arguments,
             $this->phpConfigurationArguments($this->readPHPConfiguration()),
             array(
                 $phpunitPath,
@@ -229,6 +235,8 @@ abstract class AbstractPHPUnitCommand extends Command
             ),
             $phpunitArguments
         );
+
+        return $arguments;
     }
 
     /**
