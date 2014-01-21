@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1390268075">
-  <project timestamp="1390268075">
+<coverage generated="1390269621">
+  <project timestamp="1390269621">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -1300,44 +1300,44 @@
         <class name="PHPUnitExecutableFinder" namespace="Icecave\Archer\Process">
           <metrics methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="36" coveredelements="36"/>
         </class>
-        <line num="14" type="method" name="__construct" crap="3" count="6"/>
-        <line num="18" type="stmt" count="6"/>
-        <line num="19" type="stmt" count="1"/>
-        <line num="21" type="stmt" count="6"/>
-        <line num="22" type="stmt" count="1"/>
+        <line num="13" type="method" name="__construct" crap="3" count="6"/>
+        <line num="17" type="stmt" count="6"/>
+        <line num="18" type="stmt" count="1"/>
+        <line num="20" type="stmt" count="6"/>
+        <line num="21" type="stmt" count="1"/>
+        <line num="24" type="stmt" count="6"/>
         <line num="25" type="stmt" count="6"/>
         <line num="26" type="stmt" count="6"/>
-        <line num="27" type="stmt" count="6"/>
-        <line num="32" type="method" name="executableFinder" crap="1" count="4"/>
-        <line num="34" type="stmt" count="4"/>
-        <line num="40" type="method" name="processFactory" crap="1" count="4"/>
-        <line num="42" type="stmt" count="4"/>
-        <line num="48" type="method" name="find" crap="2" count="4"/>
-        <line num="50" type="stmt" count="4"/>
-        <line num="51" type="stmt" count="2"/>
-        <line num="54" type="stmt" count="2"/>
-        <line num="60" type="method" name="findForGeneric" crap="2" count="2"/>
+        <line num="31" type="method" name="executableFinder" crap="1" count="4"/>
+        <line num="33" type="stmt" count="4"/>
+        <line num="39" type="method" name="processFactory" crap="1" count="4"/>
+        <line num="41" type="stmt" count="4"/>
+        <line num="47" type="method" name="find" crap="2" count="4"/>
+        <line num="49" type="stmt" count="4"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="53" type="stmt" count="2"/>
+        <line num="59" type="method" name="findForGeneric" crap="2" count="2"/>
+        <line num="61" type="stmt" count="2"/>
         <line num="62" type="stmt" count="2"/>
-        <line num="63" type="stmt" count="2"/>
-        <line num="64" type="stmt" count="1"/>
-        <line num="67" type="stmt" count="1"/>
-        <line num="73" type="method" name="findForTravis" crap="2" count="2"/>
+        <line num="63" type="stmt" count="1"/>
+        <line num="66" type="stmt" count="1"/>
+        <line num="72" type="method" name="findForTravis" crap="2" count="2"/>
+        <line num="74" type="stmt" count="2"/>
         <line num="75" type="stmt" count="2"/>
         <line num="76" type="stmt" count="2"/>
-        <line num="77" type="stmt" count="2"/>
+        <line num="77" type="stmt" count="1"/>
         <line num="78" type="stmt" count="1"/>
         <line num="79" type="stmt" count="1"/>
         <line num="80" type="stmt" count="1"/>
         <line num="81" type="stmt" count="1"/>
         <line num="82" type="stmt" count="1"/>
-        <line num="83" type="stmt" count="1"/>
-        <line num="86" type="stmt" count="1"/>
-        <line num="92" type="method" name="environmentIsTravis" crap="2" count="4"/>
-        <line num="94" type="stmt" count="4"/>
-        <line num="95" type="stmt" count="2"/>
-        <line num="98" type="stmt" count="2"/>
-        <line num="104" type="stmt" count="0"/>
-        <metrics loc="103" ncloc="81" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="36" coveredelements="36"/>
+        <line num="85" type="stmt" count="1"/>
+        <line num="91" type="method" name="environmentIsTravis" crap="2" count="4"/>
+        <line num="93" type="stmt" count="4"/>
+        <line num="94" type="stmt" count="2"/>
+        <line num="97" type="stmt" count="2"/>
+        <line num="103" type="stmt" count="0"/>
+        <metrics loc="102" ncloc="80" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="36" coveredelements="36"/>
       </file>
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Process/ProcessFactory.php">
         <class name="ProcessFactory" namespace="Icecave\Archer\Process">
@@ -1479,7 +1479,7 @@
         <line num="32" type="stmt" count="1"/>
         <line num="39" type="method" name="target" crap="1" count="1"/>
         <line num="41" type="stmt" count="1"/>
-        <line num="46" type="stmt" count="1"/>
+        <line num="46" type="stmt" count="0"/>
         <metrics loc="45" ncloc="26" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
       </file>
     </package>
@@ -1699,6 +1699,6 @@
         <metrics loc="291" ncloc="198" classes="1" methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="107"/>
       </file>
     </package>
-    <metrics files="38" loc="4188" ncloc="3252" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1216" coveredstatements="1169" elements="1396" coveredelements="1341"/>
+    <metrics files="38" loc="4187" ncloc="3251" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1216" coveredstatements="1169" elements="1396" coveredelements="1341"/>
   </project>
 </coverage>

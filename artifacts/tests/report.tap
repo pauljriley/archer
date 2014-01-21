@@ -181,7 +181,7 @@ ok 179 - Icecave\Archer\Support\IsolatorTest::testInclude
 ok 180 - Icecave\Archer\Support\IsolatorTest::testIncludeOnce
 ok 181 - Icecave\Archer\Support\IsolatorTest::testRequire
 ok 182 - Icecave\Archer\Support\IsolatorTest::testRequireOnce
-ok 183 - Icecave\Archer\Support\Liftoff\Exception\LauncherTest::testException
+ok 183 - Icecave\Archer\Support\Liftoff\Exception\LaunchExceptionTest::testException
 ok 184 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "OSX" ('Darwin', '/path/to/file', NULL, 'open \'/path/to/file\'')
 ok 185 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "OSX with arguments" ('Darwin', '/path/to/file', array('--foo', 'bar'), 'open \'/path/to/file\' \'--args\' \'--foo\' \'bar\'')
 ok 186 - Icecave\Archer\Support\Liftoff\LauncherTest::testLaunch with data set "Windows" ('Windows NT', '/path/to/file', NULL, 'start \'liftoff\' \'/path/to/file\'')
