@@ -1,7 +1,6 @@
 <?php
 namespace Icecave\Archer\Process;
 
-use Icecave\Archer\Process\ProcessFactory;
 use RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 

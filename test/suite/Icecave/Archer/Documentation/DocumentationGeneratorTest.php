@@ -304,7 +304,7 @@ class DocumentationGeneratorTest extends PHPUnit_Framework_TestCase
             Liberator::liberate($this->generator)->popErrorHandlers()
         );
         $setVerification = Phake::verify($this->isolator, Phake::times(3))
-            ->set_error_handler(function() {});
+            ->set_error_handler(function () {});
         $restoreVerification = Phake::verify($this->isolator, Phake::times(6))
             ->restore_error_handler();
         Phake::inOrder(

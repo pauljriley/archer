@@ -8,13 +8,11 @@
 #
 language: php
 
-php:
-  - 5.3
-  - 5.4
-  - 5.5
+php: ["5.3", "5.4", "5.5"]
 
 install:
   - ./.travis.install
+
 script:
   - ./.travis.build
 

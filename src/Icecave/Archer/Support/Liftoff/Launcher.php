@@ -28,10 +28,10 @@ class Launcher
      *
      * @param string             $target    The path or URI to launch.
      * @param array<string>|null $arguments An array of arguments to pass to the
-     *     associated application.
+     *                                      associated application.
      *
      * @throws Exception\LaunchException If the launch command fails, or is
-     *     unavailable.
+     *                                   unavailable.
      */
     public function launch($target, array $arguments = null)
     {
