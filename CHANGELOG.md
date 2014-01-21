@@ -2,7 +2,7 @@
 
 ### 1.1.2 (2014-01-21)
 
-* **[FIXED]** Automatic creation of `gh-pages` branch (was failing under Git 1.7, see [travis-ci/travis-ci#1710](https://github.com/travis-ci/travis-ci/issues/1710))
+* **[FIXED]** Automatic creation of `gh-pages` branch no longer fails due to unsupported Git version (see [travis-ci/travis-ci#1710](https://github.com/travis-ci/travis-ci/issues/1710))
 
 ### 1.1.1 (2014-01-08)
 
