@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 1.1.2 (2014-01-21)
+
+* **[FIXED]** Automatic creation of `gh-pages` branch (was failing under Git 1.7, see [travis-ci/travis-ci#1710](https://github.com/travis-ci/travis-ci/issues/1710))
+
 ### 1.1.1 (2014-01-08)
 
 * **[FIXED]** Updated to [Woodhouse 0.5.1](https://github.com/IcecaveStudios/woodhouse/releases/tag/0.5.1), which includes some minor fixes

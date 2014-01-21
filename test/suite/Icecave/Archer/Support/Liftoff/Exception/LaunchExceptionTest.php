@@ -14,7 +14,7 @@ namespace Icecave\Archer\Support\Liftoff\Exception;
 use Exception;
 use PHPUnit_Framework_TestCase;
 
-class LauncherTest extends PHPUnit_Framework_TestCase
+class LaunchExceptionTest extends PHPUnit_Framework_TestCase
 {
     public function testException()
     {
