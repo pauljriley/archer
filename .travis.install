@@ -49,4 +49,10 @@ if ($token) {
 // Install composer dependencies ...
 $exitCode = 0;
 passthru('composer install --dev --no-progress --no-interaction --ansi ' . $composerFlags, $exitCode);
+
+
+require __DIR__ . '/vendor/autoload.php';
+
+var_dump(class_exists('Symfony\Component\Console\Output\NullOutput', true));
+
 exit($exitCode);
