@@ -51,9 +51,6 @@ if ($token) {
 $exitCode = 0;
 passthru('composer install --dev --no-progress --no-interaction --ansi ' . $composerFlags, $exitCode);
 
-
-require __DIR__ . '/vendor/autoload.php';
-
-var_dump(Phake::partialMock('Symfony\Component\Console\Output\NullOutput'));
+passthru("hhvm --php -r \"require " . var_export(__DIR__, true) . " . '/vendor/autoload.php'; var_dump(class_exists('Symfony\Component\Console\Output\NullOutput')); var_dump(Phake::partialMock('Symfony\Component\Console\Output\NullOutput'));\"");
 
 exit($exitCode);
