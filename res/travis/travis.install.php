@@ -1,9 +1,19 @@
 #!/usr/bin/env php
 <?php
+passthru('uname -a');
+
+if (getenv('TRAVIS_PHP_VERSION') == 'hhvm') {
+    passthru('wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | sudo apt-key add -');
+    passthru('echo deb http://dl.hhvm.com/ubuntu precise main | sudo tee /etc/apt/sources.list.d/hhvm.list');
+}
 
 // Update git to the latest version ...
 passthru('sudo apt-get update');
 passthru('sudo apt-get install git');
+
+if (getenv('TRAVIS_PHP_VERSION') == 'hhvm') {
+    passthru('sudo apt-get install hhvm-nightly');
+}
 
 // Update composer to the latest version ...
 passthru('composer self-update --no-interaction');
