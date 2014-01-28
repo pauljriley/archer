@@ -51,6 +51,7 @@ if ($token) {
 $exitCode = 0;
 passthru('composer install --dev --no-progress --no-interaction --ansi ' . $composerFlags, $exitCode);
 
-passthru("hhvm --php -r \"require " . var_export(__DIR__, true) . " . '/vendor/autoload.php'; var_dump(new ReflectionClass('Symfony\Component\Console\Output\NullOutput'));\"");
+$code = 'namespace Foo\Bar; eval("echo __NAMESPACE__ . PHP_EOL;");';
+passthru("hhvm --php -r " . escapeshellarg($code));
 
 exit($exitCode);
