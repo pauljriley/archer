@@ -27,7 +27,7 @@ if (is_dir($projectTestFixturePath)) {
     );
 
     foreach ($iter as $file) {
-        require $file;
+        require $file->getPathname();
     }
 }
 
