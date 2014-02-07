@@ -1,4 +1,6 @@
 <?php
+use Icecave\Archer\Support\Composer\Autoload\ClassMapGenerator;
+
 // Find the root path of the project being tested ...
 $rootPath = __DIR__ . '/../../../../..';
 
@@ -19,7 +21,28 @@ Phake::setClient(Phake::CLIENT_PHPUNIT);
 // Add an autoloader for test fixtures, if required ...
 $projectTestFixturePath = $rootPath . '/test/src';
 if (is_dir($projectTestFixturePath)) {
-    $autoloader->add('', array($projectTestFixturePath));
+
+    $buildClassMap = function () use ($projectTestFixturePath) {
+        $iter = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(
+                $projectTestFixturePath,
+                RecursiveDirectoryIterator::SKIP_DOTS
+            )
+        );
+
+        $classMap = array();
+
+        foreach ($iter as $file) {
+            foreach (ClassMapGenerator::findClasses($file) as $class) {
+                $classMap[$class] = $file->getPathname();
+            }
+        }
+
+        return $classMap;
+    };
+
+
+    $autoloader->addClassMap($buildClassMap());
 }
 
 // Include a project-specific bootstrap file, if present ...
