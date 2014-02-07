@@ -162,8 +162,10 @@ class BuildCommand extends AbstractTravisCommand
         $publishExitCode = 0;
         if ($publishArtifacts) {
             // Generate documentation
-            $documentationExitCode = 255;
-            $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
+            if ($this->isolator->is_dir($packageRoot . '/src')) {
+                $documentationExitCode = 255;
+                $this->isolator->passthru($archerRoot . '/bin/archer documentation', $documentationExitCode);
+            }
 
             // Publish artifacts
             $command  = $archerRoot . '/bin/woodhouse';
