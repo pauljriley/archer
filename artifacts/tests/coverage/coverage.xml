@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1391741350">
-  <project timestamp="1391741350">
+<coverage generated="1391742295">
+  <project timestamp="1391742295">
     <package name="Icecave\Archer\Configuration">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
           <metrics methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="15" coveredelements="15"/>
         </class>
@@ -24,7 +24,7 @@
         <line num="50" type="stmt" count="0"/>
         <metrics loc="49" ncloc="38" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="15" coveredelements="15"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ConfigurationFileFinder.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Configuration/ConfigurationFileFinder.php">
         <class name="ConfigurationFileFinder" namespace="Icecave\Archer\Configuration">
           <metrics methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="13" coveredelements="13"/>
         </class>
@@ -44,7 +44,7 @@
         <line num="47" type="stmt" count="0"/>
         <metrics loc="46" ncloc="34" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="13" coveredelements="13"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/PHPConfigurationReader.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Configuration/PHPConfigurationReader.php">
         <class name="PHPConfigurationReader" namespace="Icecave\Archer\Configuration">
           <metrics methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="18" coveredelements="18"/>
         </class>
@@ -71,7 +71,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Console">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Application.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Application.php">
         <class name="Application" namespace="Icecave\Archer\Console">
           <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="33" coveredelements="33"/>
         </class>
@@ -114,7 +114,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Console\Command">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/AbstractPHPUnitCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/AbstractPHPUnitCommand.php">
         <class name="AbstractPHPUnitCommand" namespace="Icecave\Archer\Console\Command">
           <metrics methods="16" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="112" coveredstatements="112" elements="128" coveredelements="126"/>
         </class>
@@ -236,7 +236,7 @@
         <line num="278" type="stmt" count="0"/>
         <metrics loc="277" ncloc="217" classes="1" methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="99" coveredstatements="99" elements="113" coveredelements="113"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/CoverageCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/CoverageCommand.php">
         <class name="CoverageCommand" namespace="Icecave\Archer\Console\Command">
           <metrics methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="65" coveredstatements="65" elements="73" coveredelements="73"/>
         </class>
@@ -311,7 +311,7 @@
         <line num="173" type="stmt" count="0"/>
         <metrics loc="172" ncloc="141" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="60" elements="68" coveredelements="68"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/DocumentationCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/DocumentationCommand.php">
         <class name="DocumentationCommand" namespace="Icecave\Archer\Console\Command">
           <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="26" elements="31" coveredelements="31"/>
         </class>
@@ -349,7 +349,7 @@
         <line num="78" type="stmt" count="0"/>
         <metrics loc="77" ncloc="67" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="26" elements="31" coveredelements="31"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/TestCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/TestCommand.php">
         <class name="TestCommand" namespace="Icecave\Archer\Console\Command">
           <metrics methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="22" coveredelements="22"/>
         </class>
@@ -378,7 +378,7 @@
         <line num="50" type="stmt" count="0"/>
         <metrics loc="49" ncloc="43" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="22" coveredelements="22"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/UpdateCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/UpdateCommand.php">
         <class name="UpdateCommand" namespace="Icecave\Archer\Console\Command">
           <metrics methods="13" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="180" coveredstatements="180" elements="193" coveredelements="193"/>
         </class>
@@ -581,7 +581,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Console\Command\Internal">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/Internal/AbstractInternalCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/Internal/AbstractInternalCommand.php">
         <class name="AbstractInternalCommand" namespace="Icecave\Archer\Console\Command\Internal">
           <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="0" elements="28" coveredelements="0"/>
         </class>
@@ -616,7 +616,7 @@
         <line num="67" type="stmt" count="0"/>
         <metrics loc="66" ncloc="57" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="0" elements="28" coveredelements="0"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/Internal/UpdateBinariesCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/Internal/UpdateBinariesCommand.php">
         <class name="UpdateBinariesCommand" namespace="Icecave\Archer\Console\Command\Internal">
           <metrics methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="0" elements="25" coveredelements="0"/>
         </class>
@@ -650,7 +650,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Console\Command\Travis">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/Travis/AbstractTravisCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/Travis/AbstractTravisCommand.php">
         <class name="AbstractTravisCommand" namespace="Icecave\Archer\Console\Command\Travis">
           <metrics methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
         </class>
@@ -663,7 +663,7 @@
         <line num="26" type="stmt" count="0"/>
         <metrics loc="25" ncloc="22" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Command/Travis/BuildCommand.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Command/Travis/BuildCommand.php">
         <class name="BuildCommand" namespace="Icecave\Archer\Console\Command\Travis">
           <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="111" coveredstatements="111" elements="117" coveredelements="117"/>
         </class>
@@ -789,7 +789,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Console\Helper">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Console/Helper/HiddenInputHelper.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Console/Helper/HiddenInputHelper.php">
         <class name="HiddenInputHelper" namespace="Icecave\Archer\Console\Helper">
           <metrics methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="44" coveredstatements="44" elements="52" coveredelements="52"/>
         </class>
@@ -850,7 +850,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Coveralls">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Coveralls/CoverallsClient.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Coveralls/CoverallsClient.php">
         <class name="CoverallsClient" namespace="Icecave\Archer\Coveralls">
           <metrics methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
         </class>
@@ -875,7 +875,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Documentation">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Documentation/DocumentationGenerator.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Documentation/DocumentationGenerator.php">
         <class name="DocumentationGenerator" namespace="Icecave\Archer\Documentation">
           <metrics methods="13" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="92" coveredstatements="92" elements="105" coveredelements="105"/>
         </class>
@@ -985,7 +985,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\FileSystem\Exception">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/FileSystem/Exception/ReadException.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/FileSystem/Exception/ReadException.php">
         <class name="ReadException" namespace="Icecave\Archer\FileSystem\Exception">
           <metrics methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
         </class>
@@ -1001,7 +1001,7 @@
         <line num="34" type="stmt" count="0"/>
         <metrics loc="33" ncloc="26" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/FileSystem/Exception/WriteException.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/FileSystem/Exception/WriteException.php">
         <class name="WriteException" namespace="Icecave\Archer\FileSystem\Exception">
           <metrics methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
         </class>
@@ -1019,7 +1019,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\FileSystem">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/FileSystem/FileSystem.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/FileSystem/FileSystem.php">
         <class name="FileSystem" namespace="Icecave\Archer\FileSystem">
           <metrics methods="13" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="67" elements="80" coveredelements="80"/>
         </class>
@@ -1108,7 +1108,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Git">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Git/GitConfigReader.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Git/GitConfigReader.php">
         <class name="GitConfigReader" namespace="Icecave\Archer\Git">
           <metrics methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="51" coveredelements="51"/>
         </class>
@@ -1166,7 +1166,7 @@
         <line num="135" type="stmt" count="0"/>
         <metrics loc="134" ncloc="106" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="42" elements="51" coveredelements="51"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Git/GitConfigReaderFactory.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Git/GitConfigReaderFactory.php">
         <class name="GitConfigReaderFactory" namespace="Icecave\Archer\Git">
           <metrics methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
         </class>
@@ -1175,7 +1175,7 @@
         <line num="16" type="stmt" count="0"/>
         <metrics loc="15" ncloc="10" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Git/GitDotFilesManager.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Git/GitDotFilesManager.php">
         <class name="GitDotFilesManager" namespace="Icecave\Archer\Git">
           <metrics methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="48" coveredstatements="48" elements="52" coveredelements="52"/>
         </class>
@@ -1236,7 +1236,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\GitHub">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/GitHub/GitHubClient.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/GitHub/GitHubClient.php">
         <class name="GitHubClient" namespace="Icecave\Archer\GitHub">
           <metrics methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="34" coveredstatements="34" elements="42" coveredelements="42"/>
         </class>
@@ -1287,7 +1287,7 @@
       </file>
     </package>
     <package name="Icecave\Archer">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/PackageInfo.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/PackageInfo.php">
         <class name="PackageInfo" namespace="Icecave\Archer">
           <metrics methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
         </class>
@@ -1296,7 +1296,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Process">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Process/PHPUnitExecutableFinder.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Process/PHPUnitExecutableFinder.php">
         <class name="PHPUnitExecutableFinder" namespace="Icecave\Archer\Process">
           <metrics methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="36" coveredelements="36"/>
         </class>
@@ -1339,7 +1339,7 @@
         <line num="103" type="stmt" count="0"/>
         <metrics loc="102" ncloc="80" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="36" coveredelements="36"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Process/ProcessFactory.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Process/ProcessFactory.php">
         <class name="ProcessFactory" namespace="Icecave\Archer\Process">
           <metrics methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
         </class>
@@ -1354,7 +1354,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Support">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Asplode.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Asplode.php">
         <class name="Asplode" namespace="Icecave\Archer\Support">
           <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="26" coveredelements="26"/>
         </class>
@@ -1387,7 +1387,7 @@
         <line num="67" type="stmt" count="0"/>
         <metrics loc="66" ncloc="57" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="26" coveredelements="26"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Isolator.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Isolator.php">
         <class name="Isolator" namespace="Icecave\Archer\Support">
           <metrics methods="8" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="33" coveredelements="29"/>
         </class>
@@ -1425,7 +1425,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Support\Composer\Autoload">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Autoload/ClassMapGenerator.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Autoload/ClassMapGenerator.php">
         <class name="ClassMapGenerator" namespace="Icecave\Archer\Support\Composer\Autoload">
           <metrics methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
         </class>
@@ -1436,26 +1436,26 @@
       </file>
     </package>
     <package name="Icecave\Archer\Support\Composer\Package\LinkConstraint">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/LinkConstraint/EmptyConstraint.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Package/LinkConstraint/EmptyConstraint.php">
         <class name="EmptyConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
           <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="4" coveredelements="0"/>
         </class>
         <metrics loc="48" ncloc="32" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/LinkConstraint/MultiConstraint.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Package/LinkConstraint/MultiConstraint.php">
         <class name="MultiConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
           <metrics methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="5" coveredelements="0"/>
         </class>
         <metrics loc="84" ncloc="61" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/LinkConstraint/SpecificConstraint.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Package/LinkConstraint/SpecificConstraint.php">
         <class name="SpecificConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
           <metrics methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="3" coveredelements="0"/>
         </class>
         <line num="56" type="stmt" count="0"/>
         <metrics loc="55" ncloc="31" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/LinkConstraint/VersionConstraint.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Package/LinkConstraint/VersionConstraint.php">
         <class name="VersionConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
           <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="4" coveredelements="0"/>
         </class>
@@ -1463,12 +1463,12 @@
         <metrics loc="101" ncloc="61" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </file>
     </package>
-    <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/LinkConstraint/LinkConstraintInterface.php">
+    <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Package/LinkConstraint/LinkConstraintInterface.php">
       <line num="27" type="stmt" count="0"/>
       <metrics loc="26" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <package name="Icecave\Archer\Support\Composer\Package\Version">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/Version/VersionParser.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Composer/Package/Version/VersionParser.php">
         <class name="VersionParser" namespace="Icecave\Archer\Support\Composer\Package\Version">
           <metrics methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="7" coveredelements="0"/>
         </class>
@@ -1477,7 +1477,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Support\Liftoff\Exception">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Liftoff/Exception/LaunchException.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Liftoff/Exception/LaunchException.php">
         <class name="LaunchException" namespace="Icecave\Archer\Support\Liftoff\Exception">
           <metrics methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
         </class>
@@ -1495,7 +1495,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Support\Liftoff">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Liftoff/Launcher.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Support/Liftoff/Launcher.php">
         <class name="Launcher" namespace="Icecave\Archer\Support\Liftoff">
           <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="44" coveredstatements="44" elements="50" coveredelements="50"/>
         </class>
@@ -1554,7 +1554,7 @@
       </file>
     </package>
     <package name="Icecave\Archer\Travis">
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Travis/TravisClient.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Travis/TravisClient.php">
         <class name="TravisClient" namespace="Icecave\Archer\Travis">
           <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="32" coveredelements="32"/>
         </class>
@@ -1593,7 +1593,7 @@
         <line num="91" type="stmt" count="0"/>
         <metrics loc="90" ncloc="65" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="32" coveredelements="32"/>
       </file>
-      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Travis/TravisConfigManager.php">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Travis/TravisConfigManager.php">
         <class name="TravisConfigManager" namespace="Icecave\Archer\Travis">
           <metrics methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="108"/>
         </class>
