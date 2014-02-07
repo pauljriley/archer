@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1391044862">
-  <project timestamp="1391044862">
+<coverage generated="1391741350">
+  <project timestamp="1391741350">
     <package name="Icecave\Archer\Configuration">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Configuration/ComposerConfigurationReader.php">
         <class name="ComposerConfigurationReader" namespace="Icecave\Archer\Configuration">
@@ -1424,6 +1424,17 @@
         <metrics loc="97" ncloc="83" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="29" coveredelements="29"/>
       </file>
     </package>
+    <package name="Icecave\Archer\Support\Composer\Autoload">
+      <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Autoload/ClassMapGenerator.php">
+        <class name="ClassMapGenerator" namespace="Icecave\Archer\Support\Composer\Autoload">
+          <metrics methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
+        </class>
+        <line num="63" type="stmt" count="0"/>
+        <line num="65" type="stmt" count="0"/>
+        <line num="66" type="stmt" count="0"/>
+        <metrics loc="82" ncloc="46" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
+      </file>
+    </package>
     <package name="Icecave\Archer\Support\Composer\Package\LinkConstraint">
       <file name="/home/travis/build/IcecaveStudios/archer/src/Icecave/Archer/Support/Composer/Package/LinkConstraint/EmptyConstraint.php">
         <class name="EmptyConstraint" namespace="Icecave\Archer\Support\Composer\Package\LinkConstraint">
@@ -1699,6 +1710,6 @@
         <metrics loc="291" ncloc="198" classes="1" methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="95" coveredstatements="94" elements="109" coveredelements="107"/>
       </file>
     </package>
-    <metrics files="38" loc="4187" ncloc="3251" classes="37" methods="180" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1216" coveredstatements="1169" elements="1396" coveredelements="1341"/>
+    <metrics files="39" loc="4269" ncloc="3297" classes="38" methods="181" coveredmethods="172" conditionals="0" coveredconditionals="0" statements="1219" coveredstatements="1169" elements="1400" coveredelements="1341"/>
   </project>
 </coverage>
