@@ -52,7 +52,7 @@ class IsolatorTest extends PHPUnit_Framework_TestCase
         $isolator = new Isolator;
         $this->assertFalse(class_exists(__NAMESPACE__ . '\TestFixture\ClassA', false));
 
-        $isolator->include(__DIR__ . '/../../../../src/Icecave/Archer/Support/TestFixture/ClassA.php');
+        $isolator->include(__DIR__ . '/../../src/Support/TestFixture/ClassA.php');
         $this->assertTrue(class_exists(__NAMESPACE__ . '\TestFixture\ClassA', false));
     }
 
@@ -61,7 +61,7 @@ class IsolatorTest extends PHPUnit_Framework_TestCase
         $isolator = new Isolator;
         $this->assertFalse(class_exists(__NAMESPACE__ . '\TestFixture\ClassB', false));
 
-        $isolator->include_once(__DIR__ . '/../../../../src/Icecave/Archer/Support/TestFixture/ClassB.php');
+        $isolator->include_once(__DIR__ . '/../../src/Support/TestFixture/ClassB.php');
         $this->assertTrue(class_exists(__NAMESPACE__ . '\TestFixture\ClassB', false));
     }
 
@@ -70,7 +70,7 @@ class IsolatorTest extends PHPUnit_Framework_TestCase
         $isolator = new Isolator;
         $this->assertFalse(class_exists(__NAMESPACE__ . '\TestFixture\ClassC', false));
 
-        $isolator->require(__DIR__ . '/../../../../src/Icecave/Archer/Support/TestFixture/ClassC.php');
+        $isolator->require(__DIR__ . '/../../src/Support/TestFixture/ClassC.php');
         $this->assertTrue(class_exists(__NAMESPACE__ . '\TestFixture\ClassC', false));
     }
 
@@ -79,7 +79,7 @@ class IsolatorTest extends PHPUnit_Framework_TestCase
         $isolator = new Isolator;
         $this->assertFalse(class_exists(__NAMESPACE__ . '\TestFixture\ClassD', false));
 
-        $isolator->require_once(__DIR__ . '/../../../../src/Icecave/Archer/Support/TestFixture/ClassD.php');
+        $isolator->require_once(__DIR__ . '/../../src/Support/TestFixture/ClassD.php');
         $this->assertTrue(class_exists(__NAMESPACE__ . '\TestFixture\ClassD', false));
     }
 }

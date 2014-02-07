@@ -36,8 +36,8 @@
         "bin/woodhouse"
     ],
     "autoload": {
-        "psr-0": {
-            "Icecave\\Archer": "src"
+        "psr-4": {
+            "Icecave\\Archer\\": "src"
         }
     },
     "scripts": {

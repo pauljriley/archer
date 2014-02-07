@@ -16,7 +16,7 @@ class HiddenInputHelper extends Helper
     public function __construct($hiddenInputPath = null, Isolator $isolator = null)
     {
         if (null === $hiddenInputPath) {
-            $hiddenInputPath = __DIR__ . '/../../../../../res/bin/hiddeninput.exe';
+            $hiddenInputPath = __DIR__ . '/../../../res/bin/hiddeninput.exe';
         }
 
         $this->hiddenInputPath = $hiddenInputPath;
