@@ -19,7 +19,16 @@ Phake::setClient(Phake::CLIENT_PHPUNIT);
 // Add an autoloader for test fixtures, if required ...
 $projectTestFixturePath = $rootPath . '/test/src';
 if (is_dir($projectTestFixturePath)) {
-    $autoloader->add('', array($projectTestFixturePath));
+    $iter = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator(
+            $projectTestFixturePath,
+            RecursiveDirectoryIterator::SKIP_DOTS
+        )
+    );
+
+    foreach ($iter as $file) {
+        require $file;
+    }
 }
 
 // Include a project-specific bootstrap file, if present ...
