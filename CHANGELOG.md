@@ -1,5 +1,12 @@
 # Archer Changelog
 
+### 1.1.3 (2014-02-10)
+
+* **[FIXED]** Documentation generation no longer fails if a project does not have a `src` folder
+* **[IMPROVED]** Archer no longer forces use of PSR-0 autoloading for the `test/src` folder, allowing for PSR-4 (or anything else)
+* **[IMPROVED]** Updated autoloader to [PSR-4](http://www.php-fig.org/psr/psr-4/)
+* **[IMPROVED]** Reverted `apt-get update git` in `travis:build` as the Git version on Travis CI has been restored to 1.8.x
+
 ### 1.1.2 (2014-01-21)
 
 * **[FIXED]** Automatic creation of `gh-pages` branch no longer fails due to unsupported Git version (see [travis-ci/travis-ci#1710](https://github.com/travis-ci/travis-ci/issues/1710))
