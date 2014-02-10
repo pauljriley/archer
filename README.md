@@ -252,9 +252,9 @@ Although [Coveralls] provides dynamic badges to convey test coverage information
 publishes a similar badge image when [Coveralls] is not enabled.
 
 <!-- references -->
-[Build Status]: http://b.adge.me/travis/IcecaveStudios/archer/develop.svg
-[Test Coverage]: http://b.adge.me/coveralls/IcecaveStudios/archer/develop.svg
-[SemVer]: http://b.adge.me/:semver-1.1.2-green.svg
+[Build Status]: http://img.shields.io/travis/IcecaveStudios/archer/develop.svg
+[Test Coverage]: http://img.shields.io/coveralls/IcecaveStudios/archer/develop.svg
+[SemVer]: http://img.shields.io/:semver-1.1.3-brightgreen.svg
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
