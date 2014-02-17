@@ -1,5 +1,9 @@
 # Archer Changelog
 
+### 1.1.4 (2014-02-17)
+
+* **[FIXED]** Updated to [Woodhouse 0.5.2](https://github.com/IcecaveStudios/woodhouse/releases/tag/0.5.2), to fix an [artifact publication issue](https://github.com/IcecaveStudios/woodhouse/issues/38)
+
 ### 1.1.3 (2014-02-10)
 
 * **[FIXED]** Documentation generation no longer fails if a project does not have a `src` folder
