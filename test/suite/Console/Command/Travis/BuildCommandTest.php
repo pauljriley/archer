@@ -158,6 +158,33 @@ class BuildCommandTest extends PHPUnit_Framework_TestCase
         $this->assertSame(123, $exitCode);
     }
 
+    public function testExecuteWithPublishVersionButIsPullRequest()
+    {
+        $expectedTestCommand = '/path/to/archer/bin/archer test';
+
+        Phake::when($this->isolator)
+            ->getenv('TRAVIS_PULL_REQUEST')
+            ->thenReturn('100');
+
+        Phake::when($this->isolator)
+            ->getenv('TRAVIS_PHP_VERSION')
+            ->thenReturn('5.4');
+
+        Phake::when($this->isolator)
+            ->passthru(
+                $expectedTestCommand,
+                Phake::setReference(123)
+            )
+            ->thenReturn(null);
+
+        $exitCode = $this->command->run($this->input, $this->output);
+
+        Phake::verify($this->githubClient, Phake::never())->setAuthToken(Phake::anyParameters());
+        Phake::verify($this->isolator)->passthru($expectedTestCommand, 255);
+
+        $this->assertSame(123, $exitCode);
+    }
+
     public function testExecuteWithPublish()
     {
         $expectedTestCommand = '/path/to/archer/bin/archer coverage';

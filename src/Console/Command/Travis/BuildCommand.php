@@ -99,12 +99,13 @@ class BuildCommand extends AbstractTravisCommand
         $authToken        = $this->isolator->getenv('ARCHER_TOKEN');
         $buildNumber      = $this->isolator->getenv('TRAVIS_BUILD_NUMBER');
         $repoSlug         = $this->isolator->getenv('TRAVIS_REPO_SLUG');
+        $isPullRequest    = is_numeric($this->isolator->getenv('TRAVIS_PULL_REQUEST'));
 
         list($repoOwner, $repoName) = explode('/', $repoSlug);
 
         $isPublishVersion = $travisPhpVersion === $publishVersion;
 
-        if ($authToken && $isPublishVersion) {
+        if ($authToken && $isPublishVersion && !$isPullRequest) {
             $this->githubClient()->setAuthToken($authToken);
             $publishArtifacts = $this->githubClient()->defaultBranch($repoOwner, $repoName) === $currentBranch;
         } else {
