@@ -254,7 +254,7 @@ publishes a similar badge image when [Coveralls] is not enabled.
 <!-- references -->
 [Build Status]: http://img.shields.io/travis/IcecaveStudios/archer/develop.svg
 [Test Coverage]: http://img.shields.io/coveralls/IcecaveStudios/archer/develop.svg
-[SemVer]: http://img.shields.io/:semver-1.1.3-brightgreen.svg
+[SemVer]: http://img.shields.io/:semver-1.1.4-brightgreen.svg
 
 [composer]: http://getcomposer.org/
 [convention-over-configuration]: http://en.wikipedia.org/wiki/Convention_over_configuration
