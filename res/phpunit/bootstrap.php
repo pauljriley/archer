@@ -2,10 +2,10 @@
 use Icecave\Archer\Support\Composer\Autoload\ClassMapGenerator;
 
 // Find the root path of the project being tested ...
-$rootPath = __DIR__ . '/../../../../..';
+define('ARCHER_ROOT_PATH', __DIR__ . '/../../../../..');
 
 // Install the composer autoloader ...
-$autoloader = require_once $rootPath . '/vendor/autoload.php';
+$autoloader = require_once ARCHER_ROOT_PATH . '/vendor/autoload.php';
 
 // Install Asplode if available
 if (is_callable('Eloquent\Asplode\Asplode::install')) {
@@ -19,7 +19,7 @@ if (is_callable('Eloquent\Asplode\Asplode::install')) {
 Phake::setClient(Phake::CLIENT_PHPUNIT);
 
 // Add an autoloader for test fixtures, if required ...
-$projectTestFixturePath = $rootPath . '/test/src';
+$projectTestFixturePath = ARCHER_ROOT_PATH . '/test/src';
 if (is_dir($projectTestFixturePath)) {
 
     $buildClassMap = function () use ($projectTestFixturePath) {
@@ -46,7 +46,7 @@ if (is_dir($projectTestFixturePath)) {
 }
 
 // Include a project-specific bootstrap file, if present ...
-$projectBootstrapPath = $rootPath . '/test/bootstrap.php';
+$projectBootstrapPath = ARCHER_ROOT_PATH . '/test/bootstrap.php';
 if (is_file($projectBootstrapPath)) {
     require_once $projectBootstrapPath;
 }
